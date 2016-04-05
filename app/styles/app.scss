@@ -19,6 +19,10 @@ img {
   padding: 0;
 }
 
+.row{
+  margin-left: 0;
+  margin-right: 0;
+}
 .main-header{
   position: relative;
   background: url("../images/background00.jpg")center;
@@ -152,11 +156,199 @@ img {
 
 
 
+/********************
+LOGIN
+********************/
 
+.login{
+  background: url("../images/background0.jpg");
+  background-size: cover;
+  height: 830px;
+  margin: 0 auto;
+  &::before{
+      content: "";
+      position: absolute;
+      top: 0;
+      bottom: 0;
+      left: 0;
+      right: 0;
+      background: rgba(10,10,10, 0.5);
+  }
+  .logo-header{
+    margin-bottom: 170px;
+    .small-header{
+      margin-top: 3px;
+      img{
+        margin-right: 5px;
+        vertical-align: text-bottom;
+        height:25px;
+        width: 25px;
+      }
+      h5{
+        text-transform: uppercase;
+        display: inline-block;
+        color: white;
+        font-size: 18px;
+        font-weight: 100;
+      }
+    }
+    .small-nav{
+      float: right;
+      text-align: right;
+      text-transform: uppercase;
+      padding: 10px 10px 0 0;
+     a{
+        margin:13px 15px;
+        color: white;
+        border: none;
+        font-size: 16px;
+        text-decoration: none;
+        &:hover{
+          color: black;
+          background-color: rgba(0, 0, 0, 0);
+        }
+      }
+    }
+  }
+  .login-content{
+    h3{
+      color: white;
+      font-size: 35px;
+      text-align: center;
+      margin-bottom: 15px;
+      text-transform: lowercase;
+      font-weight: 100;
+      letter-spacing: 2px;
+    }
+    form{
+      input{
+        margin-bottom: 10px;
+      }
+      button{
+        width: 100%;
+        background-color: rgba(12, 20, 20, 0.7);
+        border: 1px solid rgba(12, 20, 20, 0.5);
+        color: white;
+        font-size: 18px;
+        text-transform: lowercase;
+        font-weight: 100;
+        letter-spacing: 4px;
+        &:hover{
+          background-color: rgba( 13, 94, 53,0.7);
+          border: 1px solid rgba( 13, 94, 53,0.9);
+          color: white;
+        }
+      }
+    }
+    p{
+      margin-top: 5px;
+      text-align: center;
+      color: white;
+      font-weight: 100;
+      text-transform: lowercase;
+      font-size: 18px;
+      a{
+        text-decoration: none;
+        color: rgba(175, 175, 175, 0.9);
+      }
+    }
+  }
+}
 
-
-
-
+.signup{
+  background: url("../images/background0.jpg");
+  background-size: cover;
+  height: 830px;
+  margin: 0 auto;
+  &::before{
+      content: "";
+      position: absolute;
+      top: 0;
+      bottom: 0;
+      left: 0;
+      right: 0;
+      background: rgba(10,10,10, 0.5);
+  }
+  .logo-header{
+    margin-bottom: 170px;
+    .small-header{
+      margin-top: 3px;
+      img{
+        margin-right: 5px;
+        vertical-align: text-bottom;
+        height:25px;
+        width: 25px;
+      }
+      h5{
+        text-transform: uppercase;
+        display: inline-block;
+        color: white;
+        font-size: 18px;
+        font-weight: 100;
+      }
+    }
+    .small-nav{
+      float: right;
+      text-align: right;
+      text-transform: uppercase;
+      padding: 10px 10px 0 0;
+     a{
+        margin:13px 15px;
+        color: white;
+        border: none;
+        text-decoration: none;
+        font-size: 16px;
+        &:hover{
+          color: black;
+          background-color: rgba(0, 0, 0, 0);
+        }
+      }
+    }
+  }
+  .signup-content{
+    h3{
+      color: white;
+      font-size: 35px;
+      text-align: center;
+      margin-bottom: 15px;
+      text-transform: lowercase;
+      font-weight: 100;
+      letter-spacing: 2px;
+    }
+    form{
+      input{
+        margin-bottom: 10px;
+      }
+      button{
+        width: 100%;
+        background-color: rgba(12, 20, 20, 0.7);
+        border: 1px solid rgba(12, 20, 20, 0.5);
+        color: white;
+        font-size: 18px;
+        text-transform: lowercase;
+        font-weight: 100;
+        letter-spacing: 4px;
+        &:hover{
+          background-color: rgba( 13, 94, 53,0.7);
+          border: 1px solid rgba( 13, 94, 53,0.9);
+          color: white;
+        }
+      }
+    }
+    p{
+      margin-top: 5px;
+      text-align: center;
+      color: white;
+      font-weight: 100;
+      text-transform: lowercase;
+      font-size: 18px;
+      a{
+        text-decoration: none;
+        color: rgba(175, 175, 175, 0.9);
+      }
+    }
+  }
+}
 
 
 

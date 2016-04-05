@@ -6,21 +6,13 @@ var Parse = require('parse');
 Parse.initialize("finalproject");
 Parse.serverURL = 'http://wandernomore-server.herokuapp.com/';
 
-
-var Router = require('./router');
-
-var router = new Router();
+//router stuff
+var router = require('./router');
 
 
 $(function(){
   Backbone.history.start();
 });
-
-
-
-
-
-
 
 //
 // var Test = Parse.Object.extend('Test');
