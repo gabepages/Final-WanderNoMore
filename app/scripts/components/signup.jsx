@@ -1,13 +1,10 @@
 var $ = require('jquery');
 var Backbone = require('backbone');
 var React = require('react');
-<<<<<<< HEAD
-=======
 var ReactDOM = require('react-dom');
 
 
 
->>>>>>> gh-pages
 
 var Signup = React.createClass({
   signUp: function(e){
@@ -24,12 +21,6 @@ var Signup = React.createClass({
     user.signUp(null, {
       success: function(user) {
         console.log("User Created: ", user);
-<<<<<<< HEAD
-        Backbone.history.navigate('login', {trigger: true});
-      },
-      error: function(user, error) {
-        alert("Error: " + error.code + " " + error.message);
-=======
         ReactDOM.render(
           <CreateProfile router={this} parse={Parse} user={user} />,
           $('.container-fluid')[0]
@@ -37,7 +28,6 @@ var Signup = React.createClass({
       },
       error: function(user, error) {
         alert("Sign Up Error: " + error.code + " " + error.message);
->>>>>>> gh-pages
       }
     });
   },
@@ -46,11 +36,7 @@ var Signup = React.createClass({
       <div className='signup'>
         <div className="row  logo-header">
           <div className="col-md-3 small-header">
-<<<<<<< HEAD
-            <img src="images/bestlogo.png" alt="" />
-=======
             <img src="images/blackdots.svg" alt="" />
->>>>>>> gh-pages
             <h5>Wander No More</h5>
           </div>
           <div className="small-nav col-md-3">
@@ -74,8 +60,6 @@ var Signup = React.createClass({
 });
 
 
-<<<<<<< HEAD
-=======
 
 var CreateProfile = React.createClass({
   createProfile: function(e){

@@ -25,11 +25,7 @@ var Login = React.createClass({
       <div className='login'>
         <div className="row  logo-header">
           <div className="col-md-3 small-header">
-<<<<<<< HEAD
-            <img src="images/bestlogo.png" alt="" />
-=======
             <img src="images/blackdots.svg" alt="" />
->>>>>>> gh-pages
             <h5>Wander No More</h5>
           </div>
           <div className="small-nav col-md-3">
