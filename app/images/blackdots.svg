@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<svg width="201px" height="201px" viewBox="0 0 201 201" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+    <!-- Generator: Sketch 3.6.1 (26313) - http://www.bohemiancoding.com/sketch -->
+    <title>DOTS</title>
+    <desc>Created with Sketch.</desc>
+    <defs></defs>
+    <g id="Page-1" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
+        <g id="Artboard-1" transform="translate(-755.000000, -535.000000)">
+            <g id="DOTS" transform="translate(855.335206, 635.335206) rotate(43.000000) translate(-855.335206, -635.335206) translate(755.335206, 535.335206)">
+                <circle id="Oval-1" fill="#000000" cx="100" cy="100" r="100"></circle>
+                <circle id="Oval-2" fill="#FFFFFF" cx="100" cy="70" r="10"></circle>
+                <circle id="Oval-2" fill="#FFFFFF" cx="100" cy="100" r="10"></circle>
+                <circle id="Oval-2" fill="#FFFFFF" cx="100" cy="130" r="10"></circle>
+                <circle id="Oval-2" fill="#FFFFFF" cx="126" cy="100" r="10"></circle>
+                <circle id="Oval-2" fill="#FFFFFF" cx="126" cy="130" r="10"></circle>
+                <circle id="Oval-2" fill="#FFFFFF" cx="74" cy="100" r="10"></circle>
+                <circle id="Oval-2" fill="#FFFFFF" cx="74" cy="130" r="10"></circle>
+                <circle id="Oval-2" fill="#FFFFFF" cx="126" cy="70" r="10"></circle>
+                <circle id="Oval-2" fill="#FFFFFF" cx="74" cy="70" r="10"></circle>
+            </g>
+        </g>
+    </g>
+</svg>

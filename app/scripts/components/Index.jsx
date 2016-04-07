@@ -9,7 +9,11 @@ var Index = React.createClass({
         <div className="row-fluid main-header">
           <div className="row  logo-header">
             <div className="col-md-3 small-header">
+<<<<<<< HEAD
               <img src="images/bestlogo.png" alt="" />
+=======
+              <img src="images/blackdots.svg" alt="" />
+>>>>>>> gh-pages
               <h5>Wander No More</h5>
             </div>
             <div className="small-nav col-md-3">
@@ -18,7 +22,11 @@ var Index = React.createClass({
             </div>
           </div>
           <div className="logo">
+<<<<<<< HEAD
             <img src="images/bestlogo.png" alt="" />
+=======
+            <img src="images/blackdots.svg" alt="" />
+>>>>>>> gh-pages
           </div>
           <h1>Wander No More</h1>
           <a href="#signup">

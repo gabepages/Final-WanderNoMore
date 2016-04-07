@@ -3,8 +3,11 @@ var Backbone = require('backbone');
 var React = require('react');
 var ReactDOM = require('react-dom');
 var Parse = require('parse');
+<<<<<<< HEAD
 Parse.initialize("finalproject");
 Parse.serverURL = 'http://wandernomore-server.herokuapp.com/';
+=======
+>>>>>>> gh-pages
 
 //router stuff
 var router = require('./router');
@@ -14,6 +17,7 @@ $(function(){
   Backbone.history.start();
 });
 
+<<<<<<< HEAD
 //
 // var Test = Parse.Object.extend('Test');
 // var test = new Test();
@@ -31,6 +35,9 @@ $(function(){
 //     console.error(error);
 //   }
 // });
+=======
+
+>>>>>>> gh-pages
 
 
 
