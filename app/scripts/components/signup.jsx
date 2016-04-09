@@ -22,7 +22,7 @@ var Signup = React.createClass({
       success: function(user) {
         console.log("User Created: ", user);
         ReactDOM.render(
-          <CreateProfile router={this} parse={Parse} user={user} />,
+          <CreateProfile router={this} parse={Parse} />,
           $('.container-fluid')[0]
         );
       },
@@ -67,22 +67,19 @@ var CreateProfile = React.createClass({
     var firstName = $('#cp-fname').val();
     var lastName = $('#cp-lname').val();
     var zipcode = $('#cp-zipcode').val();
-    var user = this.props.user;
     var Parse = this.props.parse;
-    var UserInfo = Parse.Object.extend('UserInfo');
-    var userInfo = new UserInfo();
-    userInfo.set({
+    var user = Parse.User.current();
+    user.set({
       "firstName": firstName,
       "lastName": lastName,
-      "zipcode": zipcode,
-      "User": user
+      "zipcode": zipcode
     });
-    userInfo.save(null, {
-      success: function(userInfo) {
-        console.log('New object created with objectId: ' + userInfo.id);
-
+    user.save(null, {
+      success: function(user) {
+        console.log('New object created with objectId: ' + user);
+        Backbone.history.navigate("app", {trigger: true});
       },
-      error: function(gameScore, error) {
+      error: function(user, error) {
         console.log('Failed to create new object, with error code: ' + error.message);
       }
     });
@@ -116,5 +113,4 @@ var CreateProfile = React.createClass({
 });
 
 
->>>>>>> gh-pages
 module.exports = Signup;

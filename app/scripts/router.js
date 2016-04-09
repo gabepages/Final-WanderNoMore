@@ -9,7 +9,6 @@ var Parse = require('parse');
 var Index = require('./components/Index.jsx');
 var Login = require('./components/login.jsx');
 var Signup = require('./components/signup.jsx');
-var CreateProfile = require('./components/create-profile.jsx');
 var App = require('./components/app.jsx');
 
 //models and collection
@@ -22,7 +21,8 @@ var Router = Backbone.Router.extend({
     "": "index",
     "login": "login",
     "signup": "signup",
-    "app": "app"
+    "app": "app",
+    "app/result": "appResult"
   },
   initialize: function(){
     this.appContainer = $('.container-fluid')[0];
@@ -52,10 +52,21 @@ var Router = Backbone.Router.extend({
     );
   },
   app: function(){
-    ReactDOM.render(
-      React.createElement(App, {router:this, parse:this.Parse, foodCollection:FoodCollection}),
-      this.appContainer
-    );
+    var currentUser = this.Parse.User.current();
+    if (currentUser) {
+      ReactDOM.render(
+        React.createElement(App, {router:this, parse:this.Parse, foodCollection:FoodCollection}),
+        this.appContainer
+      );
+    } else {
+      alert("you are not logged in, please do so.");
+      this.navigate("",{trigger: true});
+        // show the signup or login page
+    }
+
+  },
+  appResult: function(){
+    
   }
 });
 var router = new Router();

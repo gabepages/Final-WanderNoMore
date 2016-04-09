@@ -10,24 +10,6 @@ var App = React.createClass({
       radius: null,
     }
   },
-  componentWillMount: function(){
-    var Parse = this.props.parse;
-    var currentUser = localStorage.getItem('Parse/finalproject/currentUser');
-    currentUser = JSON.parse(currentUser);
-
-    var User = Parse.Object.extend("User");
-    var user = new User(currentUser);
-
-    var query = new Parse.Query(Parse.Object.extend("UserInfo"));
-    query.equalTo("User", user);
-    query.find().then(function(info){
-      var zipcode = info[0].attributes.zipcode;
-      localStorage.setItem('zipcode', zipcode);
-    },
-      function(error){
-        console.error(error);
-    });
-  },
   toggleNav: function(e){
     e.preventDefault();
     $('.nav').slideToggle(500);
@@ -56,6 +38,8 @@ var App = React.createClass({
                       zipcode={localStorage.getItem('zipcode')}
                       collection={this.props.foodCollection}
                     />;
+    }else if(this.state.screen == "foodResult"){
+      <FoodResult changeScreen={this.handleScreenChange} />
     }
 
     return(
@@ -179,9 +163,11 @@ var AppFoodSelect = React.createClass({
   bFast: function(e){
     //Zipcode is comming in as null, not getting set in commoponetWillMount in time************
     e.preventDefault();
-    console.log(this.props.zipcode);
+    var self = this;
+    var currentUser = localStorage.getItem('Parse/finalproject/currentUser');
+    currentUser = JSON.parse(currentUser);
     var radius = this.props.radius;
-    var zipcode = this.props.zipcode;
+    var zipcode = currentUser.zipcode;
     var FoodCollection = this.props.collection;
     var foods = new FoodCollection();
     foods.term = "Breakfast";
@@ -189,26 +175,86 @@ var AppFoodSelect = React.createClass({
     foods.radius = radius;
     foods.fetch().then(function(data){
       console.log(data);
+      self.props.changeScreen("FoodResult");
     },
     function(error){
       console.log(error);
+      alert("Were sorry, Your search failed, please try again");
+      self.props.changeScreen("home");
     });
   },
   lunch: function(e){
     e.preventDefault();
+    var self = this;
+    var currentUser = localStorage.getItem('Parse/finalproject/currentUser');
+    currentUser = JSON.parse(currentUser);
+    var radius = this.props.radius;
+    var zipcode = currentUser.zipcode;
+    var FoodCollection = this.props.collection;
+    var foods = new FoodCollection();
+    foods.term = "Lunch";
+    foods.zipcode = zipcode;
+    foods.radius = radius;
+    foods.fetch().then(function(data){
+      console.log(data);
+      self.props.changeScreen("FoodResult");
+    },
+    function(error){
+      console.log(error);
+      alert("Were sorry, Your search failed, please try again");
+      self.props.changeScreen("home");
+    });
   },
   dinner: function(e){
     e.preventDefault();
+    var self = this;
+    var currentUser = localStorage.getItem('Parse/finalproject/currentUser');
+    currentUser = JSON.parse(currentUser);
+    var radius = this.props.radius;
+    var zipcode = currentUser.zipcode;
+    var FoodCollection = this.props.collection;
+    var foods = new FoodCollection();
+    foods.term = "dinner";
+    foods.zipcode = zipcode;
+    foods.radius = radius;
+    foods.fetch().then(function(data){
+      console.log(data);
+      self.props.changeScreen("FoodResult");
+    },
+    function(error){
+      console.log(error);
+      alert("Were sorry, Your search failed, please try again");
+      self.props.changeScreen("home");
+    });
   },
   dessert: function(e){
     e.preventDefault();
+    var self = this;
+    var currentUser = localStorage.getItem('Parse/finalproject/currentUser');
+    currentUser = JSON.parse(currentUser);
+    var radius = this.props.radius;
+    var zipcode = currentUser.zipcode;
+    var FoodCollection = this.props.collection;
+    var foods = new FoodCollection();
+    foods.term = "Breakfast";
+    foods.zipcode = zipcode;
+    foods.radius = radius;
+    foods.fetch().then(function(data){
+      console.log(data);
+      self.props.changeScreen("FoodResult");
+    },
+    function(error){
+      console.log(error);
+      alert("Were sorry, Your search failed, please try again");
+      self.props.changeScreen("home");
+    });
   },
   render: function(){
     return(
       <div className="row food-select">
         <div className="col-md-3 b-fast" onClick={this.bFast}>
           <div className="section-image">
-            <i className="fa fa-coffee fa-5x"></i>
+            <img src="images/b-fast.svg"/>
           </div>
           <div className="info-content">
             <h2>Breakfast</h2>
@@ -216,7 +262,7 @@ var AppFoodSelect = React.createClass({
         </div>
         <div className="col-md-3 lunch" onClick={this.lunch}>
           <div className="section-image">
-            <i className="fa fa-tree fa-5x"></i>
+            <img src="images/lunch.svg"/>
           </div>
           <div className="info-content">
             <h2>Lunch</h2>
@@ -224,7 +270,7 @@ var AppFoodSelect = React.createClass({
         </div>
         <div className="col-md-3 dinner" onClick={this.dinner}>
           <div className="section-image">
-            <i className="fa fa-glass fa-5x"></i>
+            <img src="images/dinner.svg"/>
           </div>
           <div className="info-content">
             <h2>Dinner</h2>
@@ -232,7 +278,7 @@ var AppFoodSelect = React.createClass({
         </div>
         <div className="col-md-3 dessert" onClick={this.dessert}>
           <div className="section-image">
-            <i className="fa fa-glass fa-5x"></i>
+            <img src="images/dessert.svg"/>
           </div>
           <div className="info-content">
             <h2>Dessert</h2>
@@ -248,9 +294,7 @@ var AppFoodSelect = React.createClass({
 
 var FoodResult = React.createClass({
   render: function(){
-    return(
-      <h3>Working</h3>
-    )
+    return <h2>hello</h2>
   }
 });
 
