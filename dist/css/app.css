@@ -6112,36 +6112,35 @@ LOGIN
     background-color: #141414;
     height: 60px; }
     .app .app-header img {
-      margin: 7px 0 10px 60px;
       height: 45px;
-      width: 45px;
-      cursor: pointer; }
-    .app .app-header h2 {
-      display: inline-block;
-      text-align: center;
-      color: white;
-      margin: 0px 0 0 372px;
-      vertical-align: middle;
-      font-size: 35px;
-      font-weight: 100;
-      text-transform: uppercase;
-      letter-spacing: 12px; }
+      cursor: pointer;
+      margin: 6px 0 0 35px; }
+    .app .app-header .title {
+      text-align: center; }
+      .app .app-header .title h2 {
+        display: inline-block;
+        color: white;
+        font-size: 35px;
+        font-weight: 100;
+        text-transform: uppercase;
+        letter-spacing: 12px;
+        margin: 12px 0 0 0; }
     .app .app-header .profile {
       cursor: pointer;
-      margin: 17px 60px 0 0;
-      float: right;
       color: white;
-      cursor: pointer; }
-      .app .app-header .profile i {
-        margin-left: 2px; }
+      text-align: right; }
+      .app .app-header .profile .icon {
+        margin: 18px 35px 0 0; }
+        .app .app-header .profile .icon i {
+          margin-left: 2px; }
     .app .app-header .nav {
-      list-style: none;
-      background-color: white;
       height: 50px;
-      text-align: center;
-      margin-top: -2px; }
+      position: absolute;
+      top: 60px;
+      width: 100%;
+      background-color: white;
+      text-align: center; }
       .app .app-header .nav li {
-        display: inline-block;
         display: inline-block;
         font-size: 22px;
         font-weight: 100;
@@ -6333,11 +6332,81 @@ LOGIN
         color: white;
         font-weight: 100;
         letter-spacing: 3px; }
-        .app .app-content .result .result-info h3 span {
-          color: #27a200; }
       .app .app-content .result .result-info span {
         color: white; }
+      .app .app-content .result .result-info p {
+        color: white;
+        margin-top: 10px;
+        font-size: 18px;
+        font-weight: 100;
+        letter-spacing: 2px; }
       .app .app-content .result .result-image {
         text-align: right; }
+        .app .app-content .result .result-image img {
+          height: 300px;
+          width: 350px; }
+    .app .app-content .result-buttons {
+      margin-top: 60px; }
+      .app .app-content .result-buttons .button {
+        cursor: pointer;
+        text-align: center; }
+        .app .app-content .result-buttons .button .section-image {
+          color: white;
+          border: 1px solid white;
+          width: 125px;
+          margin: 0 auto;
+          border-radius: 60px;
+          padding: 25px 0 20px 0; }
+        .app .app-content .result-buttons .button .info-content h2 {
+          color: white;
+          text-transform: capitalize;
+          font-weight: 100; }
+      .app .app-content .result-buttons #red:hover .section-image {
+        color: red;
+        border: 2px solid red; }
+      .app .app-content .result-buttons #red:hover .info-content h2 {
+        margin-top: 18px;
+        color: red; }
+      .app .app-content .result-buttons #green:hover .section-image {
+        color: green;
+        border: 2px solid green; }
+      .app .app-content .result-buttons #green:hover .info-content h2 {
+        margin-top: 18px;
+        color: green; }
+    .app .app-content .adult-select {
+      margin-top: 200px; }
+      .app .app-content .adult-select .section-image {
+        border: 1px solid white;
+        width: 125px;
+        margin: 0 auto;
+        border-radius: 60px;
+        padding: 20px 20px 20px 20px;
+        text-align: center;
+        color: white; }
+      .app .app-content .adult-select .info-content {
+        color: white;
+        text-align: center; }
+        .app .app-content .adult-select .info-content h2 {
+          font-weight: 100; }
+      .app .app-content .adult-select .bar {
+        cursor: pointer;
+        color: white; }
+        .app .app-content .adult-select .bar .section-image img {
+          margin-left: 5px; }
+        .app .app-content .adult-select .bar:hover .section-image {
+          border: 3px solid white;
+          color: black; }
+        .app .app-content .adult-select .bar:hover h2 {
+          margin-top: 16px; }
+      .app .app-content .adult-select .club {
+        cursor: pointer;
+        color: white; }
+        .app .app-content .adult-select .club .section-image img {
+          margin-left: 5px; }
+        .app .app-content .adult-select .club:hover .section-image {
+          border: 3px solid white;
+          color: black; }
+        .app .app-content .adult-select .club:hover h2 {
+          margin-top: 16px; }
 
 /*# sourceMappingURL=app.css.map */

@@ -1,4 +1,5 @@
 var $ = require('jquery');
+var _ = require('underscore');
 var Backbone = require('backbone');
 var React = require('react');
 
@@ -6,8 +7,8 @@ var React = require('react');
 var App = React.createClass({
   getInitialState: function(){
     return{
-      screen: "home",
-      radius: null,
+      "screen": "home",
+      "radius": null,
     }
   },
   toggleNav: function(e){
@@ -23,6 +24,13 @@ var App = React.createClass({
   setRadius: function (radius){
     this.setState({"radius": radius});
   },
+  signOut: function(e){
+    e.preventDefault();
+    console.log(this.props.parse);
+    this.props.parse.User.logOut().then(function(){
+      Backbone.history.navigate('', {trigger: true});
+    });
+  },
   render: function(){
     var screenState;
     if(this.state.screen == "home"){
@@ -30,33 +38,47 @@ var App = React.createClass({
     }else if (this.state.screen == "radius") {
       screenState = <AppRadiusSelect changeScreen={this.handleScreenChange} setRadius={this.setRadius}/>;
     }else if(this.state.screen == "activitySelect"){
-      screenState = <AppActivitySelect changeScreen={this.handleScreenChange}/>;
+      screenState = <AppActivitySelect
+                        changeScreen={this.handleScreenChange}
+                        radius={this.state.radius}
+                        collection={this.props.collection}
+                      />;
     }else if (this.state.screen == "foodSelect"){
       screenState = <AppFoodSelect
                       changeScreen={this.handleScreenChange}
                       radius={this.state.radius}
-                      zipcode={localStorage.getItem('zipcode')}
-                      collection={this.props.foodCollection}
+                      collection={this.props.collection}
                     />;
-    }else if(this.state.screen == "foodResult"){
-      <FoodResult changeScreen={this.handleScreenChange} />
+    }else if(this.state.screen == "bars/clubs"){
+      screenState = <AppNighlifeSelect
+                      changeScreen={this.handleScreenChange}
+                      radius={this.state.radius}
+                      barCollection={this.props.barCollection}
+                      clubCollection = {this.props.clubColletion}
+                    />;
     }
 
     return(
       <div className="app">
         <div className="app-header">
-          <img src="images/whitedots.svg" alt="" onClick={this.sendHome}/>
-          <h2>Wander No More</h2>
-          <div className="profile" onClick={this.toggleNav}>
-            <i className="fa fa-user fa-2x"></i>
-            <i className="fa fa-caret-down"></i>
+          <div className="col-md-3">
+            <img src="images/whitedots.svg" alt="" onClick={this.sendHome}/>
+          </div>
+          <div className="col-md-6 title">
+            <h2>Wander No More</h2>
+          </div>
+          <div className="profile col-md-3" onClick={this.toggleNav}>
+            <div className='icon'>
+              <i className="fa fa-user fa-2x"></i>
+              <i className="fa fa-caret-down"></i>
+            </div>
           </div>
           <ul className="nav" style={{"display":"none"}}>
             <li>Home</li>
             <li>Wandered&middot;To</li>
             <li>Favorites</li>
             <li>Settings</li>
-            <li id="last-nav">Sign Out</li>
+            <li id="last-nav" onClick={this.signOut}>Sign Out</li>
           </ul>
         </div>
         <div className="app-content">
@@ -117,14 +139,41 @@ var AppRadiusSelect = React.createClass({
 
 
 var AppActivitySelect = React.createClass({
+  getInitialState: function(){
+    var currentUser = localStorage.getItem('Parse/finalproject/currentUser');
+    currentUser = JSON.parse(currentUser);
+    console.log(currentUser);
+    return{
+      radius: this.props.radius,
+      zipcode: currentUser.zipcode
+    }
+  },
   food: function(){
     this.props.changeScreen("foodSelect");
   },
-  outdoors: function(){
-    this.props.changeScreen("outdoors");
+  outdoors: function(e){
+    e.preventDefault();
+    var number = _.random(20);
+    var ResultCollection = this.props.collection;
+    var result = new ResultCollection();
+    result.term = "Parks";
+    result.zipcode = this.state.zipcode;
+    result.radius = this.state.radius;
+
+    result.fetch().then(function(data){
+      var data = data[number];
+      data = JSON.stringify(data);
+      localStorage.setItem('data', data);
+      Backbone.history.navigate('app/result', {trigger: true});
+  },
+    function(error){
+      console.log(error);
+      alert("Were sorry, Your search failed, please try again");
+      this.props.changeScreen("home");
+    }.bind(this));
   },
   bars:function(){
-    this.props.changeScreen("bars");
+    this.props.changeScreen("bars/clubs");
   },
   render: function(){
     return(
@@ -160,94 +209,92 @@ var AppActivitySelect = React.createClass({
 
 
 var AppFoodSelect = React.createClass({
-  bFast: function(e){
-    //Zipcode is comming in as null, not getting set in commoponetWillMount in time************
-    e.preventDefault();
-    var self = this;
+  getInitialState: function(){
     var currentUser = localStorage.getItem('Parse/finalproject/currentUser');
     currentUser = JSON.parse(currentUser);
-    var radius = this.props.radius;
-    var zipcode = currentUser.zipcode;
-    var FoodCollection = this.props.collection;
-    var foods = new FoodCollection();
-    foods.term = "Breakfast";
-    foods.zipcode = zipcode;
-    foods.radius = radius;
-    foods.fetch().then(function(data){
-      console.log(data);
-      self.props.changeScreen("FoodResult");
+    return{
+      radius: this.props.radius,
+      zipcode: currentUser.zipcode
+    }
+  },
+  bFast: function(e){
+    e.preventDefault();
+    var ResultCollection = this.props.collection;
+    var result = new ResultCollection();
+    result.term = "Breakfast";
+    result.zipcode = this.state.zipcode;
+    result.radius = this.state.radius;
+
+    result.fetch().then(function(data){
+      var data = data;
+      data = JSON.stringify(data);
+      localStorage.setItem('data', data);
+      Backbone.history.navigate('app/result', {trigger: true});
     },
     function(error){
       console.log(error);
       alert("Were sorry, Your search failed, please try again");
-      self.props.changeScreen("home");
-    });
+      this.props.changeScreen("home");
+    }.bind(this));
   },
   lunch: function(e){
     e.preventDefault();
-    var self = this;
-    var currentUser = localStorage.getItem('Parse/finalproject/currentUser');
-    currentUser = JSON.parse(currentUser);
-    var radius = this.props.radius;
-    var zipcode = currentUser.zipcode;
-    var FoodCollection = this.props.collection;
-    var foods = new FoodCollection();
-    foods.term = "Lunch";
-    foods.zipcode = zipcode;
-    foods.radius = radius;
-    foods.fetch().then(function(data){
-      console.log(data);
-      self.props.changeScreen("FoodResult");
+    var ResultCollection = this.props.collection;
+    var result = new ResultCollection();
+    result.term = "Lunch";
+    result.zipcode = this.state.zipcode;
+    result.radius = this.state.radius;
+
+    result.fetch().then(function(data){
+      var data = data;
+      data = JSON.stringify(data);
+      localStorage.setItem('data', data);
+      Backbone.history.navigate('app/result', {trigger: true});
     },
     function(error){
       console.log(error);
       alert("Were sorry, Your search failed, please try again");
-      self.props.changeScreen("home");
-    });
+      this.props.changeScreen("home");
+    }.bind(this));
   },
   dinner: function(e){
     e.preventDefault();
-    var self = this;
-    var currentUser = localStorage.getItem('Parse/finalproject/currentUser');
-    currentUser = JSON.parse(currentUser);
-    var radius = this.props.radius;
-    var zipcode = currentUser.zipcode;
-    var FoodCollection = this.props.collection;
-    var foods = new FoodCollection();
-    foods.term = "dinner";
-    foods.zipcode = zipcode;
-    foods.radius = radius;
-    foods.fetch().then(function(data){
-      console.log(data);
-      self.props.changeScreen("FoodResult");
+    var ResultCollection = this.props.collection;
+    var result = new ResultCollection();
+    result.term = "Dinner";
+    result.zipcode = this.state.zipcode;
+    result.radius = this.state.radius;
+    result.fetch().then(function(data){
+      var data = data;
+      data = JSON.stringify(data);
+      localStorage.setItem('data', data);
+      Backbone.history.navigate('app/result', {trigger: true});
     },
     function(error){
       console.log(error);
       alert("Were sorry, Your search failed, please try again");
-      self.props.changeScreen("home");
-    });
+      this.props.changeScreen("home");
+    }.bind(this));
   },
   dessert: function(e){
     e.preventDefault();
-    var self = this;
-    var currentUser = localStorage.getItem('Parse/finalproject/currentUser');
-    currentUser = JSON.parse(currentUser);
-    var radius = this.props.radius;
-    var zipcode = currentUser.zipcode;
-    var FoodCollection = this.props.collection;
-    var foods = new FoodCollection();
-    foods.term = "Breakfast";
-    foods.zipcode = zipcode;
-    foods.radius = radius;
-    foods.fetch().then(function(data){
-      console.log(data);
-      self.props.changeScreen("FoodResult");
+    var ResultCollection = this.props.collection;
+    var result = new ResultCollection();
+    result.term = "Dessert";
+    result.zipcode = this.state.zipcode;
+    result.radius = this.state.radius;
+
+    result.fetch().then(function(data){
+      var data = data;
+      data = JSON.stringify(data);
+      localStorage.setItem('data', data);
+      Backbone.history.navigate('app/result', {trigger: true});
     },
     function(error){
       console.log(error);
       alert("Were sorry, Your search failed, please try again");
-      self.props.changeScreen("home");
-    });
+      this.props.changeScreen("home");
+    }.bind(this));
   },
   render: function(){
     return(
@@ -290,13 +337,81 @@ var AppFoodSelect = React.createClass({
 });
 
 
+var AppNighlifeSelect = React.createClass({
+  getInitialState: function(){
+    var currentUser = localStorage.getItem('Parse/finalproject/currentUser');
+    currentUser = JSON.parse(currentUser);
+    return{
+      radius: this.props.radius,
+      zipcode: currentUser.zipcode
+    }
+  },
+  bars: function(e){
+    e.preventDefault();
+    var BarCollection  = this.props.barCollection;
+    var bar = new BarCollection();
+    bar.term = "Bars"
+    bar.zipcode = this.state.zipcode;
+    bar.radius = this.state.radius;
 
-
-var FoodResult = React.createClass({
+    bar.fetch().then(function(data){
+      var data = data;
+      data = JSON.stringify(data);
+      localStorage.setItem('data', data);
+      Backbone.history.navigate('app/result', {trigger: true});
+    },
+    function(error){
+      console.log(error);
+      alert("Were sorry, Your search failed, please try again");
+      this.props.changeScreen("home");
+    }.bind(this));
+  },
+  clubs: function(e){
+    e.preventDefault();
+    var ClubCollection  = this.props.clubCollection;
+    var club = new ClubCollection();
+    club.term = "Dance+Clubs"
+    club.zipcode = this.state.zipcode;
+    club.radius = this.state.radius;
+    
+    club.fetch().then(function(data){
+      var data = data;
+      data = JSON.stringify(data);
+      localStorage.setItem('data', data);
+      Backbone.history.navigate('app/result', {trigger: true});
+    },
+    function(error){
+      console.log(error);
+      alert("Were sorry, Your search failed, please try again");
+      this.props.changeScreen("home");
+    }.bind(this));
+  },
   render: function(){
-    return <h2>hello</h2>
+    return(
+      <div className="row adult-select">
+        <div className="col-md-3 col-md-offset-3 bar" onClick={this.bars}>
+          <div className="section-image">
+            <img src="images/b-fast.svg"/>
+          </div>
+          <div className="info-content">
+            <h2>Bars</h2>
+          </div>
+        </div>
+        <div className="col-md-3 club" onClick={this.clubs}>
+          <div className="section-image">
+            <img src="images/lunch.svg"/>
+          </div>
+          <div className="info-content">
+            <h2>Clubs</h2>
+          </div>
+        </div>
+      </div>
+    )
   }
 });
+
+
+
 
 
 

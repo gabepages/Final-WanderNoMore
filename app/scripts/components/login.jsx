@@ -11,12 +11,11 @@ var Login = React.createClass({
     Parse.User.logIn(email, password, {
       success: function(user) {
         console.log("Login Successful: ", user);
-        Backbone.history.navigate('', {trigger: true});
-        // Do stuff after successful login.
+        Backbone.history.navigate('app', {trigger: true});
       },
       error: function(user, error) {
-        console.error(error);
-        // The login failed. Check error to see why.
+        alert(error);
+        Backbone.history.navigate('', {trigger: true});
       }
     });
   },

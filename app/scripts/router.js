@@ -10,9 +10,12 @@ var Index = require('./components/Index.jsx');
 var Login = require('./components/login.jsx');
 var Signup = require('./components/signup.jsx');
 var App = require('./components/app.jsx');
+var Result = require('./components/result.jsx');
 
 //models and collection
-var FoodCollection = require('./models/foods');
+var ResultCollection = require('./models/result');
+var ClubCollection = require('./models/clubs');
+var BarCollection = require('./models/bars');
 
 
 //Router
@@ -55,7 +58,13 @@ var Router = Backbone.Router.extend({
     var currentUser = this.Parse.User.current();
     if (currentUser) {
       ReactDOM.render(
-        React.createElement(App, {router:this, parse:this.Parse, foodCollection:FoodCollection}),
+        React.createElement(App, {
+                                  router:this,
+                                  parse:this.Parse,
+                                  collection:ResultCollection,
+                                  barCollection:BarCollection,
+                                  clubColletion: ClubCollection
+                                }),
         this.appContainer
       );
     } else {
@@ -66,7 +75,10 @@ var Router = Backbone.Router.extend({
 
   },
   appResult: function(){
-    
+    ReactDOM.render(
+      React.createElement(Result, {router:this, parse:this.Parse}),
+      this.appContainer
+    );
   }
 });
 var router = new Router();

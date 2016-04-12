@@ -10,42 +10,11 @@
   </head>
   <body class="body">
 
-    <div class="container-fluid">
-      <div class="app">
-        <div class="app-header">
-          <img src="images/whitedots.svg" alt="" onClick={this.sendHome}/>
-          <h2>Wander No More</h2>
-          <div class="profile" onClick={this.toggleNav}>
-            <i class="fa fa-user fa-2x"></i>
-            <i class="fa fa-caret-down"></i>
-          </div>
-          <!-- <ul class="nav" style={{"display":"none"}}>
-            <li>Home</li>
-            <li>Wandered&middot;To</li>
-            <li>Favorites</li>
-            <li>Settings</li>
-            <li id="last-nav">Sign Out</li>
-          </ul> -->
-        </div>
-        <div class="app-content">
-          <div class="row result">
-            <div class="col-md-4 col-md-offset-2 result-info">
-              <h1>Capital Tacos</h2>
-              <a href=""><h3>101 North Main Street, Greenville, SC 34639</h3></a>
-              <a href=""><h3>(813) 601-8268</h3></a>
-              <h3>OPEN: <span>True</span></h3>
-              <span>4</span><img src="https://s3-media2.fl.yelpcdn.com/assets/2/www/img/a5221e66bc70/ico/stars/v1/stars_small_4_half.png" alt="" />
-            </div>
-            <div class="col-md-4 result-image">
-              <img src="https://unsplash.it/350/300" alt="">
-            </div>
-          </div>
-        </div>
-      </div>
-    </div>
+    <div class="container-fluid"></div>
 
     <div class="container"></div>
-
+    <div id="map" style="display: none"></div>
+    <script type="text/javascript" src="https://maps.googleapis.com/maps/api/js?key=AIzaSyC5gKlIXCgAuDhM7qu94Pzwm7RomUNRSuE&libraries=places"></script>
     <script src="js/bundle.js"></script>
   </body>
 </html>

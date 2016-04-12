@@ -103,6 +103,7 @@ var CreateProfile = React.createClass({
               <input type="text" className="form-control" id="cp-fname" placeholder="First Name" />
               <input type="text" className="form-control" id="cp-lname" placeholder="Last Name" />
               <input type="text" className="form-control" id="cp-zipcode" placeholder="Zipcode" />
+              <input type='file' id='cp-image'/>
               <button type="submit" className="btn btn-default">Shall we begin?</button>
             </form>
           </div>
