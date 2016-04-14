@@ -67,6 +67,7 @@ var CreateProfile = React.createClass({
     var firstName = $('#cp-fname').val();
     var lastName = $('#cp-lname').val();
     var zipcode = $('#cp-zipcode').val();
+    localStorage.setItem('username', firstName);
     var Parse = this.props.parse;
     var user = Parse.User.current();
     user.set({
@@ -76,7 +77,6 @@ var CreateProfile = React.createClass({
     });
     user.save(null, {
       success: function(user) {
-        console.log('New object created with objectId: ' + user);
         Backbone.history.navigate("app", {trigger: true});
       },
       error: function(user, error) {

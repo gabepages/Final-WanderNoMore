@@ -228,6 +228,7 @@ LOGIN
     }
   }
   .login-content{
+
     h3{
       color: white;
       font-size: 35px;
@@ -423,6 +424,7 @@ LOGIN
       width: 100%;
       background-color: white;
       text-align: center;
+      z-index: 1;
       li{
         display: inline-block;
         font-size: 22px;
@@ -443,6 +445,140 @@ LOGIN
   }
   .app-content{
     position: relative;
+    .wandered-to{
+      color: white;
+      margin-top: 60px;
+      h1{
+        text-align: center;
+        font-weight: 100;
+        letter-spacing: 3px;
+        margin-top: 0px;
+        margin-bottom: 45px;
+      }
+      table{
+        text-align: center;
+        thead{
+          font-size: 20px;
+          font-weight: 100;
+          letter-spacing: 2px;
+        }
+        tbody{
+          font-size: 18px;
+          font-weight: 200;
+          letter-spacing: 1px;
+          tr{
+            cursor: pointer;
+            &:hover{
+              background-color: rgba(30, 30, 30, 0.6);
+            }
+            td{
+              vertical-align: middle;
+              padding: 15px 0px 15px 0px;
+              img{
+                height: 120px;
+              }
+              .star{
+                color: lightgray;
+                font-size: 30px;
+                border: 1px solid white;
+                padding: 12px 15px 12px 15px;
+                border-radius: 5px;
+                &:hover{
+                  background-color: rgba(10, 10, 10, 0.4);
+                  color: rgba(197, 153, 31, 1);
+                }
+              }
+            }
+          }
+
+        }
+      }
+    }
+    .settings{
+      h1{
+        margin: 50px 0 45px 0;
+        color: white;
+        text-align: center;
+        font-size: 50px;
+        font-weight: 100;
+        letter-spacing: 8px;
+      }
+      .image{
+        text-align: center;
+        margin-bottom: 35px;
+        img{
+          cursor: pointer;
+          border-radius: 125px;
+          height: 200px;
+          width: 200px;
+        }
+        i{
+          color: white;
+          font-size: 40px;
+          position: absolute;
+          top: 230px;
+          left: 225px;
+          cursor: pointer;
+          display: none;
+        }
+        &:hover{
+          img{
+            opacity: 0.5;
+          }
+        }
+      }
+      .user-info{
+        color: white;
+        h2{
+          display: inline-block;
+          font-weight: 100;
+          letter-spacing: 2px;
+          margin: 10px 0 10px 0;
+        }
+        i{
+          font-size: 28px;
+          float: right;
+          padding: 1px 0 0 15px;
+          cursor: pointer;
+          margin-top: 12px;
+          &:hover{
+            color: lightgray;
+          }
+       }
+       .fa-times{
+         color: red;
+         &:hover{
+           color: darkred;
+         }
+       }
+       form{
+         display: inline;
+         input{
+            width: 50%;
+            vertical-align: super;
+            margin-left: 22px;
+            display: inline-block;
+         }
+         #zipcode-input{
+          margin-left: 62px;
+         }
+       }
+      }
+      .user-info h2:last-of-type{
+        float: right;
+      }
+    }
+    .say-hello{
+      margin-top: 200px;
+      h1{
+        color: white;
+        font-weight: 100;
+        font-size: 50px;
+        letter-spacing: 5px;
+        text-align: center;
+      }
+    }
+
     .start{
       text-align: center;
       margin-top:300px;
@@ -656,14 +792,29 @@ LOGIN
          }
        }
      }
+     #loader{
+        fill: #ffffff;
+        height: 64px;
+        width: 175px;
+        margin: 230px auto;
+        h3{
+          color: white;
+          font-size: 30px;
+          font-weight: 100;
+          margin-top: 65px;
+          text-align: center;
+          letter-spacing: 5px;
+        }
+     }
     .result{
-      margin-top: 90px;
+      margin-top: 70px;
       .result-info{
         h1{
           margin: 0 0 10px 0;
           color: white;
           font-weight: 200;
           letter-spacing: 5px;
+          font-family: Karla;
         }
         a{
           text-decoration: none;
@@ -672,6 +823,7 @@ LOGIN
             color: white;
             font-weight: 100;
             letter-spacing: 3px;
+            margin: 14px 0 10px 0;
           }
           &:hover{
             color:darkgray;
@@ -682,14 +834,38 @@ LOGIN
           color: white;
           font-weight: 100;
           letter-spacing: 3px;
-          span{
-            // color: rgba(223, 31, 0, 1);
-            // color: rgba(39, 162, 0, 1);
-          }
+          margin: 14px 0 10px 0;
         }
         span{
           color: white;
         }
+        .rating{
+          h4{
+            display: inline-block;
+            color: white;
+            font-weight: 100;
+            margin: 8px 10px 0 0;
+            vertical-align: middle;
+          }
+          .react-rater{
+            cursor: default;
+            vertical-align: text-top;
+            font-size: 20px;
+            margin: 0 10px 0 0;
+            display: inline-block;
+            a{
+              color: darkgray;
+            }
+            .is-active{
+              color: rgba(197, 153, 31, 1);
+            }
+          }
+          img{
+            height:40px;
+            width: 70px;
+          }
+        }
+
         p{
           color: white;
           margin-top: 10px;
@@ -697,13 +873,40 @@ LOGIN
           font-weight: 100;
           letter-spacing: 2px;
         }
+        #open-green span:last-of-type {
+            color: green;
+        }
+        #open-red span:last-of-type {
+            color: red;
+        }
+        .hours{
+          list-style: none;
+          color: white;
+          padding: 0;
+          li{
+            font-weight: 100;
+            font-size: 18px;
+            letter-spacing: 2px;
+          }
+        }
       }
       .result-image{
         text-align: right;
         img{
+          border-radius: 5px;
           height:300px;
           width: 350px;
         }
+        // .hours{
+        //   list-style: none;
+        //   color: white;
+        //   padding: 0;
+        //   li{
+        //     font-weight: 100;
+        //     font-size: 18px;
+        //     letter-spacing: 2px;
+        //   }
+        // }
       }
     }
     .result-buttons{
@@ -810,7 +1013,7 @@ LOGIN
           }
         }
       }
-    }  
+    }
   }
 
 }

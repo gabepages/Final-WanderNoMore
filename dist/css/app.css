@@ -6139,7 +6139,8 @@ LOGIN
       top: 60px;
       width: 100%;
       background-color: white;
-      text-align: center; }
+      text-align: center;
+      z-index: 1; }
       .app .app-header .nav li {
         display: inline-block;
         font-size: 22px;
@@ -6155,6 +6156,106 @@ LOGIN
         border-right: 1px solid lightgray; }
   .app .app-content {
     position: relative; }
+    .app .app-content .wandered-to {
+      color: white;
+      margin-top: 60px; }
+      .app .app-content .wandered-to h1 {
+        text-align: center;
+        font-weight: 100;
+        letter-spacing: 3px;
+        margin-top: 0px;
+        margin-bottom: 45px; }
+      .app .app-content .wandered-to table {
+        text-align: center; }
+        .app .app-content .wandered-to table thead {
+          font-size: 20px;
+          font-weight: 100;
+          letter-spacing: 2px; }
+        .app .app-content .wandered-to table tbody {
+          font-size: 18px;
+          font-weight: 200;
+          letter-spacing: 1px; }
+          .app .app-content .wandered-to table tbody tr {
+            cursor: pointer; }
+            .app .app-content .wandered-to table tbody tr:hover {
+              background-color: rgba(30, 30, 30, 0.6); }
+            .app .app-content .wandered-to table tbody tr td {
+              vertical-align: middle;
+              padding: 15px 0px 15px 0px; }
+              .app .app-content .wandered-to table tbody tr td img {
+                height: 120px; }
+              .app .app-content .wandered-to table tbody tr td .star {
+                color: lightgray;
+                font-size: 30px;
+                border: 1px solid white;
+                padding: 12px 15px 12px 15px;
+                border-radius: 5px; }
+                .app .app-content .wandered-to table tbody tr td .star:hover {
+                  background-color: rgba(10, 10, 10, 0.4);
+                  color: #c5991f; }
+    .app .app-content .settings h1 {
+      margin: 50px 0 45px 0;
+      color: white;
+      text-align: center;
+      font-size: 50px;
+      font-weight: 100;
+      letter-spacing: 8px; }
+    .app .app-content .settings .image {
+      text-align: center;
+      margin-bottom: 35px; }
+      .app .app-content .settings .image img {
+        cursor: pointer;
+        border-radius: 125px;
+        height: 200px;
+        width: 200px; }
+      .app .app-content .settings .image i {
+        color: white;
+        font-size: 40px;
+        position: absolute;
+        top: 230px;
+        left: 225px;
+        cursor: pointer;
+        display: none; }
+      .app .app-content .settings .image:hover img {
+        opacity: 0.5; }
+    .app .app-content .settings .user-info {
+      color: white; }
+      .app .app-content .settings .user-info h2 {
+        display: inline-block;
+        font-weight: 100;
+        letter-spacing: 2px;
+        margin: 10px 0 10px 0; }
+      .app .app-content .settings .user-info i {
+        font-size: 28px;
+        float: right;
+        padding: 1px 0 0 15px;
+        cursor: pointer;
+        margin-top: 12px; }
+        .app .app-content .settings .user-info i:hover {
+          color: lightgray; }
+      .app .app-content .settings .user-info .fa-times {
+        color: red; }
+        .app .app-content .settings .user-info .fa-times:hover {
+          color: darkred; }
+      .app .app-content .settings .user-info form {
+        display: inline; }
+        .app .app-content .settings .user-info form input {
+          width: 50%;
+          vertical-align: super;
+          margin-left: 22px;
+          display: inline-block; }
+        .app .app-content .settings .user-info form #zipcode-input {
+          margin-left: 62px; }
+    .app .app-content .settings .user-info h2:last-of-type {
+      float: right; }
+    .app .app-content .say-hello {
+      margin-top: 200px; }
+      .app .app-content .say-hello h1 {
+        color: white;
+        font-weight: 100;
+        font-size: 50px;
+        letter-spacing: 5px;
+        text-align: center; }
     .app .app-content .start {
       text-align: center;
       margin-top: 300px; }
@@ -6311,38 +6412,85 @@ LOGIN
           .app .app-content .radius ul li:hover {
             font-weight: 200;
             color: black; }
+    .app .app-content #loader {
+      fill: #ffffff;
+      height: 64px;
+      width: 175px;
+      margin: 230px auto; }
+      .app .app-content #loader h3 {
+        color: white;
+        font-size: 30px;
+        font-weight: 100;
+        margin-top: 65px;
+        text-align: center;
+        letter-spacing: 5px; }
     .app .app-content .result {
-      margin-top: 90px; }
+      margin-top: 70px; }
       .app .app-content .result .result-info h1 {
         margin: 0 0 10px 0;
         color: white;
         font-weight: 200;
-        letter-spacing: 5px; }
+        letter-spacing: 5px;
+        font-family: Karla; }
       .app .app-content .result .result-info a {
         text-decoration: none;
         color: white; }
         .app .app-content .result .result-info a h3 {
           color: white;
           font-weight: 100;
-          letter-spacing: 3px; }
+          letter-spacing: 3px;
+          margin: 14px 0 10px 0; }
         .app .app-content .result .result-info a:hover {
           color: darkgray;
           text-decoration: underline; }
       .app .app-content .result .result-info h3 {
         color: white;
         font-weight: 100;
-        letter-spacing: 3px; }
+        letter-spacing: 3px;
+        margin: 14px 0 10px 0; }
       .app .app-content .result .result-info span {
         color: white; }
+      .app .app-content .result .result-info .rating h4 {
+        display: inline-block;
+        color: white;
+        font-weight: 100;
+        margin: 8px 10px 0 0;
+        vertical-align: middle; }
+      .app .app-content .result .result-info .rating .react-rater {
+        cursor: default;
+        vertical-align: text-top;
+        font-size: 20px;
+        margin: 0 10px 0 0;
+        display: inline-block; }
+        .app .app-content .result .result-info .rating .react-rater a {
+          color: darkgray; }
+        .app .app-content .result .result-info .rating .react-rater .is-active {
+          color: #c5991f; }
+      .app .app-content .result .result-info .rating img {
+        height: 40px;
+        width: 70px; }
       .app .app-content .result .result-info p {
         color: white;
         margin-top: 10px;
         font-size: 18px;
         font-weight: 100;
         letter-spacing: 2px; }
+      .app .app-content .result .result-info #open-green span:last-of-type {
+        color: green; }
+      .app .app-content .result .result-info #open-red span:last-of-type {
+        color: red; }
+      .app .app-content .result .result-info .hours {
+        list-style: none;
+        color: white;
+        padding: 0; }
+        .app .app-content .result .result-info .hours li {
+          font-weight: 100;
+          font-size: 18px;
+          letter-spacing: 2px; }
       .app .app-content .result .result-image {
         text-align: right; }
         .app .app-content .result .result-image img {
+          border-radius: 5px;
           height: 300px;
           width: 350px; }
     .app .app-content .result-buttons {

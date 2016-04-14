@@ -11,12 +11,14 @@ var Login = require('./components/login.jsx');
 var Signup = require('./components/signup.jsx');
 var App = require('./components/app.jsx');
 var Result = require('./components/result.jsx');
+var Settings = require('./components/settings.jsx');
+var WanderedTo = require('./components/wandered-to.jsx');
 
 //models and collection
-var ResultCollection = require('./models/result');
+var FoodCollection = require('./models/food');
 var ClubCollection = require('./models/clubs');
 var BarCollection = require('./models/bars');
-
+var OutdoorsCollection = require('./models/outdoors');
 
 //Router
 var Router = Backbone.Router.extend({
@@ -25,7 +27,9 @@ var Router = Backbone.Router.extend({
     "login": "login",
     "signup": "signup",
     "app": "app",
-    "app/result": "appResult"
+    "app/result": "appResult",
+    "app/settings": "settings",
+    "app/wanderedTo": "wanderedTo"
   },
   initialize: function(){
     this.appContainer = $('.container-fluid')[0];
@@ -61,7 +65,8 @@ var Router = Backbone.Router.extend({
         React.createElement(App, {
                                   router:this,
                                   parse:this.Parse,
-                                  collection:ResultCollection,
+                                  foodCollection: FoodCollection,
+                                  outdoorsCollection: OutdoorsCollection,
                                   barCollection:BarCollection,
                                   clubColletion: ClubCollection
                                 }),
@@ -79,7 +84,20 @@ var Router = Backbone.Router.extend({
       React.createElement(Result, {router:this, parse:this.Parse}),
       this.appContainer
     );
+  },
+  settings: function(){
+    ReactDOM.render(
+      React.createElement(Settings, {router:this, parse:this.Parse}),
+      this.appContainer
+    );
+  },
+  wanderedTo: function(){
+    ReactDOM.render(
+      React.createElement(WanderedTo, {router:this, parse:this.Parse}),
+      this.appContainer
+    );
   }
+
 });
 var router = new Router();
 

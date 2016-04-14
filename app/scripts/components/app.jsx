@@ -2,12 +2,13 @@ var $ = require('jquery');
 var _ = require('underscore');
 var Backbone = require('backbone');
 var React = require('react');
-
+var Loading = require('react-loading');
+var ReactCSSTransitionGroup = require('react-addons-css-transition-group');
 
 var App = React.createClass({
   getInitialState: function(){
     return{
-      "screen": "home",
+      "screen": "sayHello",
       "radius": null,
     }
   },
@@ -18,6 +19,12 @@ var App = React.createClass({
   sendHome: function(){
     this.handleScreenChange("home");
   },
+  sendToWanderedTo: function(){
+    Backbone.history.navigate('app/wanderedTo', {trigger: true});
+  },
+  sendToSettings: function(){
+    Backbone.history.navigate('app/settings', {trigger: true});
+  },
   handleScreenChange: function(screen){
     this.setState({"screen": screen});
   },
@@ -26,7 +33,6 @@ var App = React.createClass({
   },
   signOut: function(e){
     e.preventDefault();
-    console.log(this.props.parse);
     this.props.parse.User.logOut().then(function(){
       Backbone.history.navigate('', {trigger: true});
     });
@@ -35,19 +41,21 @@ var App = React.createClass({
     var screenState;
     if(this.state.screen == "home"){
       screenState = <AppHome changeScreen={this.handleScreenChange}/>;
+    }else if(this.state.screen == "sayHello"){
+      screenState = <SayHello changeScreen={this.handleScreenChange}/>
     }else if (this.state.screen == "radius") {
       screenState = <AppRadiusSelect changeScreen={this.handleScreenChange} setRadius={this.setRadius}/>;
     }else if(this.state.screen == "activitySelect"){
       screenState = <AppActivitySelect
                         changeScreen={this.handleScreenChange}
                         radius={this.state.radius}
-                        collection={this.props.collection}
+                        outdoorsCollection={this.props.outdoorsCollection}
                       />;
     }else if (this.state.screen == "foodSelect"){
       screenState = <AppFoodSelect
                       changeScreen={this.handleScreenChange}
                       radius={this.state.radius}
-                      collection={this.props.collection}
+                      collection={this.props.foodCollection}
                     />;
     }else if(this.state.screen == "bars/clubs"){
       screenState = <AppNighlifeSelect
@@ -57,7 +65,6 @@ var App = React.createClass({
                       clubCollection = {this.props.clubColletion}
                     />;
     }
-
     return(
       <div className="app">
         <div className="app-header">
@@ -74,21 +81,53 @@ var App = React.createClass({
             </div>
           </div>
           <ul className="nav" style={{"display":"none"}}>
-            <li>Home</li>
-            <li>Wandered&middot;To</li>
+            <li onClick={this.sendHome}>Home</li>
+            <li onClick={this.sendToWanderedTo}>Wandered&middot;To</li>
             <li>Favorites</li>
-            <li>Settings</li>
+            <li onClick={this.sendToSettings}>Settings</li>
             <li id="last-nav" onClick={this.signOut}>Sign Out</li>
           </ul>
         </div>
         <div className="app-content">
-          {screenState}
+            {screenState}
         </div>
       </div>
     )
   }
 });
 
+
+var SayHello = React.createClass({
+  getInitialState: function(){
+    return{
+      name: ""
+    }
+  },
+  componentWillMount: function(){
+    var user = localStorage.getItem('Parse/finalproject/currentUser');
+    user = JSON.parse(user);
+    if(user.firstName == undefined){
+      var name = localStorage.getItem('username');
+      this.setState({'name': name});
+    }else{
+      this.setState({'name': user.firstName});
+    }
+  },
+  componentDidMount: function(){
+    var self = this;
+    setTimeout(function(){
+      self.props.changeScreen('home');
+    },3000);
+  },
+  render: function(){
+    return(
+      <div className="say-hello col-md-12">
+        <h1>Hello {this.state.name},</h1>
+        <h1>Hope all is well.</h1>
+      </div>
+    )
+  }
+});
 
 var AppHome = React.createClass({
   handleScreen: function(e){
@@ -99,7 +138,8 @@ var AppHome = React.createClass({
     return(
       <div className="col-md-12 start">
         <a href="#" onClick={this.handleScreen}>
-          <h3>Stop Wandering...</h3>
+
+          <h3>Start Adventure Here</h3>
         </a>
       </div>
     )
@@ -110,7 +150,6 @@ var AppHome = React.createClass({
 var AppRadiusSelect = React.createClass({
   sendToActivitySelect: function(radius, e){
     e.preventDefault();
-    console.log(radius);
     this.props.setRadius(radius);
     this.props.changeScreen("activitySelect");
   },
@@ -142,10 +181,10 @@ var AppActivitySelect = React.createClass({
   getInitialState: function(){
     var currentUser = localStorage.getItem('Parse/finalproject/currentUser');
     currentUser = JSON.parse(currentUser);
-    console.log(currentUser);
     return{
       radius: this.props.radius,
-      zipcode: currentUser.zipcode
+      zipcode: currentUser.zipcode,
+      loading: false
     }
   },
   food: function(){
@@ -153,15 +192,15 @@ var AppActivitySelect = React.createClass({
   },
   outdoors: function(e){
     e.preventDefault();
-    var number = _.random(20);
-    var ResultCollection = this.props.collection;
-    var result = new ResultCollection();
-    result.term = "Parks";
-    result.zipcode = this.state.zipcode;
-    result.radius = this.state.radius;
+    this.setState({loading: true});
+    var OutdoorsCollection = this.props.outdoorsCollection;
+    var outdoors = new OutdoorsCollection();
+    outdoors.term = "Parks";
+    outdoors.zipcode = this.state.zipcode;
+    outdoors.radius = this.state.radius;
 
-    result.fetch().then(function(data){
-      var data = data[number];
+    outdoors.fetch().then(function(data){
+      var data = data.businesses[0];
       data = JSON.stringify(data);
       localStorage.setItem('data', data);
       Backbone.history.navigate('app/result', {trigger: true});
@@ -176,6 +215,14 @@ var AppActivitySelect = React.createClass({
     this.props.changeScreen("bars/clubs");
   },
   render: function(){
+    if(this.state.loading == true){
+      return(
+        <div id="loader">
+          <Loading type='cylon' color='#ffffff' width='175px' />
+          <h3>loading...</h3>
+        </div>
+        )
+    }
     return(
       <div className="row activity-select">
         <div className="col-md-4 food" onClick={this.food}>
@@ -214,11 +261,13 @@ var AppFoodSelect = React.createClass({
     currentUser = JSON.parse(currentUser);
     return{
       radius: this.props.radius,
-      zipcode: currentUser.zipcode
+      zipcode: currentUser.zipcode,
+      loading: false
     }
   },
   bFast: function(e){
     e.preventDefault();
+    this.setState({loading: true});
     var ResultCollection = this.props.collection;
     var result = new ResultCollection();
     result.term = "Breakfast";
@@ -226,7 +275,7 @@ var AppFoodSelect = React.createClass({
     result.radius = this.state.radius;
 
     result.fetch().then(function(data){
-      var data = data;
+      var data = data.businesses[0];
       data = JSON.stringify(data);
       localStorage.setItem('data', data);
       Backbone.history.navigate('app/result', {trigger: true});
@@ -239,6 +288,7 @@ var AppFoodSelect = React.createClass({
   },
   lunch: function(e){
     e.preventDefault();
+    this.setState({loading: true});
     var ResultCollection = this.props.collection;
     var result = new ResultCollection();
     result.term = "Lunch";
@@ -246,7 +296,7 @@ var AppFoodSelect = React.createClass({
     result.radius = this.state.radius;
 
     result.fetch().then(function(data){
-      var data = data;
+      var data = data.businesses[0];
       data = JSON.stringify(data);
       localStorage.setItem('data', data);
       Backbone.history.navigate('app/result', {trigger: true});
@@ -259,13 +309,14 @@ var AppFoodSelect = React.createClass({
   },
   dinner: function(e){
     e.preventDefault();
+    this.setState({loading: true});
     var ResultCollection = this.props.collection;
     var result = new ResultCollection();
     result.term = "Dinner";
     result.zipcode = this.state.zipcode;
     result.radius = this.state.radius;
     result.fetch().then(function(data){
-      var data = data;
+      var data = data.businesses[0];
       data = JSON.stringify(data);
       localStorage.setItem('data', data);
       Backbone.history.navigate('app/result', {trigger: true});
@@ -278,6 +329,7 @@ var AppFoodSelect = React.createClass({
   },
   dessert: function(e){
     e.preventDefault();
+    this.setState({loading: true});
     var ResultCollection = this.props.collection;
     var result = new ResultCollection();
     result.term = "Dessert";
@@ -285,7 +337,7 @@ var AppFoodSelect = React.createClass({
     result.radius = this.state.radius;
 
     result.fetch().then(function(data){
-      var data = data;
+      var data = data.businesses[0];
       data = JSON.stringify(data);
       localStorage.setItem('data', data);
       Backbone.history.navigate('app/result', {trigger: true});
@@ -297,6 +349,14 @@ var AppFoodSelect = React.createClass({
     }.bind(this));
   },
   render: function(){
+    if(this.state.loading == true){
+      return(
+        <div id="loader">
+          <Loading type='cylon' color='#ffffff' width='175px' />
+          <h3>loading...</h3>
+        </div>
+        )
+    }
     return(
       <div className="row food-select">
         <div className="col-md-3 b-fast" onClick={this.bFast}>
@@ -343,11 +403,13 @@ var AppNighlifeSelect = React.createClass({
     currentUser = JSON.parse(currentUser);
     return{
       radius: this.props.radius,
-      zipcode: currentUser.zipcode
+      zipcode: currentUser.zipcode,
+      loading: false
     }
   },
   bars: function(e){
     e.preventDefault();
+    this.setState({loading: true});
     var BarCollection  = this.props.barCollection;
     var bar = new BarCollection();
     bar.term = "Bars"
@@ -355,7 +417,7 @@ var AppNighlifeSelect = React.createClass({
     bar.radius = this.state.radius;
 
     bar.fetch().then(function(data){
-      var data = data;
+      var data = data.businesses[0];
       data = JSON.stringify(data);
       localStorage.setItem('data', data);
       Backbone.history.navigate('app/result', {trigger: true});
@@ -368,14 +430,15 @@ var AppNighlifeSelect = React.createClass({
   },
   clubs: function(e){
     e.preventDefault();
+    this.setState({loading: true});
     var ClubCollection  = this.props.clubCollection;
     var club = new ClubCollection();
     club.term = "Dance+Clubs"
     club.zipcode = this.state.zipcode;
     club.radius = this.state.radius;
-    
+
     club.fetch().then(function(data){
-      var data = data;
+      var data = data.businesses[0];
       data = JSON.stringify(data);
       localStorage.setItem('data', data);
       Backbone.history.navigate('app/result', {trigger: true});
@@ -387,6 +450,14 @@ var AppNighlifeSelect = React.createClass({
     }.bind(this));
   },
   render: function(){
+    if(this.state.loading == true){
+      return(
+        <div id="loader">
+          <Loading type='cylon' color='#ffffff' width='175px' />
+          <h3>loading...</h3>
+        </div>
+        )
+    }
     return(
       <div className="row adult-select">
         <div className="col-md-3 col-md-offset-3 bar" onClick={this.bars}>
