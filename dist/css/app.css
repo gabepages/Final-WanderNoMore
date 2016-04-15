@@ -6156,6 +6156,14 @@ LOGIN
         border-right: 1px solid lightgray; }
   .app .app-content {
     position: relative; }
+    .app .app-content .say-saved {
+      text-align: center;
+      margin-top: 220px; }
+      .app .app-content .say-saved h1 {
+        color: white;
+        font-weight: 100;
+        letter-spacing: 3px;
+        font-size: 42px; }
     .app .app-content .wandered-to {
       color: white;
       margin-top: 60px; }

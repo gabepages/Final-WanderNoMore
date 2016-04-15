@@ -2,9 +2,15 @@ var $ = require('jquery');
 var Backbone = require('backbone');
 var React = require('react');
 var Rater = require('react-rater').default;
+var Loading = require('react-loading');
 
 
 var Result = React.createClass({
+  getInitialState: function(){
+    return{
+      'saved':false
+    }
+  },
   componentWillMount: function(){
     var service;
     var map;
@@ -36,17 +42,65 @@ var Result = React.createClass({
 
           function callback(place, status) {
             if (status == google.maps.places.PlacesServiceStatus.OK) {
-              self.setPlace(place);
-              console.log(place);
+                var place = JSON.stringify(place);
+                localStorage.setItem("place", place);
             }
           }
       }
     }
   },
-  setPlace: function(place){
+  saveToWanderedTo: function(){
+    var self = this;
+    self.setState({'saved': true});
+    setTimeout(function(){
+      var Parse = self.props.parse;
+      var yelpData = localStorage.getItem('data');
+      yelpData = JSON.parse(yelpData);
+      var googleData = localStorage.getItem('place');
+      googleData = JSON.parse(googleData);
+      if(googleData.opening_hours){
+        if (googleData.opening_hours.open_now && googleData.opening_hours.weekday_text){
+          googleData ={
+            "openNow": googleData.opening_hours.open_now,
+            "weekdayHours": googleData.opening_hours.weekday_text
+          }
+        }else if (googleData.opening_hours.open_now) {
+          googleData ={
+            "openNow": googleData.opening_hours.open_now,
+            "weekdayHours": ['','','','','','','']
+          }
+        }else{
+          googleData ={
+            "openNow": "Unknow :(",
+            "weekdayHours":googleData.opening_hours.weekday_text
+          }
+        }
+      }else{
+        googleData ={
+          "openNow": "Unknow :(",
+          "weekdayHours":['','','','','','','']
+        }
+      }
+      var user = Parse.User.current();
+      var WanderedTo = Parse.Object.extend('WanderedTo');
+      var wandered = new WanderedTo();
+      wandered.set({
+        "yelpData": yelpData,
+        "googleData": googleData,
+        "user": user
+      });
 
-    var place = JSON.stringify(place);
-    localStorage.setItem("place", place);
+      wandered.save(null, {
+          success: function(object) {
+            Backbone.history.navigate('app', {trigger: true});
+          },
+          error: function(user, error) {
+            alert('Failed to save location to Wandered-To: ' + error.message);
+          }
+        });
+
+    },3500);
+
   },
   toggleNav: function(e){
     e.preventDefault();
@@ -67,9 +121,9 @@ var Result = React.createClass({
     });
   },
   render: function(){
+    var content;
     var data = localStorage.getItem('data');
     data = JSON.parse(data);
-    console.log(data);
     var image = data.image_url;
     if (image){
       image = image.replace("/ms.", '/o.');
@@ -93,33 +147,23 @@ var Result = React.createClass({
         color = 'open-red';
       }
     }else{
-      placeOpenBool ="??? Sorry :("
-      $(".hours").addClass('hide');
+      placeOpenBool ="Unknown :("
+      placeHours =['','','','','','',''];
     }
 
-    return (
-      <div className="app">
-        <div className="app-header">
-          <div className="col-md-3">
-            <img src="images/whitedots.svg" alt="" onClick={this.sendHome}/>
+    if(this.state.saved == true){
+      var name = localStorage.getItem("Parse/finalproject/currentUser");
+      name = JSON.parse(name);
+      name = name.firstName;
+      content = (
+        <div className="app-content">
+          <div className="say-saved">
+            <h1>Have fun {name}!</h1>
           </div>
-          <div className="col-md-6 title">
-            <h2>Wander No More</h2>
-          </div>
-          <div className="profile col-md-3" onClick={this.toggleNav}>
-            <div className='icon'>
-              <i className="fa fa-user fa-2x"></i>
-              <i className="fa fa-caret-down"></i>
-            </div>
-          </div>
-          <ul className="nav" style={{"display":"none"}}>
-            <li onClick={this.sendHome}>Home</li>
-            <li>Wandered&middot;To</li>
-            <li>Favorites</li>
-            <li>Settings</li>
-            <li id="last-nav" onClick={this.signOut}>Sign Out</li>
-          </ul>
         </div>
+      );
+    }else{
+      content = (
         <div className="app-content">
           <div className="row result">
             <div className="col-md-5 col-md-offset-2 result-info">
@@ -156,7 +200,7 @@ var Result = React.createClass({
                 <h2>Try Again</h2>
               </div>
             </div>
-            <div className="col-md-3 button" id="green">
+            <div className="col-md-3 button" id="green" onClick={this.saveToWanderedTo}>
               <div className="section-image">
                 <i className="fa fa-check fa-5x"></i>
               </div>
@@ -166,10 +210,48 @@ var Result = React.createClass({
             </div>
           </div>
         </div>
+      );
+    }
+    return (
+      <div className="app">
+        <div className="app-header">
+          <div className="col-md-3">
+            <img src="images/whitedots.svg" alt="" onClick={this.sendHome}/>
+          </div>
+          <div className="col-md-6 title">
+            <h2>Wander No More</h2>
+          </div>
+          <div className="profile col-md-3" onClick={this.toggleNav}>
+            <div className='icon'>
+              <i className="fa fa-user fa-2x"></i>
+              <i className="fa fa-caret-down"></i>
+            </div>
+          </div>
+          <ul className="nav" style={{"display":"none"}}>
+            <li onClick={this.sendHome}>Home</li>
+            <li>Wandered</li>
+            <li>Favorites</li>
+            <li>Settings</li>
+            <li id="last-nav" onClick={this.signOut}>Sign Out</li>
+          </ul>
+        </div>
+        {content}
       </div>
 
     )
   }
 });
+
+
+
+
+
+
+
+
+
+
+
+
 
 module.exports = Result;

@@ -156,7 +156,7 @@ var App = React.createClass({displayName: "App",
           ), 
           React.createElement("ul", {className: "nav", style: {"display":"none"}}, 
             React.createElement("li", {onClick: this.sendHome}, "Home"), 
-            React.createElement("li", {onClick: this.sendToWanderedTo}, "Wandered·To"), 
+            React.createElement("li", {onClick: this.sendToWanderedTo}, "Wandered"), 
             React.createElement("li", null, "Favorites"), 
             React.createElement("li", {onClick: this.sendToSettings}, "Settings"), 
             React.createElement("li", {id: "last-nav", onClick: this.signOut}, "Sign Out")
@@ -648,9 +648,15 @@ var $ = require('jquery');
 var Backbone = require('backbone');
 var React = require('react');
 var Rater = require('react-rater').default;
+var Loading = require('react-loading');
 
 
 var Result = React.createClass({displayName: "Result",
+  getInitialState: function(){
+    return{
+      'saved':false
+    }
+  },
   componentWillMount: function(){
     var service;
     var map;
@@ -682,17 +688,65 @@ var Result = React.createClass({displayName: "Result",
 
           function callback(place, status) {
             if (status == google.maps.places.PlacesServiceStatus.OK) {
-              self.setPlace(place);
-              console.log(place);
+                var place = JSON.stringify(place);
+                localStorage.setItem("place", place);
             }
           }
       }
     }
   },
-  setPlace: function(place){
+  saveToWanderedTo: function(){
+    var self = this;
+    self.setState({'saved': true});
+    setTimeout(function(){
+      var Parse = self.props.parse;
+      var yelpData = localStorage.getItem('data');
+      yelpData = JSON.parse(yelpData);
+      var googleData = localStorage.getItem('place');
+      googleData = JSON.parse(googleData);
+      if(googleData.opening_hours){
+        if (googleData.opening_hours.open_now && googleData.opening_hours.weekday_text){
+          googleData ={
+            "openNow": googleData.opening_hours.open_now,
+            "weekdayHours": googleData.opening_hours.weekday_text
+          }
+        }else if (googleData.opening_hours.open_now) {
+          googleData ={
+            "openNow": googleData.opening_hours.open_now,
+            "weekdayHours": ['','','','','','','']
+          }
+        }else{
+          googleData ={
+            "openNow": "Unknow :(",
+            "weekdayHours":googleData.opening_hours.weekday_text
+          }
+        }
+      }else{
+        googleData ={
+          "openNow": "Unknow :(",
+          "weekdayHours":['','','','','','','']
+        }
+      }
+      var user = Parse.User.current();
+      var WanderedTo = Parse.Object.extend('WanderedTo');
+      var wandered = new WanderedTo();
+      wandered.set({
+        "yelpData": yelpData,
+        "googleData": googleData,
+        "user": user
+      });
 
-    var place = JSON.stringify(place);
-    localStorage.setItem("place", place);
+      wandered.save(null, {
+          success: function(object) {
+            Backbone.history.navigate('app', {trigger: true});
+          },
+          error: function(user, error) {
+            alert('Failed to save location to Wandered-To: ' + error.message);
+          }
+        });
+
+    },3500);
+
   },
   toggleNav: function(e){
     e.preventDefault();
@@ -713,9 +767,9 @@ var Result = React.createClass({displayName: "Result",
     });
   },
   render: function(){
+    var content;
     var data = localStorage.getItem('data');
     data = JSON.parse(data);
-    console.log(data);
     var image = data.image_url;
     if (image){
       image = image.replace("/ms.", '/o.');
@@ -739,33 +793,23 @@ var Result = React.createClass({displayName: "Result",
         color = 'open-red';
       }
     }else{
-      placeOpenBool ="??? Sorry :("
-      $(".hours").addClass('hide');
+      placeOpenBool ="Unknown :("
+      placeHours =['','','','','','',''];
     }
 
-    return (
-      React.createElement("div", {className: "app"}, 
-        React.createElement("div", {className: "app-header"}, 
-          React.createElement("div", {className: "col-md-3"}, 
-            React.createElement("img", {src: "images/whitedots.svg", alt: "", onClick: this.sendHome})
-          ), 
-          React.createElement("div", {className: "col-md-6 title"}, 
-            React.createElement("h2", null, "Wander No More")
-          ), 
-          React.createElement("div", {className: "profile col-md-3", onClick: this.toggleNav}, 
-            React.createElement("div", {className: "icon"}, 
-              React.createElement("i", {className: "fa fa-user fa-2x"}), 
-              React.createElement("i", {className: "fa fa-caret-down"})
-            )
-          ), 
-          React.createElement("ul", {className: "nav", style: {"display":"none"}}, 
-            React.createElement("li", {onClick: this.sendHome}, "Home"), 
-            React.createElement("li", null, "Wandered·To"), 
-            React.createElement("li", null, "Favorites"), 
-            React.createElement("li", null, "Settings"), 
-            React.createElement("li", {id: "last-nav", onClick: this.signOut}, "Sign Out")
+    if(this.state.saved == true){
+      var name = localStorage.getItem("Parse/finalproject/currentUser");
+      name = JSON.parse(name);
+      name = name.firstName;
+      content = (
+        React.createElement("div", {className: "app-content"}, 
+          React.createElement("div", {className: "say-saved"}, 
+            React.createElement("h1", null, "Have fun ", name, "!")
           )
-        ), 
+        )
+      );
+    }else{
+      content = (
         React.createElement("div", {className: "app-content"}, 
           React.createElement("div", {className: "row result"}, 
             React.createElement("div", {className: "col-md-5 col-md-offset-2 result-info"}, 
@@ -802,7 +846,7 @@ var Result = React.createClass({displayName: "Result",
                 React.createElement("h2", null, "Try Again")
               )
             ), 
-            React.createElement("div", {className: "col-md-3 button", id: "green"}, 
+            React.createElement("div", {className: "col-md-3 button", id: "green", onClick: this.saveToWanderedTo}, 
               React.createElement("div", {className: "section-image"}, 
                 React.createElement("i", {className: "fa fa-check fa-5x"})
               ), 
@@ -812,15 +856,53 @@ var Result = React.createClass({displayName: "Result",
             )
           )
         )
+      );
+    }
+    return (
+      React.createElement("div", {className: "app"}, 
+        React.createElement("div", {className: "app-header"}, 
+          React.createElement("div", {className: "col-md-3"}, 
+            React.createElement("img", {src: "images/whitedots.svg", alt: "", onClick: this.sendHome})
+          ), 
+          React.createElement("div", {className: "col-md-6 title"}, 
+            React.createElement("h2", null, "Wander No More")
+          ), 
+          React.createElement("div", {className: "profile col-md-3", onClick: this.toggleNav}, 
+            React.createElement("div", {className: "icon"}, 
+              React.createElement("i", {className: "fa fa-user fa-2x"}), 
+              React.createElement("i", {className: "fa fa-caret-down"})
+            )
+          ), 
+          React.createElement("ul", {className: "nav", style: {"display":"none"}}, 
+            React.createElement("li", {onClick: this.sendHome}, "Home"), 
+            React.createElement("li", null, "Wandered"), 
+            React.createElement("li", null, "Favorites"), 
+            React.createElement("li", null, "Settings"), 
+            React.createElement("li", {id: "last-nav", onClick: this.signOut}, "Sign Out")
+          )
+        ), 
+        content
       )
 
     )
   }
 });
 
+
+
+
+
+
+
+
+
+
+
+
+
 module.exports = Result;
 
-},{"backbone":29,"jquery":129,"react":311,"react-rater":176}],5:[function(require,module,exports){
+},{"backbone":29,"jquery":129,"react":311,"react-loading":175,"react-rater":176}],5:[function(require,module,exports){
 "use strict";
 var $ = require('jquery');
 var _ = require('underscore');

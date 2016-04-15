@@ -445,6 +445,16 @@ LOGIN
   }
   .app-content{
     position: relative;
+    .say-saved{
+      text-align: center;
+      margin-top: 220px;
+      h1{
+        color: white;
+        font-weight: 100;
+        letter-spacing: 3px;
+        font-size: 42px;
+      }
+    }
     .wandered-to{
       color: white;
       margin-top: 60px;

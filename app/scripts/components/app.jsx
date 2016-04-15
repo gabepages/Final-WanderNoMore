@@ -82,7 +82,7 @@ var App = React.createClass({
           </div>
           <ul className="nav" style={{"display":"none"}}>
             <li onClick={this.sendHome}>Home</li>
-            <li onClick={this.sendToWanderedTo}>Wandered&middot;To</li>
+            <li onClick={this.sendToWanderedTo}>Wandered</li>
             <li>Favorites</li>
             <li onClick={this.sendToSettings}>Settings</li>
             <li id="last-nav" onClick={this.signOut}>Sign Out</li>
