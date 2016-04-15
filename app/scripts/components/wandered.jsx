@@ -4,6 +4,28 @@ var Backbone = require('backbone');
 var React = require('react');
 
 var WanderedTo = React.createClass({
+  getInitialState: function(){
+    return {
+      'results': []
+    }
+  },
+  componentWillMount: function(){
+    var self = this;
+    var resultsList;
+    var Parse = this.props.parse;
+    var user = Parse.User.current();
+    var Wandered = Parse.Object.extend("WanderedTo");
+    var query =  new Parse.Query(Wandered);
+    query.equalTo('user', user);
+    query.find({
+      success: function(results){
+        self.setState({'results': results});
+      },
+      error: function(error){
+        console.log("error: ", error);
+      }
+    });
+  },
   toggleNav: function(e){
     e.preventDefault();
     $('.nav').slideToggle(500);
@@ -18,6 +40,24 @@ var WanderedTo = React.createClass({
     Backbone.history.navigate('app/settings', {trigger: true});
   },
   render: function(){
+    var resultsList = this.state.results.map(function(result){
+      var result = result.attributes;
+      console.log(result);
+      var image = result.yelpData.image_url;
+      if (image){
+        image = image.replace("/ms.", '/o.');
+      }else{
+        image = "images/sorrynoimage.jpg";
+      }
+        return (
+          <tr key={result.createdAt}>
+            <td>{result.yelpData.name}</td>
+            <td>{result.yelpData.display_phone}</td>
+            <td><img src={image} alt="" /></td>
+            <td><i className="fa fa-star star" aria-hidden="true"></i></td>
+          </tr>
+        );
+    });
     return(
       <div className="app">
         <div className="app-header">
@@ -54,12 +94,7 @@ var WanderedTo = React.createClass({
                 </tr>
               </thead>
               <tbody>
-                <tr>
-                  <td>Joes Crab Shack</td>
-                  <td>+1-813-601-8268</td>
-                  <td><img src="images/restaurant.jpg" alt="" /></td>
-                  <td><i className="fa fa-star star" aria-hidden="true"></i></td>
-                </tr>
+                {resultsList}
               </tbody>
             </table>
           </div>

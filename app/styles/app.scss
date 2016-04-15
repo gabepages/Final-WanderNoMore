@@ -189,6 +189,15 @@ LOGIN
       right: 0;
       background: rgba(10,10,10, 0.7);
   }
+  .say-hello{
+    h1{
+      color: white;
+      font-weight: 100;
+      font-size: 50px;
+      letter-spacing: 5px;
+      text-align: center;
+    }
+  }
   .logo-header{
     margin-bottom: 170px;
     .small-header{
@@ -578,16 +587,7 @@ LOGIN
         float: right;
       }
     }
-    .say-hello{
-      margin-top: 200px;
-      h1{
-        color: white;
-        font-weight: 100;
-        font-size: 50px;
-        letter-spacing: 5px;
-        text-align: center;
-      }
-    }
+
 
     .start{
       text-align: center;

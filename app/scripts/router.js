@@ -12,7 +12,7 @@ var Signup = require('./components/signup.jsx');
 var App = require('./components/app.jsx');
 var Result = require('./components/result.jsx');
 var Settings = require('./components/settings.jsx');
-var WanderedTo = require('./components/wandered-to.jsx');
+var WanderedTo = require('./components/wandered.jsx');
 
 //models and collection
 var FoodCollection = require('./models/food');

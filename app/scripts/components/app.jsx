@@ -8,7 +8,7 @@ var ReactCSSTransitionGroup = require('react-addons-css-transition-group');
 var App = React.createClass({
   getInitialState: function(){
     return{
-      "screen": "sayHello",
+      "screen": "home",
       "radius": null,
     }
   },
@@ -41,8 +41,6 @@ var App = React.createClass({
     var screenState;
     if(this.state.screen == "home"){
       screenState = <AppHome changeScreen={this.handleScreenChange}/>;
-    }else if(this.state.screen == "sayHello"){
-      screenState = <SayHello changeScreen={this.handleScreenChange}/>
     }else if (this.state.screen == "radius") {
       screenState = <AppRadiusSelect changeScreen={this.handleScreenChange} setRadius={this.setRadius}/>;
     }else if(this.state.screen == "activitySelect"){
@@ -97,37 +95,6 @@ var App = React.createClass({
 });
 
 
-var SayHello = React.createClass({
-  getInitialState: function(){
-    return{
-      name: ""
-    }
-  },
-  componentWillMount: function(){
-    var user = localStorage.getItem('Parse/finalproject/currentUser');
-    user = JSON.parse(user);
-    if(user.firstName == undefined){
-      var name = localStorage.getItem('username');
-      this.setState({'name': name});
-    }else{
-      this.setState({'name': user.firstName});
-    }
-  },
-  componentDidMount: function(){
-    var self = this;
-    setTimeout(function(){
-      self.props.changeScreen('home');
-    },3000);
-  },
-  render: function(){
-    return(
-      <div className="say-hello col-md-12">
-        <h1>Hello {this.state.name},</h1>
-        <h1>Hope all is well.</h1>
-      </div>
-    )
-  }
-});
 
 var AppHome = React.createClass({
   handleScreen: function(e){

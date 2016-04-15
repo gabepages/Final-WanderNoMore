@@ -62,8 +62,14 @@ var Signup = React.createClass({
 
 
 var CreateProfile = React.createClass({
+  getInitialState: function(){
+    return{
+      'sayHello': false
+    }
+  },
   createProfile: function(e){
     e.preventDefault();
+    var self = this;
     var firstName = $('#cp-fname').val();
     var lastName = $('#cp-lname').val();
     var zipcode = $('#cp-zipcode').val();
@@ -77,14 +83,35 @@ var CreateProfile = React.createClass({
     });
     user.save(null, {
       success: function(user) {
-        Backbone.history.navigate("app", {trigger: true});
+        self.setState({'sayHello': true});
       },
       error: function(user, error) {
         console.log('Failed to create new object, with error code: ' + error.message);
       }
     });
   },
+
   render: function(){
+    var content;
+    if(this.state.sayHello == true){
+      var name = localStorage.getItem('username');
+      content = <SayHello name={name}/>;
+    }else{
+      content =(
+        <div className="login-content col-md-4 col-md-offset-4">
+          <h3>Prepare to be extemporaneous.</h3>
+          <form onSubmit={this.createProfile}>
+            <input type="text" className="form-control" id="cp-fname" placeholder="First Name" />
+            <input type="text" className="form-control" id="cp-lname" placeholder="Last Name" />
+            <input type="text" className="form-control" id="cp-zipcode" placeholder="Zipcode" />
+            <input type='file' id='cp-image'/>
+            <button type="submit" className="btn btn-default">Shall we begin?</button>
+          </form>
+        </div>
+      );
+    }
+
+    console.log(this.state);
     return(
       <div className='login'>
         <div className="row  logo-header">
@@ -97,17 +124,24 @@ var CreateProfile = React.createClass({
           </div>
         </div>
         <div className="row">
-          <div className="login-content col-md-4 col-md-offset-4">
-            <h3>Prepare to be extemporaneous.</h3>
-            <form onSubmit={this.createProfile}>
-              <input type="text" className="form-control" id="cp-fname" placeholder="First Name" />
-              <input type="text" className="form-control" id="cp-lname" placeholder="Last Name" />
-              <input type="text" className="form-control" id="cp-zipcode" placeholder="Zipcode" />
-              <input type='file' id='cp-image'/>
-              <button type="submit" className="btn btn-default">Shall we begin?</button>
-            </form>
-          </div>
+          {content}
         </div>
+      </div>
+    )
+  }
+});
+
+var SayHello = React.createClass({
+  componentDidMount: function(){
+    setTimeout( function(){
+      Backbone.history.navigate('app', {trigger: true});
+    },2500);
+  },
+  render: function(){
+    return(
+      <div className="say-hello col-md-12">
+        <h1>Hello {this.props.name},</h1>
+        <h1>Hope all is well.</h1>
       </div>
     )
   }

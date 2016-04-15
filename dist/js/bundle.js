@@ -82,7 +82,7 @@ var ReactCSSTransitionGroup = require('react-addons-css-transition-group');
 var App = React.createClass({displayName: "App",
   getInitialState: function(){
     return{
-      "screen": "sayHello",
+      "screen": "home",
       "radius": null,
     }
   },
@@ -115,8 +115,6 @@ var App = React.createClass({displayName: "App",
     var screenState;
     if(this.state.screen == "home"){
       screenState = React.createElement(AppHome, {changeScreen: this.handleScreenChange});
-    }else if(this.state.screen == "sayHello"){
-      screenState = React.createElement(SayHello, {changeScreen: this.handleScreenChange})
     }else if (this.state.screen == "radius") {
       screenState = React.createElement(AppRadiusSelect, {changeScreen: this.handleScreenChange, setRadius: this.setRadius});
     }else if(this.state.screen == "activitySelect"){
@@ -171,37 +169,6 @@ var App = React.createClass({displayName: "App",
 });
 
 
-var SayHello = React.createClass({displayName: "SayHello",
-  getInitialState: function(){
-    return{
-      name: ""
-    }
-  },
-  componentWillMount: function(){
-    var user = localStorage.getItem('Parse/finalproject/currentUser');
-    user = JSON.parse(user);
-    if(user.firstName == undefined){
-      var name = localStorage.getItem('username');
-      this.setState({'name': name});
-    }else{
-      this.setState({'name': user.firstName});
-    }
-  },
-  componentDidMount: function(){
-    var self = this;
-    setTimeout(function(){
-      self.props.changeScreen('home');
-    },3000);
-  },
-  render: function(){
-    return(
-      React.createElement("div", {className: "say-hello col-md-12"}, 
-        React.createElement("h1", null, "Hello ", this.state.name, ","), 
-        React.createElement("h1", null, "Hope all is well.")
-      )
-    )
-  }
-});
 
 var AppHome = React.createClass({displayName: "AppHome",
   handleScreen: function(e){
@@ -589,13 +556,23 @@ var Login = React.createClass({displayName: "Login",
     var Parse = this.props.parse;
     Parse.User.logIn(email, password, {
       success: function(user) {
-          Backbone.history.navigate('app', {trigger: true});
+          console.log(user.attributes);
+          self.setState({
+            'username': user.attributes.firstName,
+            'sayHello': true
+          });
+          self.sendToApp();
       },
       error: function(user, error) {
         alert("Error! Try again!");
         Backbone.history.navigate('', {trigger: true});
       }
     });
+  },
+  sendToApp: function(){
+    setTimeout(function(){
+      Backbone.history.navigate('app', {trigger: true});
+    },2500);
   },
   render: function(){
     var content =(
@@ -617,6 +594,14 @@ var Login = React.createClass({displayName: "Login",
                     React.createElement("h3", null, "loading...")
                   )
                 )
+      );
+    }
+    if(this.state.sayHello == true){
+      content = (
+        React.createElement("div", {className: "say-hello col-md-12"}, 
+          React.createElement("h1", null, "Hello ", this.state.username, ","), 
+          React.createElement("h1", null, "Hope all is well.")
+        )
       );
     }
 
@@ -1186,8 +1171,14 @@ var Signup = React.createClass({displayName: "Signup",
 
 
 var CreateProfile = React.createClass({displayName: "CreateProfile",
+  getInitialState: function(){
+    return{
+      'sayHello': false
+    }
+  },
   createProfile: function(e){
     e.preventDefault();
+    var self = this;
     var firstName = $('#cp-fname').val();
     var lastName = $('#cp-lname').val();
     var zipcode = $('#cp-zipcode').val();
@@ -1201,14 +1192,35 @@ var CreateProfile = React.createClass({displayName: "CreateProfile",
     });
     user.save(null, {
       success: function(user) {
-        Backbone.history.navigate("app", {trigger: true});
+        self.setState({'sayHello': true});
       },
       error: function(user, error) {
         console.log('Failed to create new object, with error code: ' + error.message);
       }
     });
   },
+
   render: function(){
+    var content;
+    if(this.state.sayHello == true){
+      var name = localStorage.getItem('username');
+      content = React.createElement(SayHello, {name: name});
+    }else{
+      content =(
+        React.createElement("div", {className: "login-content col-md-4 col-md-offset-4"}, 
+          React.createElement("h3", null, "Prepare to be extemporaneous."), 
+          React.createElement("form", {onSubmit: this.createProfile}, 
+            React.createElement("input", {type: "text", className: "form-control", id: "cp-fname", placeholder: "First Name"}), 
+            React.createElement("input", {type: "text", className: "form-control", id: "cp-lname", placeholder: "Last Name"}), 
+            React.createElement("input", {type: "text", className: "form-control", id: "cp-zipcode", placeholder: "Zipcode"}), 
+            React.createElement("input", {type: "file", id: "cp-image"}), 
+            React.createElement("button", {type: "submit", className: "btn btn-default"}, "Shall we begin?")
+          )
+        )
+      );
+    }
+
+    console.log(this.state);
     return(
       React.createElement("div", {className: "login"}, 
         React.createElement("div", {className: "row  logo-header"}, 
@@ -1221,17 +1233,24 @@ var CreateProfile = React.createClass({displayName: "CreateProfile",
           )
         ), 
         React.createElement("div", {className: "row"}, 
-          React.createElement("div", {className: "login-content col-md-4 col-md-offset-4"}, 
-            React.createElement("h3", null, "Prepare to be extemporaneous."), 
-            React.createElement("form", {onSubmit: this.createProfile}, 
-              React.createElement("input", {type: "text", className: "form-control", id: "cp-fname", placeholder: "First Name"}), 
-              React.createElement("input", {type: "text", className: "form-control", id: "cp-lname", placeholder: "Last Name"}), 
-              React.createElement("input", {type: "text", className: "form-control", id: "cp-zipcode", placeholder: "Zipcode"}), 
-              React.createElement("input", {type: "file", id: "cp-image"}), 
-              React.createElement("button", {type: "submit", className: "btn btn-default"}, "Shall we begin?")
-            )
-          )
+          content
         )
+      )
+    )
+  }
+});
+
+var SayHello = React.createClass({displayName: "SayHello",
+  componentDidMount: function(){
+    setTimeout( function(){
+      Backbone.history.navigate('app', {trigger: true});
+    },2500);
+  },
+  render: function(){
+    return(
+      React.createElement("div", {className: "say-hello col-md-12"}, 
+        React.createElement("h1", null, "Hello ", this.props.name, ","), 
+        React.createElement("h1", null, "Hope all is well.")
       )
     )
   }
@@ -1248,6 +1267,28 @@ var Backbone = require('backbone');
 var React = require('react');
 
 var WanderedTo = React.createClass({displayName: "WanderedTo",
+  getInitialState: function(){
+    return {
+      'results': []
+    }
+  },
+  componentWillMount: function(){
+    var self = this;
+    var resultsList;
+    var Parse = this.props.parse;
+    var user = Parse.User.current();
+    var Wandered = Parse.Object.extend("WanderedTo");
+    var query =  new Parse.Query(Wandered);
+    query.equalTo('user', user);
+    query.find({
+      success: function(results){
+        self.setState({'results': results});
+      },
+      error: function(error){
+        console.log("error: ", error);
+      }
+    });
+  },
   toggleNav: function(e){
     e.preventDefault();
     $('.nav').slideToggle(500);
@@ -1262,6 +1303,24 @@ var WanderedTo = React.createClass({displayName: "WanderedTo",
     Backbone.history.navigate('app/settings', {trigger: true});
   },
   render: function(){
+    var resultsList = this.state.results.map(function(result){
+      var result = result.attributes;
+      console.log(result);
+      var image = result.yelpData.image_url;
+      if (image){
+        image = image.replace("/ms.", '/o.');
+      }else{
+        image = "images/sorrynoimage.jpg";
+      }
+        return (
+          React.createElement("tr", {key: result.createdAt}, 
+            React.createElement("td", null, result.yelpData.name), 
+            React.createElement("td", null, result.yelpData.display_phone), 
+            React.createElement("td", null, React.createElement("img", {src: image, alt: ""})), 
+            React.createElement("td", null, React.createElement("i", {className: "fa fa-star star", "aria-hidden": "true"}))
+          )
+        );
+    });
     return(
       React.createElement("div", {className: "app"}, 
         React.createElement("div", {className: "app-header"}, 
@@ -1279,7 +1338,7 @@ var WanderedTo = React.createClass({displayName: "WanderedTo",
           ), 
           React.createElement("ul", {className: "nav", style: {"display":"none"}}, 
             React.createElement("li", {onClick: this.sendHome}, "Home"), 
-            React.createElement("li", {onClick: this.sendToWanderedTo}, "Wandered·To"), 
+            React.createElement("li", {onClick: this.sendToWanderedTo}, "Wandered"), 
             React.createElement("li", null, "Favorites"), 
             React.createElement("li", {onClick: this.sendToSettings}, "Settings"), 
             React.createElement("li", {id: "last-nav", onClick: this.signOut}, "Sign Out")
@@ -1298,12 +1357,7 @@ var WanderedTo = React.createClass({displayName: "WanderedTo",
                 )
               ), 
               React.createElement("tbody", null, 
-                React.createElement("tr", null, 
-                  React.createElement("td", null, "Joes Crab Shack"), 
-                  React.createElement("td", null, "+1-813-601-8268"), 
-                  React.createElement("td", null, React.createElement("img", {src: "images/restaurant.jpg", alt: ""})), 
-                  React.createElement("td", null, React.createElement("i", {className: "fa fa-star star", "aria-hidden": "true"}))
-                )
+                resultsList
               )
             )
           )
@@ -1428,7 +1482,7 @@ var Signup = require('./components/signup.jsx');
 var App = require('./components/app.jsx');
 var Result = require('./components/result.jsx');
 var Settings = require('./components/settings.jsx');
-var WanderedTo = require('./components/wandered-to.jsx');
+var WanderedTo = require('./components/wandered.jsx');
 
 //models and collection
 var FoodCollection = require('./models/food');
@@ -1519,7 +1573,7 @@ var router = new Router();
 
 module.exports = router;
 
-},{"./components/Index.jsx":1,"./components/app.jsx":2,"./components/login.jsx":3,"./components/result.jsx":4,"./components/settings.jsx":5,"./components/signup.jsx":6,"./components/wandered-to.jsx":7,"./models/bars":9,"./models/clubs":10,"./models/food":11,"./models/outdoors":12,"backbone":29,"jquery":129,"parse":130,"react":311,"react-dom":174}],14:[function(require,module,exports){
+},{"./components/Index.jsx":1,"./components/app.jsx":2,"./components/login.jsx":3,"./components/result.jsx":4,"./components/settings.jsx":5,"./components/signup.jsx":6,"./components/wandered.jsx":7,"./models/bars":9,"./models/clubs":10,"./models/food":11,"./models/outdoors":12,"backbone":29,"jquery":129,"parse":130,"react":311,"react-dom":174}],14:[function(require,module,exports){
 module.exports = { "default": require("core-js/library/fn/get-iterator"), __esModule: true };
 },{"core-js/library/fn/get-iterator":30}],15:[function(require,module,exports){
 module.exports = { "default": require("core-js/library/fn/map"), __esModule: true };

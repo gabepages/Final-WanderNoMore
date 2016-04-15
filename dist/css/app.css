@@ -5952,6 +5952,12 @@ LOGIN
     left: 0;
     right: 0;
     background: rgba(10, 10, 10, 0.7); }
+  .login .say-hello h1 {
+    color: white;
+    font-weight: 100;
+    font-size: 50px;
+    letter-spacing: 5px;
+    text-align: center; }
   .login .logo-header {
     margin-bottom: 170px; }
     .login .logo-header .small-header {
@@ -6256,14 +6262,6 @@ LOGIN
           margin-left: 62px; }
     .app .app-content .settings .user-info h2:last-of-type {
       float: right; }
-    .app .app-content .say-hello {
-      margin-top: 200px; }
-      .app .app-content .say-hello h1 {
-        color: white;
-        font-weight: 100;
-        font-size: 50px;
-        letter-spacing: 5px;
-        text-align: center; }
     .app .app-content .start {
       text-align: center;
       margin-top: 300px; }

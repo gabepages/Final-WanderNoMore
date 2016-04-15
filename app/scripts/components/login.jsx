@@ -21,13 +21,23 @@ var Login = React.createClass({
     var Parse = this.props.parse;
     Parse.User.logIn(email, password, {
       success: function(user) {
-          Backbone.history.navigate('app', {trigger: true});
+          console.log(user.attributes);
+          self.setState({
+            'username': user.attributes.firstName,
+            'sayHello': true
+          });
+          self.sendToApp();
       },
       error: function(user, error) {
         alert("Error! Try again!");
         Backbone.history.navigate('', {trigger: true});
       }
     });
+  },
+  sendToApp: function(){
+    setTimeout(function(){
+      Backbone.history.navigate('app', {trigger: true});
+    },2500);
   },
   render: function(){
     var content =(
@@ -49,6 +59,14 @@ var Login = React.createClass({
                     <h3>loading...</h3>
                   </div>
                 </div>
+      );
+    }
+    if(this.state.sayHello == true){
+      content = (
+        <div className="say-hello col-md-12">
+          <h1>Hello {this.state.username},</h1>
+          <h1>Hope all is well.</h1>
+        </div>
       );
     }
 
