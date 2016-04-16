@@ -379,10 +379,11 @@ LOGIN
 
 .app{
   position: relative;
-  height: 830px;
+  min-height: 830px;
   width: 100%;
-  background: url("../images/background0.jpg")center;
+  background: rgba(18, 18, 18, 1) url("../images/background0.jpg")center;
   background-size: cover;
+
   &::before{
     content: "";
     position: absolute;
@@ -467,6 +468,20 @@ LOGIN
     .wandered-to{
       color: white;
       margin-top: 60px;
+      #wandered-loader{
+        fill: #ffffff;
+        height: 64px;
+        width: 175px;
+        margin: 75px auto;
+        h3{
+          color: white;
+          font-size: 30px;
+          font-weight: 100;
+          margin-top: 65px;
+          text-align: center;
+          letter-spacing: 5px;
+        }
+      }
       h1{
         text-align: center;
         font-weight: 100;
@@ -476,6 +491,7 @@ LOGIN
       }
       table{
         text-align: center;
+        margin-bottom: 50px;
         thead{
           font-size: 20px;
           font-weight: 100;
@@ -495,6 +511,7 @@ LOGIN
               padding: 15px 0px 15px 0px;
               img{
                 height: 120px;
+                width: 115px;
               }
               .star{
                 color: lightgray;

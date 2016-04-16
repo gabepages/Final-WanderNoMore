@@ -7,9 +7,13 @@ var ReactCSSTransitionGroup = require('react-addons-css-transition-group');
 
 var App = React.createClass({
   getInitialState: function(){
+    var currentUser = localStorage.getItem('Parse/finalproject/currentUser');
+    currentUser = JSON.parse(currentUser);
     return{
       "screen": "home",
       "radius": null,
+      'zipcode': currentUser.zipcode,
+      'radius':''
     }
   },
   toggleNav: function(e){
@@ -34,35 +38,51 @@ var App = React.createClass({
   signOut: function(e){
     e.preventDefault();
     this.props.parse.User.logOut().then(function(){
-      Backbone.history.navigate('', {trigger: true});
+      console.log(this.props.parse.User.current());
     });
+    Backbone.history.navigate('', {trigger: true});
+  },
+  doFetch: function(term, categoryFilter){
+    this.setState({"screen": 'loading'});
+    var ResultCollection = this.props.collection;
+    var result = new ResultCollection();
+    result.term = term;
+    result.categoryFilter = categoryFilter;
+    result.zipcode = this.state.zipcode;
+    result.radius = this.state.radius;
+    result.fetch().then(function(data){
+      var data = data.businesses[0];
+      data = JSON.stringify(data);
+      localStorage.setItem('data', data);
+      Backbone.history.navigate('app/result', {trigger: true});
+    },
+    function(error){
+      console.log(error);
+      alert("Were sorry, Your search failed, please try again");
+      this.changeScreen("home");
+    }.bind(this));
   },
   render: function(){
     var screenState;
     if(this.state.screen == "home"){
       screenState = <AppHome changeScreen={this.handleScreenChange}/>;
+    }else if(this.state.screen == "loading"){
+      screenState = (
+        <div id="loader">
+          <Loading type='cylon' color='#ffffff' width='175px' />
+          <h3>loading...</h3>
+        </div>
+      )
     }else if (this.state.screen == "radius") {
       screenState = <AppRadiusSelect changeScreen={this.handleScreenChange} setRadius={this.setRadius}/>;
     }else if(this.state.screen == "activitySelect"){
-      screenState = <AppActivitySelect
-                        changeScreen={this.handleScreenChange}
-                        radius={this.state.radius}
-                        outdoorsCollection={this.props.outdoorsCollection}
-                      />;
+      screenState = <AppActivitySelect doFetch={this.doFetch} changeScreen={this.handleScreenChange}/>;
     }else if (this.state.screen == "foodSelect"){
-      screenState = <AppFoodSelect
-                      changeScreen={this.handleScreenChange}
-                      radius={this.state.radius}
-                      collection={this.props.foodCollection}
-                    />;
+      screenState = <AppFoodSelect doFetch={this.doFetch} changeScreen={this.handleScreenChange}/>;
     }else if(this.state.screen == "bars/clubs"){
-      screenState = <AppNighlifeSelect
-                      changeScreen={this.handleScreenChange}
-                      radius={this.state.radius}
-                      barCollection={this.props.barCollection}
-                      clubCollection = {this.props.clubColletion}
-                    />;
+      screenState = <AppNighlifeSelect doFetch={this.doFetch} changeScreen={this.handleScreenChange}/>;
     }
+
     return(
       <div className="app">
         <div className="app-header">
@@ -145,51 +165,17 @@ var AppRadiusSelect = React.createClass({
 
 
 var AppActivitySelect = React.createClass({
-  getInitialState: function(){
-    var currentUser = localStorage.getItem('Parse/finalproject/currentUser');
-    currentUser = JSON.parse(currentUser);
-    return{
-      radius: this.props.radius,
-      zipcode: currentUser.zipcode,
-      loading: false
-    }
-  },
   food: function(){
     this.props.changeScreen("foodSelect");
   },
   outdoors: function(e){
     e.preventDefault();
-    this.setState({loading: true});
-    var OutdoorsCollection = this.props.outdoorsCollection;
-    var outdoors = new OutdoorsCollection();
-    outdoors.term = "Parks";
-    outdoors.zipcode = this.state.zipcode;
-    outdoors.radius = this.state.radius;
-
-    outdoors.fetch().then(function(data){
-      var data = data.businesses[0];
-      data = JSON.stringify(data);
-      localStorage.setItem('data', data);
-      Backbone.history.navigate('app/result', {trigger: true});
-  },
-    function(error){
-      console.log(error);
-      alert("Were sorry, Your search failed, please try again");
-      this.props.changeScreen("home");
-    }.bind(this));
+    this.props.doFetch('Parks', "active,parks,beaches,hiking")
   },
   bars:function(){
     this.props.changeScreen("bars/clubs");
   },
   render: function(){
-    if(this.state.loading == true){
-      return(
-        <div id="loader">
-          <Loading type='cylon' color='#ffffff' width='175px' />
-          <h3>loading...</h3>
-        </div>
-        )
-    }
     return(
       <div className="row activity-select">
         <div className="col-md-4 food" onClick={this.food}>
@@ -223,107 +209,25 @@ var AppActivitySelect = React.createClass({
 
 
 var AppFoodSelect = React.createClass({
-  getInitialState: function(){
-    var currentUser = localStorage.getItem('Parse/finalproject/currentUser');
-    currentUser = JSON.parse(currentUser);
-    return{
-      radius: this.props.radius,
-      zipcode: currentUser.zipcode,
-      loading: false
-    }
-  },
   bFast: function(e){
     e.preventDefault();
-    this.setState({loading: true});
-    var ResultCollection = this.props.collection;
-    var result = new ResultCollection();
-    result.term = "Breakfast";
-    result.zipcode = this.state.zipcode;
-    result.radius = this.state.radius;
-
-    result.fetch().then(function(data){
-      var data = data.businesses[0];
-      data = JSON.stringify(data);
-      localStorage.setItem('data', data);
-      Backbone.history.navigate('app/result', {trigger: true});
-    },
-    function(error){
-      console.log(error);
-      alert("Were sorry, Your search failed, please try again");
-      this.props.changeScreen("home");
-    }.bind(this));
+    this.props.doFetch("Breakfast", "");
   },
+
   lunch: function(e){
     e.preventDefault();
-    this.setState({loading: true});
-    var ResultCollection = this.props.collection;
-    var result = new ResultCollection();
-    result.term = "Lunch";
-    result.zipcode = this.state.zipcode;
-    result.radius = this.state.radius;
-
-    result.fetch().then(function(data){
-      var data = data.businesses[0];
-      data = JSON.stringify(data);
-      localStorage.setItem('data', data);
-      Backbone.history.navigate('app/result', {trigger: true});
-    },
-    function(error){
-      console.log(error);
-      alert("Were sorry, Your search failed, please try again");
-      this.props.changeScreen("home");
-    }.bind(this));
+    this.props.doFetch("Lunch", "");
   },
   dinner: function(e){
     e.preventDefault();
-    this.setState({loading: true});
-    var ResultCollection = this.props.collection;
-    var result = new ResultCollection();
-    result.term = "Dinner";
-    result.zipcode = this.state.zipcode;
-    result.radius = this.state.radius;
-    result.fetch().then(function(data){
-      var data = data.businesses[0];
-      data = JSON.stringify(data);
-      localStorage.setItem('data', data);
-      Backbone.history.navigate('app/result', {trigger: true});
-    },
-    function(error){
-      console.log(error);
-      alert("Were sorry, Your search failed, please try again");
-      this.props.changeScreen("home");
-    }.bind(this));
+    this.props.doFetch("Dinner", "");
   },
   dessert: function(e){
     e.preventDefault();
-    this.setState({loading: true});
-    var ResultCollection = this.props.collection;
-    var result = new ResultCollection();
-    result.term = "Dessert";
-    result.zipcode = this.state.zipcode;
-    result.radius = this.state.radius;
+    this.props.doFetch("Dessert", "");
 
-    result.fetch().then(function(data){
-      var data = data.businesses[0];
-      data = JSON.stringify(data);
-      localStorage.setItem('data', data);
-      Backbone.history.navigate('app/result', {trigger: true});
-    },
-    function(error){
-      console.log(error);
-      alert("Were sorry, Your search failed, please try again");
-      this.props.changeScreen("home");
-    }.bind(this));
   },
   render: function(){
-    if(this.state.loading == true){
-      return(
-        <div id="loader">
-          <Loading type='cylon' color='#ffffff' width='175px' />
-          <h3>loading...</h3>
-        </div>
-        )
-    }
     return(
       <div className="row food-select">
         <div className="col-md-3 b-fast" onClick={this.bFast}>
@@ -365,66 +269,16 @@ var AppFoodSelect = React.createClass({
 
 
 var AppNighlifeSelect = React.createClass({
-  getInitialState: function(){
-    var currentUser = localStorage.getItem('Parse/finalproject/currentUser');
-    currentUser = JSON.parse(currentUser);
-    return{
-      radius: this.props.radius,
-      zipcode: currentUser.zipcode,
-      loading: false
-    }
-  },
   bars: function(e){
     e.preventDefault();
-    this.setState({loading: true});
-    var BarCollection  = this.props.barCollection;
-    var bar = new BarCollection();
-    bar.term = "Bars"
-    bar.zipcode = this.state.zipcode;
-    bar.radius = this.state.radius;
+    this.props.doFetch("Bars", "");
 
-    bar.fetch().then(function(data){
-      var data = data.businesses[0];
-      data = JSON.stringify(data);
-      localStorage.setItem('data', data);
-      Backbone.history.navigate('app/result', {trigger: true});
-    },
-    function(error){
-      console.log(error);
-      alert("Were sorry, Your search failed, please try again");
-      this.props.changeScreen("home");
-    }.bind(this));
   },
   clubs: function(e){
     e.preventDefault();
-    this.setState({loading: true});
-    var ClubCollection  = this.props.clubCollection;
-    var club = new ClubCollection();
-    club.term = "Dance+Clubs"
-    club.zipcode = this.state.zipcode;
-    club.radius = this.state.radius;
-
-    club.fetch().then(function(data){
-      var data = data.businesses[0];
-      data = JSON.stringify(data);
-      localStorage.setItem('data', data);
-      Backbone.history.navigate('app/result', {trigger: true});
-    },
-    function(error){
-      console.log(error);
-      alert("Were sorry, Your search failed, please try again");
-      this.props.changeScreen("home");
-    }.bind(this));
+    this.props.doFetch("Dance+Clubs", "");
   },
   render: function(){
-    if(this.state.loading == true){
-      return(
-        <div id="loader">
-          <Loading type='cylon' color='#ffffff' width='175px' />
-          <h3>loading...</h3>
-        </div>
-        )
-    }
     return(
       <div className="row adult-select">
         <div className="col-md-3 col-md-offset-3 bar" onClick={this.bars}>

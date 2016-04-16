@@ -6101,9 +6101,9 @@ LOGIN
 
 .app {
   position: relative;
-  height: 830px;
+  min-height: 830px;
   width: 100%;
-  background: url("../images/background0.jpg") center;
+  background: #121212 url("../images/background0.jpg") center;
   background-size: cover; }
   .app::before {
     content: "";
@@ -6173,6 +6173,18 @@ LOGIN
     .app .app-content .wandered-to {
       color: white;
       margin-top: 60px; }
+      .app .app-content .wandered-to #wandered-loader {
+        fill: #ffffff;
+        height: 64px;
+        width: 175px;
+        margin: 75px auto; }
+        .app .app-content .wandered-to #wandered-loader h3 {
+          color: white;
+          font-size: 30px;
+          font-weight: 100;
+          margin-top: 65px;
+          text-align: center;
+          letter-spacing: 5px; }
       .app .app-content .wandered-to h1 {
         text-align: center;
         font-weight: 100;
@@ -6180,7 +6192,8 @@ LOGIN
         margin-top: 0px;
         margin-bottom: 45px; }
       .app .app-content .wandered-to table {
-        text-align: center; }
+        text-align: center;
+        margin-bottom: 50px; }
         .app .app-content .wandered-to table thead {
           font-size: 20px;
           font-weight: 100;
@@ -6197,7 +6210,8 @@ LOGIN
               vertical-align: middle;
               padding: 15px 0px 15px 0px; }
               .app .app-content .wandered-to table tbody tr td img {
-                height: 120px; }
+                height: 120px;
+                width: 115px; }
               .app .app-content .wandered-to table tbody tr td .star {
                 color: lightgray;
                 font-size: 30px;

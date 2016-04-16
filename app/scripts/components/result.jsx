@@ -42,12 +42,14 @@ var Result = React.createClass({
 
           function callback(place, status) {
             if (status == google.maps.places.PlacesServiceStatus.OK) {
-                var place = JSON.stringify(place);
-                localStorage.setItem("place", place);
+                  var place = JSON.stringify(place);
+                  localStorage.setItem("place", place);
             }
           }
       }
     }
+    // this.loaded = Date.now();
+    // setInterval(this.forceUpdate,1000);
   },
   saveToWanderedTo: function(){
     var self = this;
@@ -121,6 +123,7 @@ var Result = React.createClass({
     });
   },
   render: function(){
+
     var content;
     var data = localStorage.getItem('data');
     data = JSON.parse(data);
@@ -134,20 +137,34 @@ var Result = React.createClass({
     var placeOpenBool;
     var placeHours;
     var color;
-    if (place != "undefined"){
+    if (place != "undefined" || place != "null"){
       place = JSON.parse(place);
-      placeHours= place.opening_hours.weekday_text;
-      placeOpenBool = place.opening_hours.open_now;
-      //if there is place but no hours
-      if(placeOpenBool){
-        placeOpenBool = "TRUE";
-        color = 'open-green';
-      }else {
-        placeOpenBool = "FALSE";
-        color = 'open-red';
+      console.log(place);
+      if(place.opening_hours != undefined){
+        if(place.opening_hours.weekday_text.length > 0){
+          placeHours= place.opening_hours.weekday_text;
+        }else{
+          placeHours =['','','','','','',''];
+        }
+        if(typeof(place.opening_hours.open_now) === 'boolean'){
+          placeOpenBool = place.opening_hours.open_now;
+          //if there is place but no hours
+          if(placeOpenBool){
+            placeOpenBool = "TRUE";
+            color = 'open-green';
+          }else {
+            placeOpenBool = "FALSE";
+            color = 'open-red';
+          }
+        }else{
+          placeOpenBool ="Unknown :(";
+        }
+      }else{
+        placeOpenBool ="Unknown :(";
+        placeHours =['','','','','','',''];
       }
     }else{
-      placeOpenBool ="Unknown :("
+      placeOpenBool ="Unknown :(";
       placeHours =['','','','','','',''];
     }
 

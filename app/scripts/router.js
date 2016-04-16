@@ -15,10 +15,8 @@ var Settings = require('./components/settings.jsx');
 var WanderedTo = require('./components/wandered.jsx');
 
 //models and collection
-var FoodCollection = require('./models/food');
-var ClubCollection = require('./models/clubs');
-var BarCollection = require('./models/bars');
-var OutdoorsCollection = require('./models/outdoors');
+var ResultCollection = require('./models/result');
+
 
 //Router
 var Router = Backbone.Router.extend({
@@ -65,10 +63,7 @@ var Router = Backbone.Router.extend({
         React.createElement(App, {
                                   router:this,
                                   parse:this.Parse,
-                                  foodCollection: FoodCollection,
-                                  outdoorsCollection: OutdoorsCollection,
-                                  barCollection:BarCollection,
-                                  clubColletion: ClubCollection
+                                  collection: ResultCollection
                                 }),
         this.appContainer
       );

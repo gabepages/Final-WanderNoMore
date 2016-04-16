@@ -146,6 +146,13 @@ var Settings = React.createClass({
       }
     });
   },
+  signOut: function(e){
+    e.preventDefault();
+    this.props.parse.User.logOut().then(function(){
+      console.log(this.props.parse.User.current());
+    });
+    Backbone.history.navigate('', {trigger: true});
+  },
   render: function (){
 
     return(
@@ -165,7 +172,7 @@ var Settings = React.createClass({
           </div>
           <ul className="nav" style={{"display":"none"}}>
             <li onClick={this.sendHome}>Home</li>
-            <li>Wandered&middot;To</li>
+            <li>Wandered</li>
             <li>Favorites</li>
             <li>Settings</li>
             <li id="last-nav" onClick={this.signOut}>Sign Out</li>
