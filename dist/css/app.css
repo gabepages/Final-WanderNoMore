@@ -6136,7 +6136,13 @@ LOGIN
       color: white;
       text-align: right; }
       .app .app-header .profile .icon {
-        margin: 18px 35px 0 0; }
+        margin: 3px 35px 0 0; }
+        .app .app-header .profile .icon img {
+          width: 15%;
+          height: 45px;
+          border-radius: 28px; }
+          .app .app-header .profile .icon img:hover {
+            opacity: 0.5; }
         .app .app-header .profile .icon i {
           margin-left: 2px; }
     .app .app-header .nav {
@@ -6173,6 +6179,11 @@ LOGIN
     .app .app-content .wandered-to {
       color: white;
       margin-top: 60px; }
+      .app .app-content .wandered-to #realMap {
+        height: 600px;
+        width: 100%; }
+        .app .app-content .wandered-to #realMap h5 {
+          color: black; }
       .app .app-content .wandered-to #wandered-loader {
         fill: #ffffff;
         height: 64px;
@@ -6191,6 +6202,25 @@ LOGIN
         letter-spacing: 3px;
         margin-top: 0px;
         margin-bottom: 45px; }
+      .app .app-content .wandered-to .list-map {
+        text-align: right; }
+        .app .app-content .wandered-to .list-map ul {
+          padding: 0;
+          list-style: none;
+          margin: 3px 0 0 0; }
+          .app .app-content .wandered-to .list-map ul li {
+            cursor: pointer;
+            display: inline-block;
+            font-size: 24px;
+            font-weight: 100;
+            text-transform: lowercase;
+            padding: 0px 20px 0px 20px;
+            letter-spacing: 5px; }
+            .app .app-content .wandered-to .list-map ul li:hover {
+              color: black;
+              border-bottom: 1px solid black; }
+          .app .app-content .wandered-to .list-map ul #underline {
+            border-bottom: 1px solid white; }
       .app .app-content .wandered-to table {
         text-align: center;
         margin-bottom: 50px; }
@@ -6206,6 +6236,10 @@ LOGIN
             cursor: pointer; }
             .app .app-content .wandered-to table tbody tr:hover {
               background-color: rgba(30, 30, 30, 0.6); }
+            .app .app-content .wandered-to table tbody tr #open-red {
+              color: red; }
+            .app .app-content .wandered-to table tbody tr #open-green {
+              color: green; }
             .app .app-content .wandered-to table tbody tr td {
               vertical-align: middle;
               padding: 15px 0px 15px 0px; }
@@ -6221,6 +6255,8 @@ LOGIN
                 .app .app-content .wandered-to table tbody tr td .star:hover {
                   background-color: rgba(10, 10, 10, 0.4);
                   color: #c5991f; }
+              .app .app-content .wandered-to table tbody tr td .gold-star {
+                color: #c5991f; }
     .app .app-content .settings h1 {
       margin: 50px 0 45px 0;
       color: white;
@@ -6231,21 +6267,26 @@ LOGIN
     .app .app-content .settings .image {
       text-align: center;
       margin-bottom: 35px; }
-      .app .app-content .settings .image img {
+      .app .app-content .settings .image .image-upload label img {
         cursor: pointer;
         border-radius: 125px;
         height: 200px;
         width: 200px; }
-      .app .app-content .settings .image i {
+      .app .app-content .settings .image .image-upload label #cog {
+        color: darkgray;
+        margin: -5px 0 0 -22px;
+        font-size: 55px; }
+      .app .app-content .settings .image .image-upload label i {
         color: white;
         font-size: 40px;
         position: absolute;
         top: 230px;
         left: 225px;
-        cursor: pointer;
-        display: none; }
-      .app .app-content .settings .image:hover img {
+        cursor: pointer; }
+      .app .app-content .settings .image .image-upload label:hover img {
         opacity: 0.5; }
+      .app .app-content .settings .image .image-upload input {
+        display: none; }
     .app .app-content .settings .user-info {
       color: white; }
       .app .app-content .settings .user-info h2 {
@@ -6268,9 +6309,9 @@ LOGIN
       .app .app-content .settings .user-info form {
         display: inline; }
         .app .app-content .settings .user-info form input {
-          width: 50%;
+          width: 48%;
           vertical-align: super;
-          margin-left: 22px;
+          margin-left: 28px;
           display: inline-block; }
         .app .app-content .settings .user-info form #zipcode-input {
           margin-left: 62px; }

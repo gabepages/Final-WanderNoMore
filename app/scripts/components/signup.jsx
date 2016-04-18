@@ -75,11 +75,19 @@ var CreateProfile = React.createClass({
     var zipcode = $('#cp-zipcode').val();
     localStorage.setItem('username', firstName);
     var Parse = this.props.parse;
+    var fileUploadControl = $("#cp-image")[0];
+    if (fileUploadControl.files.length > 0) {
+      var file = fileUploadControl.files[0];
+      var name = "photo.jpg";
+
+      var parseFile = new Parse.File(name, file);
+    }
     var user = Parse.User.current();
     user.set({
       "firstName": firstName,
       "lastName": lastName,
-      "zipcode": zipcode
+      "zipcode": zipcode,
+      'photo': parseFile
     });
     user.save(null, {
       success: function(user) {
@@ -103,7 +111,7 @@ var CreateProfile = React.createClass({
           <form onSubmit={this.createProfile}>
             <input type="text" className="form-control" id="cp-fname" placeholder="First Name" />
             <input type="text" className="form-control" id="cp-lname" placeholder="Last Name" />
-            <input type="text" className="form-control" id="cp-zipcode" placeholder="Zipcode" />
+            <input type="text" className="form-control" id="cp-zipcode" placeholder="Zip Code" />
             <input type='file' id='cp-image'/>
             <button type="submit" className="btn btn-default">Shall we begin?</button>
           </form>

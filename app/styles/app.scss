@@ -420,10 +420,19 @@ LOGIN
       color: white;
       text-align: right;
       .icon{
-        margin: 18px 35px 0 0;
+        margin: 3px 35px 0 0;
+        img{
+          width: 15%;
+          height: 45px;
+          border-radius: 28px;
+          &:hover{
+            opacity: 0.5;
+          }
+        }
         i{
           margin-left: 2px;
         }
+
       }
 
     }
@@ -468,6 +477,13 @@ LOGIN
     .wandered-to{
       color: white;
       margin-top: 60px;
+      #realMap{
+        height: 600px;
+        width: 100%;
+        h5{
+          color: black;
+        }
+      }
       #wandered-loader{
         fill: #ffffff;
         height: 64px;
@@ -489,6 +505,30 @@ LOGIN
         margin-top: 0px;
         margin-bottom: 45px;
       }
+      .list-map{
+        text-align: right;
+        ul{
+          padding: 0;
+          list-style: none;
+          margin: 3px 0 0 0;
+          li{
+            cursor: pointer;
+            display: inline-block;
+            font-size: 24px;
+            font-weight: 100;
+            text-transform: lowercase;
+            padding: 0px 20px 0px 20px;
+            letter-spacing: 5px;
+            &:hover{
+              color: black;
+              border-bottom: 1px solid black;
+            }
+          }
+          #underline{
+            border-bottom: 1px solid white;
+          }
+        }
+      }
       table{
         text-align: center;
         margin-bottom: 50px;
@@ -505,6 +545,12 @@ LOGIN
             cursor: pointer;
             &:hover{
               background-color: rgba(30, 30, 30, 0.6);
+            }
+            #open-red{
+              color: red;
+            }
+            #open-green{
+              color: green;
             }
             td{
               vertical-align: middle;
@@ -524,6 +570,9 @@ LOGIN
                   color: rgba(197, 153, 31, 1);
                 }
               }
+              .gold-star{
+                color: rgba(197, 153, 31, 1);
+              }
             }
           }
 
@@ -542,26 +591,39 @@ LOGIN
       .image{
         text-align: center;
         margin-bottom: 35px;
-        img{
-          cursor: pointer;
-          border-radius: 125px;
-          height: 200px;
-          width: 200px;
-        }
-        i{
-          color: white;
-          font-size: 40px;
-          position: absolute;
-          top: 230px;
-          left: 225px;
-          cursor: pointer;
-          display: none;
-        }
-        &:hover{
-          img{
-            opacity: 0.5;
+        .image-upload{
+          label{
+            img{
+              cursor: pointer;
+              border-radius: 125px;
+              height: 200px;
+              width: 200px;
+            }
+            #cog{
+              color: darkgray;
+              margin: -5px 0 0 -22px;
+              font-size: 55px;
+            }
+            i{
+              color: white;
+              font-size: 40px;
+              position: absolute;
+              top: 230px;
+              left: 225px;
+              cursor: pointer;
+            }
+            &:hover{
+              img{
+                opacity: 0.5;
+              }
+            }
+          }
+          input{
+            display: none;
           }
         }
+
+
       }
       .user-info{
         color: white;
@@ -590,9 +652,9 @@ LOGIN
        form{
          display: inline;
          input{
-            width: 50%;
+            width: 48%;
             vertical-align: super;
-            margin-left: 22px;
+            margin-left: 28px;
             display: inline-block;
          }
          #zipcode-input{

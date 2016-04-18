@@ -6,15 +6,20 @@ var Loading = require('react-loading');
 
 var WanderedTo = React.createClass({
   getInitialState: function(){
+    var currentUser = localStorage.getItem('Parse/finalproject/currentUser');
+    currentUser = JSON.parse(currentUser);
     return {
       'results': undefined,
-      'loading': true
+      'loading': true,
+      'profilePic': currentUser.photo.url,
+      'favorites': undefined
     }
   },
   componentWillMount: function(){
     var self = this;
     setTimeout(function(){
       var Parse = self.props.parse;
+      var places;
       var user = Parse.User.current();
       var Wandered = Parse.Object.extend("WanderedTo");
       var query =  new Parse.Query(Wandered);
@@ -28,13 +33,21 @@ var WanderedTo = React.createClass({
           console.log("error: ", error);
         }
       });
+      var relation = user.relation("favorites");
+      relation.query().find({
+        success: function(list) {
+          places = list.map(function(place){
+            return place.id;
+          });
+          self.setState({'favorites': places});
+        }
+      });
+
     }, 3000);
 
 
   },
-  setResults: function(results){
-    console.log(results);
-  },
+
   toggleNav: function(e){
     e.preventDefault();
     $('.nav').slideToggle(500);
@@ -48,6 +61,9 @@ var WanderedTo = React.createClass({
   sendToSettings: function(){
     Backbone.history.navigate('app/settings', {trigger: true});
   },
+  sendToFavorites: function(){
+    Backbone.history.navigate('app/favorites', {trigger: true});
+  },
   signOut: function(e){
     e.preventDefault();
     this.props.parse.User.logOut().then(function(){
@@ -55,14 +71,34 @@ var WanderedTo = React.createClass({
     });
     Backbone.history.navigate('', {trigger: true});
   },
-  favorite: function(item, e){
-    console.log(item);
+  favorite: function(item, currentlyFavorited, e){
+    var Parse = this.props.parse;
+    var user = Parse.User.current();
+    var relation = user.relation("favorites");
+    var favorites = this.state.favorites;
+
+    if(currentlyFavorited){
+      favorites = _.reject(favorites, function(id){ return id === item.id });
+      console.log(favorites);
+      relation.remove(item);
+
+    }else{
+      favorites.push(item.id);
+      relation.add(item);
+
+    }
+
+    this.setState({'favorites': favorites});
+
+    user.save();
+  },
+  getRelation: function(){
+
   },
   render: function(){
     var self = this;
     var resultsList;
     var content;
-    console.log(this.state.results);
     if(this.state.loading == true){
       content = (
           <div id="wandered-loader">
@@ -71,8 +107,18 @@ var WanderedTo = React.createClass({
           </div>
       );
     }
-    if(this.state.results){
+    if(this.state.favorites){
+
       resultsList = this.state.results.map(function(result){
+        var currentlyFavorited = false;
+        var className;
+        if($.inArray(result.id, self.state.favorites) != -1){
+          className = 'fa fa-star star gold-star';
+          currentlyFavorited = true;
+        }else{
+          className = 'fa fa-star star';
+        }
+        var bindItem = self.favorite.bind(self, result, currentlyFavorited);
         var result = result.attributes;
         var phone;
         var image = result.yelpData.image_url;
@@ -91,7 +137,7 @@ var WanderedTo = React.createClass({
               <td>{result.yelpData.name}</td>
               <td>{phone}</td>
               <td><img src={image} alt="" /></td>
-              <td><i className="fa fa-star star" aria-hidden="true"></i></td>
+              <td><i onClick={bindItem} className={className} aria-hidden="true"></i></td>
             </tr>
           );
       });
@@ -122,21 +168,21 @@ var WanderedTo = React.createClass({
           </div>
           <div className="profile col-md-3" onClick={this.toggleNav}>
             <div className='icon'>
-              <i className="fa fa-user fa-2x"></i>
+              <img src={this.state.profilePic} alt="" />
               <i className="fa fa-caret-down"></i>
             </div>
           </div>
           <ul className="nav" style={{"display":"none"}}>
             <li onClick={this.sendHome}>Home</li>
             <li onClick={this.sendToWanderedTo}>Wandered</li>
-            <li>Favorites</li>
+            <li onClick={this.sendToFavorites}>Favorites</li>
             <li onClick={this.sendToSettings}>Settings</li>
             <li id="last-nav" onClick={this.signOut}>Sign Out</li>
           </ul>
         </div>
         <div className="app-content">
           <div className="col-md-10 col-md-offset-1 wandered-to">
-            <h1>Places Youve Wandered&middot;To:</h1>
+            <h1>Places You&rsquo;ve Wandered&middot;To:</h1>
             {content}
           </div>
         </div>

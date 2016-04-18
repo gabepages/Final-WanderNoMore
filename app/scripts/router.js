@@ -13,7 +13,7 @@ var App = require('./components/app.jsx');
 var Result = require('./components/result.jsx');
 var Settings = require('./components/settings.jsx');
 var WanderedTo = require('./components/wandered.jsx');
-
+var Favorites = require('./components/favorites.jsx');
 //models and collection
 var ResultCollection = require('./models/result');
 
@@ -27,7 +27,8 @@ var Router = Backbone.Router.extend({
     "app": "app",
     "app/result": "appResult",
     "app/settings": "settings",
-    "app/wanderedTo": "wanderedTo"
+    "app/wanderedTo": "wanderedTo",
+    "app/favorites": "favorites"
   },
   initialize: function(){
     this.appContainer = $('.container-fluid')[0];
@@ -89,6 +90,12 @@ var Router = Backbone.Router.extend({
   wanderedTo: function(){
     ReactDOM.render(
       React.createElement(WanderedTo, {router:this, parse:this.Parse}),
+      this.appContainer
+    );
+  },
+  favorites: function(){
+    ReactDOM.render(
+      React.createElement(Favorites, {router:this, parse:this.Parse}),
       this.appContainer
     );
   }

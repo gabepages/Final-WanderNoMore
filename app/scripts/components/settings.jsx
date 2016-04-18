@@ -13,7 +13,8 @@ var Settings = React.createClass({
       iconThree: "fa fa-pencil",
       firstName: user.firstName,
       lastName: user.lastName,
-      zipcode: user.zipcode
+      zipcode: user.zipcode,
+      photo: user.photo.url
     }
   },
   toggleNav: function(e){
@@ -22,6 +23,15 @@ var Settings = React.createClass({
   },
   sendHome: function(){
     Backbone.history.navigate("app", {trigger: true});
+  },
+  sendToWanderedTo: function(){
+    Backbone.history.navigate('app/wanderedTo', {trigger: true});
+  },
+  sendToSettings: function(){
+    Backbone.history.navigate('app/settings', {trigger: true});
+  },
+  sendToFavorites: function(){
+    Backbone.history.navigate('app/favorites', {trigger: true});
   },
   displayEdit: function(){
     $('#image-edit').css('display', 'inline-block');
@@ -86,63 +96,71 @@ var Settings = React.createClass({
       this.setState({"iconThree": "fa fa-times"});
     }
   },
+
+
   saveFirstName: function(e){
     e.preventDefault();
     var firstName = $('#first-input').val();
-    var Parse = this.props.parse;
-    var user = Parse.User.current();
-    user.set({
-      "firstName": firstName
-    });
+    var object ={'firstName': firstName};
+    this.saveEditedItem('firstName', firstName, object);
     this.setState({'firstName': firstName});
     this.addEditFirstName();
-    user.save(null, {
-      success: function(user) {
-        // console.log("success, new name saved");
-      },
-      error: function(user, error) {
-        console.log('Failed to create new object, with error code: ' + error.message);
-        alert('Sorry, First Name Failed to save to server. Please reload page and try again.');
-      }
-    });
   },
   saveLastName: function (e){
     e.preventDefault();
     var lastName = $('#last-input').val();
-    var Parse = this.props.parse;
-    var user = Parse.User.current();
-    user.set({
-      "lastName": lastName
-    });
+    var object ={'lastName': lastName};
+    this.saveEditedItem('lastName', lastName, object);
     this.setState({'lastName': lastName});
     this.addEditLastName();
-    user.save(null, {
-      success: function(user) {
-        // console.log("success, new name saved");
-      },
-      error: function(user, error) {
-        console.log('Failed to create new object, with error code: ' + error.message);
-        alert('Sorry, Last Name Failed to save to server. Please reload page and try again.');
-      }
-    });
+  },
+  editPhoto: function(e){
+    e.preventDefault();
+    $('#cog').removeClass('hide');
+    var Parse = this.props.parse;
+    var fileUploadControl = $('#file-input')[0];
+    if (fileUploadControl.files.length > 0) {
+      var file = fileUploadControl.files[0];
+      var name = "photo.jpg";
+      var parseFile = new Parse.File(name, file);
+    }
+    var object = {'photo': parseFile};
+    console.log(parseFile);
+    this.saveEditedItem('photo', parseFile, object);
+
+  },
+  changePhoto: function(){
+    var self = this;
+    setTimeout(function(){
+      var user = localStorage.getItem('Parse/finalproject/currentUser');
+      user = JSON.parse(user);
+      console.log("local storage: ", user.photo.url);
+      self.setState({'photo': user.photo.url});
+      $('#cog').addClass('hide');
+    },100);
+
   },
   saveZipcode: function(e){
     e.preventDefault();
     var zipcode = $('#zipcode-input').val();
+    this.setState({'zipcode': zipcode});
+    var object ={'zipcode': zipcode};
+    this.saveEditedItem('zipcode', zipcode, object);
+    this.addEditZipcode();
+  },
+  saveEditedItem: function(name, value, object){
+    var self= this;
     var Parse = this.props.parse;
     var user = Parse.User.current();
-    user.set({
-      "zipcode": zipcode
-    });
-    this.setState({'zipcode': zipcode});
-    this.addEditZipcode();
+    user.set(object);
     user.save(null, {
       success: function(user) {
+        self.changePhoto();
         // console.log("success, new zipcode saved: ", user);
       },
       error: function(user, error) {
         console.log('Failed to create new object, with error code: ' + error.message);
-        alert('Sorry, Zipcode Failed to save to server. Please reload page and try again.');
+        alert('Sorry, Failed to save to server. Please reload page and try again.');
       }
     });
   },
@@ -154,7 +172,7 @@ var Settings = React.createClass({
     Backbone.history.navigate('', {trigger: true});
   },
   render: function (){
-
+    console.log("state: ",this.state.photo);
     return(
       <div className="app">
         <div className="app-header">
@@ -166,15 +184,15 @@ var Settings = React.createClass({
           </div>
           <div className="profile col-md-3" onClick={this.toggleNav}>
             <div className='icon'>
-              <i className="fa fa-user fa-2x"></i>
+              <img src={this.state.photo} alt="" />
               <i className="fa fa-caret-down"></i>
             </div>
           </div>
           <ul className="nav" style={{"display":"none"}}>
             <li onClick={this.sendHome}>Home</li>
-            <li>Wandered</li>
-            <li>Favorites</li>
-            <li>Settings</li>
+            <li onClick={this.sendToWanderedTo}>Wandered</li>
+            <li onClick={this.sendToFavorites}>Favorites</li>
+            <li onClick={this.sendToSettings}>Settings</li>
             <li id="last-nav" onClick={this.signOut}>Sign Out</li>
           </ul>
         </div>
@@ -182,9 +200,16 @@ var Settings = React.createClass({
           <div className="row">
             <div className="col-md-4 col-md-offset-4 settings">
               <h1>Settings</h1>
-              <div className="image" onMouseEnter={this.displayEdit} onMouseLeave={this.unMountEdit}>
-                <img src="images/profile-pic.jpg" alt=""/>
-                <i className="fa fa-pencil" id='image-edit' aria-hidden="true"></i>
+              <div className="image">
+                <div className="image-upload">
+                    <label htmlFor="file-input" onMouseEnter={this.displayEdit} onMouseLeave={this.unMountEdit}>
+                        <img src={this.state.photo} alt=""/>
+                        <i className="fa fa-pencil" id='image-edit' aria-hidden="true" style={{'display':'none'}}></i>
+                        <i className="fa fa-cog fa-spin fa-3x fa-fw margin-bottom hide" id='cog'></i>
+                    </label>
+                    <input onChange={this.editPhoto} id="file-input" type="file"/>
+                </div>
+
               </div>
               <div className="user-info">
                 <h2>First Name:</h2>
@@ -203,11 +228,11 @@ var Settings = React.createClass({
                 </form>
               </div>
               <div className="user-info">
-                <h2>Zipcode:</h2>
+                <h2>Zip Code:</h2>
                 <i className={this.state.iconThree} aria-hidden="true" onClick={this.addEditZipcode}></i>
                 <h2 id='zipcode'>{this.state.zipcode}</h2>
                 <form onSubmit={this.saveZipcode}>
-                  <input type="text" className="form-control edit-inputs" placeholder="Zipcode" id='zipcode-input' style={{'display':"none"}}/>
+                  <input type="text" className="form-control edit-inputs" placeholder="Zip Code" id='zipcode-input' style={{'display':"none"}}/>
                 </form>
               </div>
             </div>

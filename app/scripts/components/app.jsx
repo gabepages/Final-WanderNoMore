@@ -13,7 +13,8 @@ var App = React.createClass({
       "screen": "home",
       "radius": null,
       'zipcode': currentUser.zipcode,
-      'radius':''
+      'radius':'',
+      'profilePic': currentUser.photo.url
     }
   },
   toggleNav: function(e){
@@ -28,6 +29,9 @@ var App = React.createClass({
   },
   sendToSettings: function(){
     Backbone.history.navigate('app/settings', {trigger: true});
+  },
+  sendToFavorites: function(){
+    Backbone.history.navigate('app/favorites', {trigger: true});
   },
   handleScreenChange: function(screen){
     this.setState({"screen": screen});
@@ -94,14 +98,14 @@ var App = React.createClass({
           </div>
           <div className="profile col-md-3" onClick={this.toggleNav}>
             <div className='icon'>
-              <i className="fa fa-user fa-2x"></i>
+              <img src={this.state.profilePic} alt="" />
               <i className="fa fa-caret-down"></i>
             </div>
           </div>
           <ul className="nav" style={{"display":"none"}}>
             <li onClick={this.sendHome}>Home</li>
             <li onClick={this.sendToWanderedTo}>Wandered</li>
-            <li>Favorites</li>
+            <li onClick={this.sendToFavorites}>Favorites</li>
             <li onClick={this.sendToSettings}>Settings</li>
             <li id="last-nav" onClick={this.signOut}>Sign Out</li>
           </ul>
@@ -211,7 +215,7 @@ var AppActivitySelect = React.createClass({
 var AppFoodSelect = React.createClass({
   bFast: function(e){
     e.preventDefault();
-    this.props.doFetch("Breakfast", "");
+    this.props.doFetch("Breakfast", "breakfast_brunch");
   },
 
   lunch: function(e){
@@ -224,7 +228,7 @@ var AppFoodSelect = React.createClass({
   },
   dessert: function(e){
     e.preventDefault();
-    this.props.doFetch("Dessert", "");
+    this.props.doFetch("Dessert", "desserts");
 
   },
   render: function(){
@@ -276,7 +280,7 @@ var AppNighlifeSelect = React.createClass({
   },
   clubs: function(e){
     e.preventDefault();
-    this.props.doFetch("Dance+Clubs", "");
+    this.props.doFetch("Dance+Clubs", "comedyclubs,danceclubs,countrydancehalls,karaoke");
   },
   render: function(){
     return(

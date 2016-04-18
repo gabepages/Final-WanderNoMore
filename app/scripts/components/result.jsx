@@ -7,8 +7,11 @@ var Loading = require('react-loading');
 
 var Result = React.createClass({
   getInitialState: function(){
+    var user = localStorage.getItem('Parse/finalproject/currentUser');
+    user = JSON.parse(user);
     return{
-      'saved':false
+      'saved':false,
+      profilePic: user.photo.url
     }
   },
   componentWillMount: function(){
@@ -48,8 +51,7 @@ var Result = React.createClass({
           }
       }
     }
-    // this.loaded = Date.now();
-    // setInterval(this.forceUpdate,1000);
+
   },
   saveToWanderedTo: function(){
     var self = this;
@@ -111,9 +113,14 @@ var Result = React.createClass({
   sendHome: function(){
     Backbone.history.navigate('app', {trigger:true});
   },
-  sendToApp: function(e){
-    e.preventDefault();
-    Backbone.history.navigate('app', {trigger:true});
+  sendToWanderedTo: function(){
+    Backbone.history.navigate('app/wanderedTo', {trigger: true});
+  },
+  sendToSettings: function(){
+    Backbone.history.navigate('app/settings', {trigger: true});
+  },
+  sendToFavorites: function(){
+    Backbone.history.navigate('app/favorites', {trigger: true});
   },
   signOut: function(e){
     e.preventDefault();
@@ -209,7 +216,7 @@ var Result = React.createClass({
             </div>
           </div>
           <div className="row result-buttons">
-            <div className="col-md-3 col-md-offset-3 button" id="red" onClick={this.sendToApp}>
+            <div className="col-md-3 col-md-offset-3 button" id="red" onClick={this.sendHome}>
               <div className="section-image">
                 <i className="fa fa-times fa-5x"></i>
               </div>
@@ -240,15 +247,15 @@ var Result = React.createClass({
           </div>
           <div className="profile col-md-3" onClick={this.toggleNav}>
             <div className='icon'>
-              <i className="fa fa-user fa-2x"></i>
+              <img src={this.state.profilePic} alt="" />
               <i className="fa fa-caret-down"></i>
             </div>
           </div>
           <ul className="nav" style={{"display":"none"}}>
             <li onClick={this.sendHome}>Home</li>
-            <li>Wandered</li>
-            <li>Favorites</li>
-            <li>Settings</li>
+            <li onClick={this.sendToWanderedTo}>Wandered</li>
+            <li onClick={this.sendToFavorites}>Favorites</li>
+            <li onClick={this.sendToSettings}>Settings</li>
             <li id="last-nav" onClick={this.signOut}>Sign Out</li>
           </ul>
         </div>
