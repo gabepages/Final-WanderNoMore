@@ -196,7 +196,7 @@ var Settings = React.createClass({
             <li id="last-nav" onClick={this.signOut}>Sign Out</li>
           </ul>
         </div>
-        <div className="app-content">
+        <div className="app-content animated fadeIn">
           <div className="row">
             <div className="col-md-4 col-md-offset-4 settings">
               <h1>Settings</h1>

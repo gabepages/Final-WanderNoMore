@@ -11,7 +11,8 @@ var Result = React.createClass({
     user = JSON.parse(user);
     return{
       'saved':false,
-      profilePic: user.photo.url
+      'profilePic': user.photo.url,
+      'placeHours': {}
     }
   },
   componentWillMount: function(){
@@ -62,18 +63,18 @@ var Result = React.createClass({
       yelpData = JSON.parse(yelpData);
       var googleData = localStorage.getItem('place');
       googleData = JSON.parse(googleData);
-      if(googleData.opening_hours){
-        if (googleData.opening_hours.open_now && googleData.opening_hours.weekday_text){
+      if(typeof(googleData.opening_hours) == "object"){
+        if(typeof(googleData.opening_hours.open_now) =="boolean" && Array.isArray(googleData.opening_hours.weekday_text)){
           googleData ={
             "openNow": googleData.opening_hours.open_now,
             "weekdayHours": googleData.opening_hours.weekday_text
           }
-        }else if (googleData.opening_hours.open_now) {
+        }else if (typeof(googleData.opening_hours.open_now) == "boolean") {
           googleData ={
             "openNow": googleData.opening_hours.open_now,
             "weekdayHours": ['','','','','','','']
           }
-        }else{
+        }else if(typeof(googleData.opening_hours.weekday_text) == "array"){
           googleData ={
             "openNow": "Unknow :(",
             "weekdayHours":googleData.opening_hours.weekday_text
@@ -85,6 +86,7 @@ var Result = React.createClass({
           "weekdayHours":['','','','','','','']
         }
       }
+
       var user = Parse.User.current();
       var WanderedTo = Parse.Object.extend('WanderedTo');
       var wandered = new WanderedTo();
@@ -103,7 +105,7 @@ var Result = React.createClass({
           }
         });
 
-    },3500);
+    },3000);
 
   },
   toggleNav: function(e){
@@ -189,7 +191,7 @@ var Result = React.createClass({
     }else{
       content = (
         <div className="app-content">
-          <div className="row result">
+          <div className="row result animated fadeIn">
             <div className="col-md-5 col-md-offset-2 result-info">
               <h1>{data.name}</h1>
               <a href=""><h3>{data.location.address[0]}, {data.location.city}, {data.location.state_code} {data.location.postal_code}</h3></a>
@@ -215,7 +217,7 @@ var Result = React.createClass({
 
             </div>
           </div>
-          <div className="row result-buttons">
+          <div className="row result-buttons animated fadeIn">
             <div className="col-md-3 col-md-offset-3 button" id="red" onClick={this.sendHome}>
               <div className="section-image">
                 <i className="fa fa-times fa-5x"></i>
@@ -260,6 +262,7 @@ var Result = React.createClass({
           </ul>
         </div>
         {content}
+        <div style={{"clear": "both"}}></div>
       </div>
 
     )

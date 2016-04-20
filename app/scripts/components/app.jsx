@@ -89,7 +89,7 @@ var App = React.createClass({
 
     return(
       <div className="app">
-        <div className="app-header">
+        <div className="app-header animated fadeIn">
           <div className="col-md-3">
             <img src="images/whitedots.svg" alt="" onClick={this.sendHome}/>
           </div>
@@ -127,7 +127,7 @@ var AppHome = React.createClass({
   },
   render: function(){
     return(
-      <div className="col-md-12 start">
+      <div className="col-md-12 start animated fadeIn">
         <a href="#" onClick={this.handleScreen}>
 
           <h3>Start Adventure Here</h3>
@@ -150,7 +150,7 @@ var AppRadiusSelect = React.createClass({
   },
   render: function(){
     return(
-      <div className="col-md-12 radius">
+      <div className="col-md-12 radius animated fadeIn">
         <h3>How Far would you like to travel?</h3>
         <a href="#" onClick={this.toggleRadius}>
           <h3>Radius</h3>
@@ -181,7 +181,7 @@ var AppActivitySelect = React.createClass({
   },
   render: function(){
     return(
-      <div className="row activity-select">
+      <div className="row activity-select animated fadeIn">
         <div className="col-md-4 food" onClick={this.food}>
           <div className="section-image" id='food'>
             <i className="fa fa-cutlery fa-5x"></i>
@@ -233,7 +233,7 @@ var AppFoodSelect = React.createClass({
   },
   render: function(){
     return(
-      <div className="row food-select">
+      <div className="row food-select animated fadeIn">
         <div className="col-md-3 b-fast" onClick={this.bFast}>
           <div className="section-image">
             <img src="images/b-fast.svg"/>
@@ -284,10 +284,10 @@ var AppNighlifeSelect = React.createClass({
   },
   render: function(){
     return(
-      <div className="row adult-select">
+      <div className="row adult-select animated fadeIn">
         <div className="col-md-3 col-md-offset-3 bar" onClick={this.bars}>
           <div className="section-image">
-            <img src="images/b-fast.svg"/>
+            <i className="fa fa-glass fa-5x"></i>
           </div>
           <div className="info-content">
             <h2>Bars</h2>
@@ -295,7 +295,7 @@ var AppNighlifeSelect = React.createClass({
         </div>
         <div className="col-md-3 club" onClick={this.clubs}>
           <div className="section-image">
-            <img src="images/lunch.svg"/>
+            <img src="images/club1.svg"/>
           </div>
           <div className="info-content">
             <h2>Clubs</h2>

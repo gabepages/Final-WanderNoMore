@@ -110,6 +110,7 @@ var WanderedTo = React.createClass({
     if(this.state.favorites){
 
       resultsList = this.state.results.map(function(result){
+        console.log(result.attributes);
         var currentlyFavorited = false;
         var className;
         if($.inArray(result.id, self.state.favorites) != -1){
@@ -142,7 +143,7 @@ var WanderedTo = React.createClass({
           );
       });
       content = (
-        <table className="table table-hover" >
+        <table className="table table-hover animated fadeIn" >
           <thead>
             <tr>
               <td>Name</td>
@@ -180,7 +181,7 @@ var WanderedTo = React.createClass({
             <li id="last-nav" onClick={this.signOut}>Sign Out</li>
           </ul>
         </div>
-        <div className="app-content">
+        <div className="app-content animated fadeIn">
           <div className="col-md-10 col-md-offset-1 wandered-to">
             <h1>Places You&rsquo;ve Wandered&middot;To:</h1>
             {content}

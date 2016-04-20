@@ -163,7 +163,7 @@ var App = React.createClass({displayName: "App",
 
     return(
       React.createElement("div", {className: "app"}, 
-        React.createElement("div", {className: "app-header"}, 
+        React.createElement("div", {className: "app-header animated fadeIn"}, 
           React.createElement("div", {className: "col-md-3"}, 
             React.createElement("img", {src: "images/whitedots.svg", alt: "", onClick: this.sendHome})
           ), 
@@ -201,7 +201,7 @@ var AppHome = React.createClass({displayName: "AppHome",
   },
   render: function(){
     return(
-      React.createElement("div", {className: "col-md-12 start"}, 
+      React.createElement("div", {className: "col-md-12 start animated fadeIn"}, 
         React.createElement("a", {href: "#", onClick: this.handleScreen}, 
 
           React.createElement("h3", null, "Start Adventure Here")
@@ -224,7 +224,7 @@ var AppRadiusSelect = React.createClass({displayName: "AppRadiusSelect",
   },
   render: function(){
     return(
-      React.createElement("div", {className: "col-md-12 radius"}, 
+      React.createElement("div", {className: "col-md-12 radius animated fadeIn"}, 
         React.createElement("h3", null, "How Far would you like to travel?"), 
         React.createElement("a", {href: "#", onClick: this.toggleRadius}, 
           React.createElement("h3", null, "Radius"), 
@@ -255,7 +255,7 @@ var AppActivitySelect = React.createClass({displayName: "AppActivitySelect",
   },
   render: function(){
     return(
-      React.createElement("div", {className: "row activity-select"}, 
+      React.createElement("div", {className: "row activity-select animated fadeIn"}, 
         React.createElement("div", {className: "col-md-4 food", onClick: this.food}, 
           React.createElement("div", {className: "section-image", id: "food"}, 
             React.createElement("i", {className: "fa fa-cutlery fa-5x"})
@@ -307,7 +307,7 @@ var AppFoodSelect = React.createClass({displayName: "AppFoodSelect",
   },
   render: function(){
     return(
-      React.createElement("div", {className: "row food-select"}, 
+      React.createElement("div", {className: "row food-select animated fadeIn"}, 
         React.createElement("div", {className: "col-md-3 b-fast", onClick: this.bFast}, 
           React.createElement("div", {className: "section-image"}, 
             React.createElement("img", {src: "images/b-fast.svg"})
@@ -358,10 +358,10 @@ var AppNighlifeSelect = React.createClass({displayName: "AppNighlifeSelect",
   },
   render: function(){
     return(
-      React.createElement("div", {className: "row adult-select"}, 
+      React.createElement("div", {className: "row adult-select animated fadeIn"}, 
         React.createElement("div", {className: "col-md-3 col-md-offset-3 bar", onClick: this.bars}, 
           React.createElement("div", {className: "section-image"}, 
-            React.createElement("img", {src: "images/b-fast.svg"})
+            React.createElement("i", {className: "fa fa-glass fa-5x"})
           ), 
           React.createElement("div", {className: "info-content"}, 
             React.createElement("h2", null, "Bars")
@@ -369,7 +369,7 @@ var AppNighlifeSelect = React.createClass({displayName: "AppNighlifeSelect",
         ), 
         React.createElement("div", {className: "col-md-3 club", onClick: this.clubs}, 
           React.createElement("div", {className: "section-image"}, 
-            React.createElement("img", {src: "images/lunch.svg"})
+            React.createElement("img", {src: "images/club1.svg"})
           ), 
           React.createElement("div", {className: "info-content"}, 
             React.createElement("h2", null, "Clubs")
@@ -479,11 +479,12 @@ var Favorites = React.createClass({displayName: "Favorites",
       );
     }
     if(this.state.listVsMap == 'map'){
-      content = React.createElement(MapView, {toList: this.triggerList})
+      content = React.createElement(MapView, {toList: this.triggerList, results: this.state.results})
     }else{
       if(this.state.results){
         resultsList = this.state.results.map(function(result){
           var result = result.attributes;
+          console.log(result);
           var placeOpenBool;
           var color;
           var phone;
@@ -500,6 +501,7 @@ var Favorites = React.createClass({displayName: "Favorites",
           }
           if(typeof(result.googleData.openNow) === 'boolean'){
             placeOpenBool = result.googleData.openNow;
+
             if(placeOpenBool){
               placeOpenBool = "TRUE";
               color = 'open-green';
@@ -514,18 +516,21 @@ var Favorites = React.createClass({displayName: "Favorites",
               React.createElement("tr", {key: result.createdAt}, 
                 React.createElement("td", null, result.yelpData.name), 
                 React.createElement("td", null, phone), 
-                React.createElement("td", {id: color}, placeOpenBool), 
+                React.createElement("td", null, 
+                  React.createElement("p", null, result.yelpData.location.address[0], ","), 
+                  React.createElement("p", null, result.yelpData.location.city, ",", result.yelpData.location.state_code, 
+                    result.yelpData.location.postal_code)), 
                 React.createElement("td", null, React.createElement("img", {src: image, alt: ""}))
               )
             );
         });
         content = (
-          React.createElement("table", {className: "table table-hover"}, 
+          React.createElement("table", {className: "table table-hover animated fadeIn"}, 
             React.createElement("thead", null, 
               React.createElement("tr", null, 
                 React.createElement("td", null, "Name"), 
                 React.createElement("td", null, "Phone-Number"), 
-                React.createElement("td", null, "Open Now"), 
+                React.createElement("td", null, "Address"), 
                 React.createElement("td", null, "Picture")
               )
             ), 
@@ -560,7 +565,7 @@ var Favorites = React.createClass({displayName: "Favorites",
             React.createElement("li", {id: "last-nav", onClick: this.signOut}, "Sign Out")
           )
         ), 
-        React.createElement("div", {className: "app-content"}, 
+        React.createElement("div", {className: "app-content animated fadeIn"}, 
           React.createElement("div", {className: "col-md-10 col-md-offset-1 wandered-to"}, 
             React.createElement("div", {className: "row"}, 
               React.createElement("div", {className: "col-md-4 col-md-offset-4"}, 
@@ -584,30 +589,60 @@ var Favorites = React.createClass({displayName: "Favorites",
 
 
 var MapView = React.createClass({displayName: "MapView",
+  getInitialState: function(){
+    return {
+      "results": this.props.results
+    }
+  },
   componentDidMount: function(){
-    var map;
-    var LatLng = {lat: 34.851838, lng:  -82.399542};
-    map = new google.maps.Map(document.getElementById('realMap'), {
-      center: LatLng,
-      zoom: 14
-    });
-    var marker = new google.maps.Marker({
-       position: LatLng,
-       map: map,
-       animation: google.maps.Animation.DROP,
-       title: 'Greenville'
-     });
-     var contentString = "<h5>Greenville, SC</h5>"
-     var infowindow = new google.maps.InfoWindow({
-        content: contentString
-     });
-     marker.addListener('click', function() {
-        infowindow.open(map, marker);
-    });
+      var user = localStorage.getItem('Parse/finalproject/currentUser');
+      user = JSON.parse(user);
+      var self = this;
+      var lat;
+      var lng;
+      var map;
+      var address = user.zipcode;
+      var geocoder = new google.maps.Geocoder();
+      geocoder.geocode( { 'address': address}, function(results, status) {
+         if (status == google.maps.GeocoderStatus.OK) {
+            lat = results[0].geometry.location.lat();
+            lng = results[0].geometry.location.lng();
+            map = new google.maps.Map(document.getElementById('realMap'), {
+              center: {"lat": lat, "lng": lng},
+              zoom: 9
+            });
+            var makeMarkers = self.state.results.map(function(result){
+              var result = result.attributes;
+              var lat = result.yelpData.location.coordinate.latitude;
+              var lng = result.yelpData.location.coordinate.longitude;
+              var marker = new google.maps.Marker({
+                 position:{"lat": lat, 'lng': lng},
+                 map: map,
+                 animation: google.maps.Animation.DROP,
+               });
+
+               var infowindow = new google.maps.InfoWindow({
+                content: "<div class='infoWindow'>" + "<h3>" + result.yelpData.name + "</h3>" + "</div>"
+              });
+              marker.addListener('click', function() {
+                infowindow.open(map, marker);
+              });
+            });
+          } else {
+           alert("Geocode was not successful for the following reason: " + status);
+         }
+      });
+
+
+
+
+
+
+
   },
   render: function(){
     return(
-      React.createElement("div", {id: "realMap", className: "col-md-8"})
+      React.createElement("div", {id: "realMap", className: "col-md-8 animated fadeIn"})
     )
   }
 });
@@ -655,11 +690,11 @@ var Login = React.createClass({displayName: "Login",
   sendToApp: function(){
     setTimeout(function(){
       Backbone.history.navigate('app', {trigger: true});
-    },2500);
+    },3000);
   },
   render: function(){
     var content =(
-                React.createElement("div", {className: "login-content col-md-4 col-md-offset-4"}, 
+                React.createElement("div", {className: "login-content col-md-4 col-md-offset-4 animated fadeIn"}, 
                   React.createElement("h3", null, "Welcome. Please Login."), 
                   React.createElement("form", {onSubmit: this.login}, 
                     React.createElement("input", {type: "email", className: "form-control", id: "login-e", placeholder: "Email"}), 
@@ -669,19 +704,9 @@ var Login = React.createClass({displayName: "Login",
                   React.createElement("p", null, "New Here? ", React.createElement("a", {href: "#signup"}, "Sign up"))
                 )
                 );
-    if(this.state.loading == true){
-      content = (
-                React.createElement("div", {className: "login-content col-md-4 col-md-offset-4"}, 
-                  React.createElement("div", {id: "loader"}, 
-                    React.createElement(Loading, {type: "cylon", color: "#ffffff", width: "175px"}), 
-                    React.createElement("h3", null, "loading...")
-                  )
-                )
-      );
-    }
     if(this.state.sayHello == true){
       content = (
-        React.createElement("div", {className: "say-hello col-md-12"}, 
+        React.createElement("div", {className: "say-hello col-md-12 animated fadeIn"}, 
           React.createElement("h1", null, "Hello ", this.state.username, ","), 
           React.createElement("h1", null, "Hope all is well.")
         )
@@ -691,15 +716,11 @@ var Login = React.createClass({displayName: "Login",
     return(
       React.createElement("div", {className: "login"}, 
         React.createElement("div", {className: "row  logo-header"}, 
-          React.createElement("div", {className: "col-md-3 small-header"}, 
-            React.createElement("img", {src: "images/blackdots.svg", alt: ""}), 
-            React.createElement("h5", null, "Wander No More")
-          ), 
-          React.createElement("div", {className: "small-nav col-md-3"}, 
-            React.createElement("a", {href: "#"}, "Home")
+          React.createElement("div", {className: "col-md-12 small-header"}, 
+            React.createElement("img", {src: "images/blackdots.svg", alt: ""})
           )
         ), 
-        React.createElement("div", {className: "row"}, 
+        React.createElement("div", {className: "row animated fadeIn"}, 
             content
         )
       )
@@ -725,7 +746,8 @@ var Result = React.createClass({displayName: "Result",
     user = JSON.parse(user);
     return{
       'saved':false,
-      profilePic: user.photo.url
+      'profilePic': user.photo.url,
+      'placeHours': {}
     }
   },
   componentWillMount: function(){
@@ -776,18 +798,18 @@ var Result = React.createClass({displayName: "Result",
       yelpData = JSON.parse(yelpData);
       var googleData = localStorage.getItem('place');
       googleData = JSON.parse(googleData);
-      if(googleData.opening_hours){
-        if (googleData.opening_hours.open_now && googleData.opening_hours.weekday_text){
+      if(typeof(googleData.opening_hours) == "object"){
+        if(typeof(googleData.opening_hours.open_now) =="boolean" && Array.isArray(googleData.opening_hours.weekday_text)){
           googleData ={
             "openNow": googleData.opening_hours.open_now,
             "weekdayHours": googleData.opening_hours.weekday_text
           }
-        }else if (googleData.opening_hours.open_now) {
+        }else if (typeof(googleData.opening_hours.open_now) == "boolean") {
           googleData ={
             "openNow": googleData.opening_hours.open_now,
             "weekdayHours": ['','','','','','','']
           }
-        }else{
+        }else if(typeof(googleData.opening_hours.weekday_text) == "array"){
           googleData ={
             "openNow": "Unknow :(",
             "weekdayHours":googleData.opening_hours.weekday_text
@@ -799,6 +821,7 @@ var Result = React.createClass({displayName: "Result",
           "weekdayHours":['','','','','','','']
         }
       }
+
       var user = Parse.User.current();
       var WanderedTo = Parse.Object.extend('WanderedTo');
       var wandered = new WanderedTo();
@@ -817,7 +840,7 @@ var Result = React.createClass({displayName: "Result",
           }
         });
 
-    },3500);
+    },3000);
 
   },
   toggleNav: function(e){
@@ -903,7 +926,7 @@ var Result = React.createClass({displayName: "Result",
     }else{
       content = (
         React.createElement("div", {className: "app-content"}, 
-          React.createElement("div", {className: "row result"}, 
+          React.createElement("div", {className: "row result animated fadeIn"}, 
             React.createElement("div", {className: "col-md-5 col-md-offset-2 result-info"}, 
               React.createElement("h1", null, data.name), 
               React.createElement("a", {href: ""}, React.createElement("h3", null, data.location.address[0], ", ", data.location.city, ", ", data.location.state_code, " ", data.location.postal_code)), 
@@ -929,7 +952,7 @@ var Result = React.createClass({displayName: "Result",
 
             )
           ), 
-          React.createElement("div", {className: "row result-buttons"}, 
+          React.createElement("div", {className: "row result-buttons animated fadeIn"}, 
             React.createElement("div", {className: "col-md-3 col-md-offset-3 button", id: "red", onClick: this.sendHome}, 
               React.createElement("div", {className: "section-image"}, 
                 React.createElement("i", {className: "fa fa-times fa-5x"})
@@ -973,7 +996,8 @@ var Result = React.createClass({displayName: "Result",
             React.createElement("li", {id: "last-nav", onClick: this.signOut}, "Sign Out")
           )
         ), 
-        content
+        content, 
+        React.createElement("div", {style: {"clear": "both"}})
       )
 
     )
@@ -1194,7 +1218,7 @@ var Settings = React.createClass({displayName: "Settings",
             React.createElement("li", {id: "last-nav", onClick: this.signOut}, "Sign Out")
           )
         ), 
-        React.createElement("div", {className: "app-content"}, 
+        React.createElement("div", {className: "app-content animated fadeIn"}, 
           React.createElement("div", {className: "row"}, 
             React.createElement("div", {className: "col-md-4 col-md-offset-4 settings"}, 
               React.createElement("h1", null, "Settings"), 
@@ -1250,6 +1274,7 @@ var $ = require('jquery');
 var Backbone = require('backbone');
 var React = require('react');
 var ReactDOM = require('react-dom');
+var Loading = require('react-loading');
 
 
 
@@ -1283,16 +1308,12 @@ var Signup = React.createClass({displayName: "Signup",
     return(
       React.createElement("div", {className: "signup"}, 
         React.createElement("div", {className: "row  logo-header"}, 
-          React.createElement("div", {className: "col-md-3 small-header"}, 
-            React.createElement("img", {src: "images/blackdots.svg", alt: ""}), 
-            React.createElement("h5", null, "Wander No More")
-          ), 
-          React.createElement("div", {className: "small-nav col-md-3"}, 
-            React.createElement("a", {href: "#"}, "Home")
+          React.createElement("div", {className: "col-md-12 small-header"}, 
+            React.createElement("img", {src: "images/blackdots.svg", alt: ""})
           )
         ), 
         React.createElement("div", {className: "row"}, 
-          React.createElement("div", {className: "signup-content col-md-4 col-md-offset-4"}, 
+          React.createElement("div", {className: "signup-content col-md-4 col-md-offset-4 animated fadeIn"}, 
             React.createElement("h3", null, "Welcome. Please sign up."), 
             React.createElement("form", {onSubmit: this.signUp}, 
               React.createElement("input", {type: "email", className: "form-control", id: "signup-e", placeholder: "Email"}), 
@@ -1312,7 +1333,8 @@ var Signup = React.createClass({displayName: "Signup",
 var CreateProfile = React.createClass({displayName: "CreateProfile",
   getInitialState: function(){
     return{
-      'sayHello': false
+      'sayHello': false,
+      'loading': false
     }
   },
   createProfile: function(e){
@@ -1321,30 +1343,37 @@ var CreateProfile = React.createClass({displayName: "CreateProfile",
     var firstName = $('#cp-fname').val();
     var lastName = $('#cp-lname').val();
     var zipcode = $('#cp-zipcode').val();
-    localStorage.setItem('username', firstName);
-    var Parse = this.props.parse;
     var fileUploadControl = $("#cp-image")[0];
-    if (fileUploadControl.files.length > 0) {
-      var file = fileUploadControl.files[0];
-      var name = "photo.jpg";
+    this.setState({"loading": true});
+    localStorage.setItem('username', firstName);
 
-      var parseFile = new Parse.File(name, file);
-    }
-    var user = Parse.User.current();
-    user.set({
-      "firstName": firstName,
-      "lastName": lastName,
-      "zipcode": zipcode,
-      'photo': parseFile
-    });
-    user.save(null, {
-      success: function(user) {
-        self.setState({'sayHello': true});
-      },
-      error: function(user, error) {
-        console.log('Failed to create new object, with error code: ' + error.message);
+    setTimeout(function(){
+      var Parse = self.props.parse;
+
+      if (fileUploadControl.files.length > 0) {
+        var file = fileUploadControl.files[0];
+        var name = "photo.jpg";
+
+        var parseFile = new Parse.File(name, file);
       }
-    });
+      var user = Parse.User.current();
+      user.set({
+        "firstName": firstName,
+        "lastName": lastName,
+        "zipcode": zipcode,
+        'photo': parseFile
+      });
+      user.save(null, {
+        success: function(user) {
+          self.setState({'loading': false});
+          self.setState({'sayHello': true});
+        },
+        error: function(user, error) {
+          console.log('Failed to create new object, with error code: ' + error.message);
+        }
+      });
+    },2750);
+
   },
 
   render: function(){
@@ -1352,9 +1381,16 @@ var CreateProfile = React.createClass({displayName: "CreateProfile",
     if(this.state.sayHello == true){
       var name = localStorage.getItem('username');
       content = React.createElement(SayHello, {name: name});
+    }else if(this.state.loading == true){
+      content = (
+          React.createElement("div", {id: "loader"}, 
+            React.createElement(Loading, {type: "cylon", color: "#ffffff", width: "175px"}), 
+            React.createElement("h3", null, "Loading..")
+          )
+      );
     }else{
       content =(
-        React.createElement("div", {className: "login-content col-md-4 col-md-offset-4"}, 
+        React.createElement("div", {className: "login-content col-md-4 col-md-offset-4 animated fadeIn"}, 
           React.createElement("h3", null, "Prepare to be extemporaneous."), 
           React.createElement("form", {onSubmit: this.createProfile}, 
             React.createElement("input", {type: "text", className: "form-control", id: "cp-fname", placeholder: "First Name"}), 
@@ -1371,12 +1407,8 @@ var CreateProfile = React.createClass({displayName: "CreateProfile",
     return(
       React.createElement("div", {className: "login"}, 
         React.createElement("div", {className: "row  logo-header"}, 
-          React.createElement("div", {className: "col-md-3 small-header"}, 
-            React.createElement("img", {src: "images/bestlogo.png", alt: ""}), 
-            React.createElement("h5", null, "Wander No More")
-          ), 
-          React.createElement("div", {className: "small-nav col-md-3"}, 
-            React.createElement("a", {href: "#"}, "Home")
+          React.createElement("div", {className: "col-md-12 small-header"}, 
+            React.createElement("img", {src: "images/blackdots.svg", alt: ""})
           )
         ), 
         React.createElement("div", {className: "row"}, 
@@ -1395,7 +1427,7 @@ var SayHello = React.createClass({displayName: "SayHello",
   },
   render: function(){
     return(
-      React.createElement("div", {className: "say-hello col-md-12"}, 
+      React.createElement("div", {className: "say-hello col-md-12 animated fadeIn"}, 
         React.createElement("h1", null, "Hello ", this.props.name, ","), 
         React.createElement("h1", null, "Hope all is well.")
       )
@@ -1406,7 +1438,7 @@ var SayHello = React.createClass({displayName: "SayHello",
 
 module.exports = Signup;
 
-},{"backbone":27,"jquery":127,"react":309,"react-dom":172}],8:[function(require,module,exports){
+},{"backbone":27,"jquery":127,"react":309,"react-dom":172,"react-loading":173}],8:[function(require,module,exports){
 "use strict";
 var $ = require('jquery');
 var _ = require('underscore');
@@ -1520,6 +1552,7 @@ var WanderedTo = React.createClass({displayName: "WanderedTo",
     if(this.state.favorites){
 
       resultsList = this.state.results.map(function(result){
+        console.log(result.attributes);
         var currentlyFavorited = false;
         var className;
         if($.inArray(result.id, self.state.favorites) != -1){
@@ -1552,7 +1585,7 @@ var WanderedTo = React.createClass({displayName: "WanderedTo",
           );
       });
       content = (
-        React.createElement("table", {className: "table table-hover"}, 
+        React.createElement("table", {className: "table table-hover animated fadeIn"}, 
           React.createElement("thead", null, 
             React.createElement("tr", null, 
               React.createElement("td", null, "Name"), 
@@ -1590,7 +1623,7 @@ var WanderedTo = React.createClass({displayName: "WanderedTo",
             React.createElement("li", {id: "last-nav", onClick: this.signOut}, "Sign Out")
           )
         ), 
-        React.createElement("div", {className: "app-content"}, 
+        React.createElement("div", {className: "app-content animated fadeIn"}, 
           React.createElement("div", {className: "col-md-10 col-md-offset-1 wandered-to"}, 
             React.createElement("h1", null, "Places You’ve Wandered·To:"), 
             content

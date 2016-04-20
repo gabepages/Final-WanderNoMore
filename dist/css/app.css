@@ -5944,6 +5944,19 @@ LOGIN
   background-size: cover;
   height: 830px;
   margin: 0 auto; }
+  .login #loader {
+    fill: #ffffff;
+    height: 64px;
+    width: 175px;
+    margin: 0px auto;
+    position: relative; }
+    .login #loader h3 {
+      color: white;
+      font-size: 30px;
+      font-weight: 100;
+      margin-top: 65px;
+      text-align: center;
+      letter-spacing: 5px; }
   .login::before {
     content: "";
     position: absolute;
@@ -5961,34 +5974,13 @@ LOGIN
   .login .logo-header {
     margin-bottom: 170px; }
     .login .logo-header .small-header {
-      margin-top: 3px; }
+      margin-top: 20px;
+      text-align: center; }
       .login .logo-header .small-header img {
         margin-right: 5px;
         vertical-align: text-bottom;
-        height: 25px;
-        width: 25px; }
-      .login .logo-header .small-header h5 {
-        font-family: Karla;
-        text-transform: uppercase;
-        display: inline-block;
-        color: white;
-        font-size: 18px;
-        font-weight: 100; }
-    .login .logo-header .small-nav {
-      float: right;
-      text-align: right;
-      text-transform: uppercase;
-      padding: 10px 10px 0 0; }
-      .login .logo-header .small-nav a {
-        font-family: Karla;
-        margin: 13px 15px;
-        color: white;
-        border: none;
-        font-size: 16px;
-        text-decoration: none; }
-        .login .logo-header .small-nav a:hover {
-          color: black;
-          background-color: transparent; }
+        height: 55px;
+        width: 55px; }
   .login .login-content h3 {
     color: white;
     font-size: 35px;
@@ -5999,6 +5991,8 @@ LOGIN
     letter-spacing: 2px; }
   .login .login-content form input {
     margin-bottom: 10px; }
+  .login .login-content form #cp-image {
+    color: white; }
   .login .login-content form button {
     width: 100%;
     background-color: rgba(12, 20, 20, 0.7);
@@ -6039,32 +6033,13 @@ LOGIN
   .signup .logo-header {
     margin-bottom: 170px; }
     .signup .logo-header .small-header {
-      margin-top: 3px; }
+      margin-top: 20px;
+      text-align: center; }
       .signup .logo-header .small-header img {
         margin-right: 5px;
         vertical-align: text-bottom;
-        height: 25px;
-        width: 25px; }
-      .signup .logo-header .small-header h5 {
-        text-transform: uppercase;
-        display: inline-block;
-        color: white;
-        font-size: 18px;
-        font-weight: 100; }
-    .signup .logo-header .small-nav {
-      float: right;
-      text-align: right;
-      text-transform: uppercase;
-      padding: 10px 10px 0 0; }
-      .signup .logo-header .small-nav a {
-        margin: 13px 15px;
-        color: white;
-        border: none;
-        text-decoration: none;
-        font-size: 16px; }
-        .signup .logo-header .small-nav a:hover {
-          color: black;
-          background-color: transparent; }
+        height: 55px;
+        width: 55px; }
   .signup .signup-content h3 {
     color: white;
     font-size: 35px;
@@ -6144,7 +6119,9 @@ LOGIN
           .app .app-header .profile .icon img:hover {
             opacity: 0.5; }
         .app .app-header .profile .icon i {
-          margin-left: 2px; }
+          margin-left: 2px;
+          vertical-align: middle;
+          font-size: 18px; }
     .app .app-header .nav {
       height: 50px;
       position: absolute;
@@ -6182,8 +6159,9 @@ LOGIN
       .app .app-content .wandered-to #realMap {
         height: 600px;
         width: 100%; }
-        .app .app-content .wandered-to #realMap h5 {
-          color: black; }
+        .app .app-content .wandered-to #realMap .infoWindow h3 {
+          color: black;
+          font-weight: 100; }
       .app .app-content .wandered-to #wandered-loader {
         fill: #ffffff;
         height: 64px;
@@ -6246,6 +6224,8 @@ LOGIN
               .app .app-content .wandered-to table tbody tr td img {
                 height: 120px;
                 width: 115px; }
+              .app .app-content .wandered-to table tbody tr td p {
+                color: lightgray; }
               .app .app-content .wandered-to table tbody tr td .star {
                 color: lightgray;
                 font-size: 30px;
@@ -6344,7 +6324,7 @@ LOGIN
         width: 125px;
         margin: 0 auto;
         border-radius: 60px;
-        padding: 25px 0 20px 0;
+        padding: 25px 0 25px 0;
         text-align: center; }
       .app .app-content .activity-select .food {
         cursor: pointer;
@@ -6401,7 +6381,7 @@ LOGIN
           border: 3px solid white;
           color: black; }
         .app .app-content .food-select .b-fast:hover h2 {
-          margin-top: 16px; }
+          margin-top: 20px; }
       .app .app-content .food-select .lunch {
         cursor: pointer;
         color: white; }
@@ -6409,7 +6389,7 @@ LOGIN
           color: black;
           border: 3px solid white; }
         .app .app-content .food-select .lunch:hover h2 {
-          margin-top: 16px; }
+          margin-top: 20px; }
       .app .app-content .food-select .dinner {
         cursor: pointer;
         color: white; }
@@ -6417,7 +6397,7 @@ LOGIN
           color: black;
           border: 3px solid white; }
         .app .app-content .food-select .dinner:hover h2 {
-          margin-top: 16px; }
+          margin-top: 20px; }
       .app .app-content .food-select .dessert {
         cursor: pointer;
         color: white; }
@@ -6425,7 +6405,7 @@ LOGIN
           color: black;
           border: 3px solid white; }
         .app .app-content .food-select .dessert:hover h2 {
-          margin-top: 16px; }
+          margin-top: 20px; }
       .app .app-content .food-select .info-content {
         text-align: center; }
         .app .app-content .food-select .info-content h2 {
@@ -6558,7 +6538,8 @@ LOGIN
       margin-top: 60px; }
       .app .app-content .result-buttons .button {
         cursor: pointer;
-        text-align: center; }
+        text-align: center;
+        margin-bottom: 15px; }
         .app .app-content .result-buttons .button .section-image {
           color: white;
           border: 1px solid white;
@@ -6589,7 +6570,7 @@ LOGIN
         width: 125px;
         margin: 0 auto;
         border-radius: 60px;
-        padding: 20px 20px 20px 20px;
+        padding: 24px 20px 24px 20px;
         text-align: center;
         color: white; }
       .app .app-content .adult-select .info-content {
@@ -6602,20 +6583,306 @@ LOGIN
         color: white; }
         .app .app-content .adult-select .bar .section-image img {
           margin-left: 5px; }
-        .app .app-content .adult-select .bar:hover .section-image {
-          border: 3px solid white;
-          color: black; }
-        .app .app-content .adult-select .bar:hover h2 {
-          margin-top: 16px; }
+        .app .app-content .adult-select .bar:hover {
+          color: #932cbd; }
+          .app .app-content .adult-select .bar:hover .section-image {
+            border: 3px solid white; }
+          .app .app-content .adult-select .bar:hover h2 {
+            margin-top: 16px; }
       .app .app-content .adult-select .club {
         cursor: pointer;
         color: white; }
-        .app .app-content .adult-select .club .section-image img {
-          margin-left: 5px; }
+        .app .app-content .adult-select .club .section-image {
+          padding: 26px 20px; }
+          .app .app-content .adult-select .club .section-image img {
+            height: 65px;
+            margin-left: 5px; }
         .app .app-content .adult-select .club:hover .section-image {
-          border: 3px solid white;
-          color: black; }
+          border: 3px solid white; }
         .app .app-content .adult-select .club:hover h2 {
           margin-top: 16px; }
+
+.animated {
+  -webkit-animation-fill-mode: both;
+  -moz-animation-fill-mode: both;
+  -ms-animation-fill-mode: both;
+  -o-animation-fill-mode: both;
+  animation-fill-mode: both;
+  -webkit-animation-duration: 1s;
+  -moz-animation-duration: 1s;
+  -ms-animation-duration: 1s;
+  -o-animation-duration: 1s;
+  animation-duration: 1s; }
+
+.animated.hinge {
+  -webkit-animation-duration: 2s;
+  -moz-animation-duration: 2s;
+  -ms-animation-duration: 2s;
+  -o-animation-duration: 2s;
+  animation-duration: 2s; }
+
+@-webkit-keyframes bounceIn {
+  0% {
+    opacity: 0;
+    -webkit-transform: scale(0.8); }
+  50% {
+    opacity: 1;
+    -webkit-transform: scale(1.05); }
+  100% {
+    opacity: 1;
+    -webkit-transform: scale(1); } }
+@-moz-keyframes bounceIn {
+  0% {
+    opacity: 0;
+    -moz-transform: scale(0.8); }
+  50% {
+    opacity: 1;
+    -moz-transform: scale(1.05); }
+  100% {
+    opacity: 1;
+    -moz-transform: scale(1); } }
+@-o-keyframes bounceIn {
+  0% {
+    opacity: 0;
+    -o-transform: scale(0.8); }
+  50% {
+    opacity: 1;
+    -o-transform: scale(1.05); }
+  100% {
+    opacity: 1;
+    -o-transform: scale(1); } }
+@keyframes bounceIn {
+  0% {
+    opacity: 0;
+    transform: scale(0.8); }
+  50% {
+    opacity: 1;
+    transform: scale(1.05); }
+  100% {
+    opacity: 1;
+    transform: scale(1); } }
+.bounceIn {
+  -webkit-animation-name: bounceIn;
+  -moz-animation-name: bounceIn;
+  -o-animation-name: bounceIn;
+  animation-name: bounceIn; }
+
+@-webkit-keyframes fadeIn {
+  0% {
+    opacity: 0; }
+  100% {
+    opacity: 1; } }
+@-moz-keyframes fadeIn {
+  0% {
+    opacity: 0; }
+  100% {
+    opacity: 1; } }
+@-o-keyframes fadeIn {
+  0% {
+    opacity: 0; }
+  100% {
+    opacity: 1; } }
+@keyframes fadeIn {
+  0% {
+    opacity: 0; }
+  100% {
+    opacity: 1; } }
+.delay {
+  -webkit-animation-delay: 0.30s;
+  -moz-animation-delay: 0.30s;
+  -o-animation-delay: 0.30s;
+  animation-delay: 0.30s; }
+
+.delay-three {
+  -webkit-animation-delay: 0.60s;
+  -moz-animation-delay: 0.60s;
+  -o-animation-delay: 0.60s;
+  animation-delay: 0.60s; }
+
+.delay-two {
+  -webkit-animation-delay: 1.0s;
+  -moz-animation-delay: 1.0s;
+  -o-animation-delay: 1.0s;
+  animation-delay: 1.0s; }
+
+.delay-one {
+  -webkit-animation-delay: 1.5s;
+  -moz-animation-delay: 1.5s;
+  -o-animation-delay: 1.5s;
+  animation-delay: 1.5s; }
+
+.fadeIn {
+  -webkit-animation-name: fadeIn;
+  -moz-animation-name: fadeIn;
+  -o-animation-name: fadeIn;
+  animation-name: fadeIn; }
+
+@-webkit-keyframes fadeInUp {
+  0% {
+    opacity: 0;
+    -webkit-transform: translateY(20px); }
+  100% {
+    opacity: 1;
+    -webkit-transform: translateY(0); } }
+@-moz-keyframes fadeInUp {
+  0% {
+    opacity: 0;
+    -moz-transform: translateY(20px); }
+  100% {
+    opacity: 1;
+    -moz-transform: translateY(0); } }
+@-o-keyframes fadeInUp {
+  0% {
+    opacity: 0;
+    -o-transform: translateY(20px); }
+  100% {
+    opacity: 1;
+    -o-transform: translateY(0); } }
+@keyframes fadeInUp {
+  0% {
+    opacity: 0;
+    transform: translateY(20px); }
+  100% {
+    opacity: 1;
+    transform: translateY(0); } }
+.fadeInUp {
+  -webkit-animation-name: fadeInUp;
+  -moz-animation-name: fadeInUp;
+  -o-animation-name: fadeInUp;
+  animation-name: fadeInUp; }
+
+@-webkit-keyframes fadeInDown {
+  0% {
+    opacity: 0;
+    -webkit-transform: translateY(-20px); }
+  100% {
+    opacity: 1;
+    -webkit-transform: translateY(0); } }
+@-moz-keyframes fadeInDown {
+  0% {
+    opacity: 0;
+    -moz-transform: translateY(-20px); }
+  100% {
+    opacity: 1;
+    -moz-transform: translateY(0); } }
+@-o-keyframes fadeInDown {
+  0% {
+    opacity: 0;
+    -o-transform: translateY(-20px); }
+  100% {
+    opacity: 1;
+    -o-transform: translateY(0); } }
+@keyframes fadeInDown {
+  0% {
+    opacity: 0;
+    transform: translateY(-20px); }
+  100% {
+    opacity: 1;
+    transform: translateY(0); } }
+.fadeInDown {
+  -webkit-animation-name: fadeInDown;
+  -moz-animation-name: fadeInDown;
+  -o-animation-name: fadeInDown;
+  animation-name: fadeInDown; }
+
+@-webkit-keyframes fadeInLeft {
+  0% {
+    opacity: 0;
+    -webkit-transform: translateX(-20px); }
+  100% {
+    opacity: 1;
+    -webkit-transform: translateX(0); } }
+@-moz-keyframes fadeInLeft {
+  0% {
+    opacity: 0;
+    -moz-transform: translateX(-20px); }
+  100% {
+    opacity: 1;
+    -moz-transform: translateX(0); } }
+@-o-keyframes fadeInLeft {
+  0% {
+    opacity: 0;
+    -o-transform: translateX(-20px); }
+  100% {
+    opacity: 1;
+    -o-transform: translateX(0); } }
+@keyframes fadeInLeft {
+  0% {
+    opacity: 0;
+    transform: translateX(-20px); }
+  100% {
+    opacity: 1;
+    transform: translateX(0); } }
+.fadeInLeft {
+  -webkit-animation-name: fadeInLeft;
+  -moz-animation-name: fadeInLeft;
+  -o-animation-name: fadeInLeft;
+  animation-name: fadeInLeft; }
+
+.fadeOutDown {
+  -webkit-animation-name: fadeOutDown;
+  -moz-animation-name: fadeOutDown;
+  -o-animation-name: fadeOutDown;
+  animation-name: fadeOutDown; }
+
+@-webkit-keyframes fadeOutLeft {
+  0% {
+    opacity: 1;
+    -webkit-transform: translateX(0); }
+  100% {
+    opacity: 0;
+    -webkit-transform: translateX(-20px); } }
+@-moz-keyframes fadeOutLeft {
+  0% {
+    opacity: 1;
+    -moz-transform: translateX(0); }
+  100% {
+    opacity: 0;
+    -moz-transform: translateX(-20px); } }
+@-o-keyframes fadeOutLeft {
+  0% {
+    opacity: 1;
+    -o-transform: translateX(0); }
+  100% {
+    opacity: 0;
+    -o-transform: translateX(-20px); } }
+@keyframes fadeOutLeft {
+  0% {
+    opacity: 1;
+    transform: translateX(0); }
+  100% {
+    opacity: 0;
+    transform: translateX(-20px); } }
+@-webkit-keyframes fadeOut {
+  0% {
+    opacity: 1; }
+  100% {
+    opacity: 0; } }
+@-moz-keyframes fadeOut {
+  0% {
+    opacity: 1; }
+  100% {
+    opacity: 0; } }
+@-o-keyframes fadeOut {
+  0% {
+    opacity: 1; }
+  100% {
+    opacity: 0; } }
+@keyframes fadeOut {
+  0% {
+    opacity: 1; }
+  100% {
+    opacity: 0; } }
+.animated.fadeOut {
+  -webkit-animation-name: fadeOut;
+  -moz-animation-name: fadeOut;
+  -o-animation-name: fadeOut;
+  animation-name: fadeOut; }
+
+.animated.fadeOutLeft {
+  -webkit-animation-name: fadeOutLeft;
+  -moz-animation-name: fadeOutLeft;
+  -o-animation-name: fadeOutLeft;
+  animation-name: fadeOutLeft; }
 
 /*# sourceMappingURL=app.css.map */

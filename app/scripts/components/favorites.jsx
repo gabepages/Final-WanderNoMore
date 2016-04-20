@@ -86,11 +86,12 @@ var Favorites = React.createClass({
       );
     }
     if(this.state.listVsMap == 'map'){
-      content = <MapView toList={this.triggerList} />
+      content = <MapView toList={this.triggerList} results={this.state.results}/>
     }else{
       if(this.state.results){
         resultsList = this.state.results.map(function(result){
           var result = result.attributes;
+          console.log(result);
           var placeOpenBool;
           var color;
           var phone;
@@ -107,6 +108,7 @@ var Favorites = React.createClass({
           }
           if(typeof(result.googleData.openNow) === 'boolean'){
             placeOpenBool = result.googleData.openNow;
+
             if(placeOpenBool){
               placeOpenBool = "TRUE";
               color = 'open-green';
@@ -121,18 +123,21 @@ var Favorites = React.createClass({
               <tr key={result.createdAt}>
                 <td>{result.yelpData.name}</td>
                 <td>{phone}</td>
-                <td id={color}>{placeOpenBool}</td>
+                <td>
+                  <p>{result.yelpData.location.address[0]},</p>
+                  <p>{result.yelpData.location.city},{result.yelpData.location.state_code}
+                    {result.yelpData.location.postal_code}</p></td>
                 <td><img src={image} alt="" /></td>
               </tr>
             );
         });
         content = (
-          <table className="table table-hover" >
+          <table className="table table-hover animated fadeIn" >
             <thead>
               <tr>
                 <td>Name</td>
                 <td>Phone-Number</td>
-                <td>Open Now</td>
+                <td>Address</td>
                 <td>Picture</td>
               </tr>
             </thead>
@@ -167,7 +172,7 @@ var Favorites = React.createClass({
             <li id="last-nav" onClick={this.signOut}>Sign Out</li>
           </ul>
         </div>
-        <div className="app-content">
+        <div className="app-content animated fadeIn">
           <div className="col-md-10 col-md-offset-1 wandered-to">
             <div className="row">
               <div className="col-md-4 col-md-offset-4">
@@ -191,30 +196,60 @@ var Favorites = React.createClass({
 
 
 var MapView = React.createClass({
+  getInitialState: function(){
+    return {
+      "results": this.props.results
+    }
+  },
   componentDidMount: function(){
-    var map;
-    var LatLng = {lat: 34.851838, lng:  -82.399542};
-    map = new google.maps.Map(document.getElementById('realMap'), {
-      center: LatLng,
-      zoom: 14
-    });
-    var marker = new google.maps.Marker({
-       position: LatLng,
-       map: map,
-       animation: google.maps.Animation.DROP,
-       title: 'Greenville'
-     });
-     var contentString = "<h5>Greenville, SC</h5>"
-     var infowindow = new google.maps.InfoWindow({
-        content: contentString
-     });
-     marker.addListener('click', function() {
-        infowindow.open(map, marker);
-    });
+      var user = localStorage.getItem('Parse/finalproject/currentUser');
+      user = JSON.parse(user);
+      var self = this;
+      var lat;
+      var lng;
+      var map;
+      var address = user.zipcode;
+      var geocoder = new google.maps.Geocoder();
+      geocoder.geocode( { 'address': address}, function(results, status) {
+         if (status == google.maps.GeocoderStatus.OK) {
+            lat = results[0].geometry.location.lat();
+            lng = results[0].geometry.location.lng();
+            map = new google.maps.Map(document.getElementById('realMap'), {
+              center: {"lat": lat, "lng": lng},
+              zoom: 9
+            });
+            var makeMarkers = self.state.results.map(function(result){
+              var result = result.attributes;
+              var lat = result.yelpData.location.coordinate.latitude;
+              var lng = result.yelpData.location.coordinate.longitude;
+              var marker = new google.maps.Marker({
+                 position:{"lat": lat, 'lng': lng},
+                 map: map,
+                 animation: google.maps.Animation.DROP,
+               });
+
+               var infowindow = new google.maps.InfoWindow({
+                content: "<div class='infoWindow'>" + "<h3>" + result.yelpData.name + "</h3>" + "</div>"
+              });
+              marker.addListener('click', function() {
+                infowindow.open(map, marker);
+              });
+            });
+          } else {
+           alert("Geocode was not successful for the following reason: " + status);
+         }
+      });
+
+
+
+
+
+
+
   },
   render: function(){
     return(
-      <div id="realMap" className='col-md-8'></div>
+      <div id="realMap" className='col-md-8 animated fadeIn'></div>
     )
   }
 });
