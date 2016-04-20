@@ -5869,20 +5869,22 @@ img {
       margin-top: 3px; }
       .main-header .logo-header .small-header img {
         margin-right: 5px;
-        vertical-align: sub;
-        height: 25px;
-        width: 25px; }
+        margin-top: 10px;
+        vertical-align: bottom;
+        height: 45px;
+        width: 45px; }
       .main-header .logo-header .small-header h5 {
         font-family: Karla;
         text-transform: uppercase;
         display: inline-block;
         color: white;
-        font-size: 18px;
+        font-size: 20px;
         font-weight: 100; }
     .main-header .logo-header .small-nav {
       float: right;
       text-align: center;
-      padding: 0; }
+      padding: 0;
+      margin-top: 12px; }
       .main-header .logo-header .small-nav a {
         font-family: Karla;
         margin: 13px 15px;
@@ -5991,8 +5993,18 @@ LOGIN
     letter-spacing: 2px; }
   .login .login-content form input {
     margin-bottom: 10px; }
+  .login .login-content form label {
+    color: white;
+    display: inline-block; }
+    .login .login-content form label h4 {
+      font-weight: 100;
+      font-size: 20px;
+      letter-spacing: 3px; }
   .login .login-content form #cp-image {
-    color: white; }
+    color: white;
+    display: inline-block;
+    margin-left: 0px;
+    font-weight: 100; }
   .login .login-content form button {
     width: 100%;
     background-color: rgba(12, 20, 20, 0.7);
@@ -6113,7 +6125,6 @@ LOGIN
       .app .app-header .profile .icon {
         margin: 3px 35px 0 0; }
         .app .app-header .profile .icon img {
-          width: 15%;
           height: 45px;
           border-radius: 28px; }
           .app .app-header .profile .icon img:hover {
@@ -6294,7 +6305,7 @@ LOGIN
           margin-left: 28px;
           display: inline-block; }
         .app .app-content .settings .user-info form #zipcode-input {
-          margin-left: 62px; }
+          margin-left: 50px; }
     .app .app-content .settings .user-info h2:last-of-type {
       float: right; }
     .app .app-content .start {
@@ -6884,5 +6895,69 @@ LOGIN
   -moz-animation-name: fadeOutLeft;
   -o-animation-name: fadeOutLeft;
   animation-name: fadeOutLeft; }
+
+@media (max-width: 992px) {
+  .main-header {
+    height: 500px; }
+
+  .logo-header {
+    display: none; }
+
+  .header {
+    padding-top: 100px; }
+
+  .signup-section {
+    padding-top: 150px; }
+
+  .login {
+    padding-top: 150px; }
+
+  .header-logo {
+    display: none; }
+
+  .app .app-header .title {
+    text-align: left; }
+    .app .app-header .title h2 {
+      font-size: 25px;
+      margin: 18px 0 0 10px; } }
+@media (max-width: 725px) {
+  .app .app-header img {
+    margin: 6px 0 0 0px; }
+  .app .app-header .title h2 {
+    font-size: 20px;
+    margin: 20px 0 0 0px; }
+  .app .app-header .nav {
+    height: 240px; }
+    .app .app-header .nav li {
+      display: block;
+      padding: 8px 0px 8px 0px;
+      margin-top: 0;
+      border-bottom: 1px solid darkgray; }
+  .app .app-content .food-select {
+    margin-top: 35px; }
+  .app .app-content .activity-select {
+    margin-top: 35px; }
+    .app .app-content .activity-select .circle {
+      margin-bottom: 15px; } }
+@media (max-width: 500px) {
+  .header {
+    padding-top: 50px; }
+    .header h1 {
+      font-size: 60px; }
+
+  .app .app-header .profile .icon {
+    margin: 3px 5px 0 0; }
+  .app .app-header .title h2 {
+    font-size: 18px;
+    margin: 23px 0 0 0px;
+    letter-spacing: 7px; }
+  .app .app-content .start {
+    margin-top: 255px; }
+  .app .app-content .radius a {
+    padding: 8px 100px 8px 100px; }
+  .app .app-content .radius ul {
+    width: 291px; }
+    .app .app-content .radius ul li {
+      padding: 8px 100px 8px 100px; } }
 
 /*# sourceMappingURL=app.css.map */

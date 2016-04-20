@@ -90,13 +90,13 @@ var App = React.createClass({
     return(
       <div className="app">
         <div className="app-header animated fadeIn">
-          <div className="col-md-3">
+          <div className="col-md-3 col-xs-4 header-logo">
             <img src="images/whitedots.svg" alt="" onClick={this.sendHome}/>
           </div>
-          <div className="col-md-6 title">
+          <div className="col-md-6 col-xs-9 title">
             <h2>Wander No More</h2>
           </div>
-          <div className="profile col-md-3" onClick={this.toggleNav}>
+          <div className="profile col-md-3 col-xs-3" onClick={this.toggleNav}>
             <div className='icon'>
               <img src={this.state.profilePic} alt="" />
               <i className="fa fa-caret-down"></i>
@@ -182,7 +182,7 @@ var AppActivitySelect = React.createClass({
   render: function(){
     return(
       <div className="row activity-select animated fadeIn">
-        <div className="col-md-4 food" onClick={this.food}>
+        <div className="col-md-4 food circle" onClick={this.food}>
           <div className="section-image" id='food'>
             <i className="fa fa-cutlery fa-5x"></i>
           </div>
@@ -190,7 +190,7 @@ var AppActivitySelect = React.createClass({
             <h2>Food</h2>
           </div>
         </div>
-        <div className="col-md-4 outdoors" onClick={this.outdoors}>
+        <div className="col-md-4 outdoors circle" onClick={this.outdoors}>
           <div className="section-image" id='outdoors'>
             <i className="fa fa-tree fa-5x"></i>
           </div>
@@ -198,7 +198,7 @@ var AppActivitySelect = React.createClass({
             <h2>Outdoors</h2>
           </div>
         </div>
-        <div className="col-md-4 bars" onClick={this.bars}>
+        <div className="col-md-4 bars circle" onClick={this.bars}>
           <div className="section-image" id='bars'>
             <i className="fa fa-glass fa-5x"></i>
           </div>

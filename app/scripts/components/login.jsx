@@ -41,7 +41,7 @@ var Login = React.createClass({
   },
   render: function(){
     var content =(
-                <div className="login-content col-md-4 col-md-offset-4 animated fadeIn">
+                <div className="login-content col-md-4 col-md-offset-4 col-sm-8 col-sm-offset-2 col-xs-12 animated fadeIn">
                   <h3>Welcome. Please Login.</h3>
                   <form onSubmit={this.login}>
                     <input type="email" className="form-control" id="login-e" placeholder="Email" />

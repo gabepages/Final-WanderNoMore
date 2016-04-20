@@ -75,16 +75,17 @@ img {
      margin-top: 3px;
      img{
        margin-right: 5px;
-       vertical-align: sub;
-       height:25px;
-       width: 25px;
+       margin-top: 10px;
+       vertical-align: bottom;
+       height:45px;
+       width: 45px;
      }
      h5{
        font-family: Karla;
        text-transform: uppercase;
        display: inline-block;
        color: white;
-       font-size: 18px;
+       font-size: 20px;
        font-weight: 100;
      }
    }
@@ -92,6 +93,7 @@ img {
      float: right;
      text-align: center;
      padding: 0;
+     margin-top: 12px;
     a{
       font-family: Karla;
        margin:13px 15px;
@@ -240,10 +242,21 @@ LOGIN
     form{
       input{
         margin-bottom: 10px;
-
+      }
+      label{
+        color: white;
+        display: inline-block;
+        h4{
+          font-weight: 100;
+          font-size: 20px;
+          letter-spacing: 3px;
+        }
       }
       #cp-image{
         color: white;
+        display: inline-block;
+        margin-left: 0px;
+        font-weight: 100;
       }
       button{
         width: 100%;
@@ -393,7 +406,6 @@ LOGIN
       .icon{
         margin: 3px 35px 0 0;
         img{
-          width: 15%;
           height: 45px;
           border-radius: 28px;
           &:hover{
@@ -638,7 +650,7 @@ LOGIN
             display: inline-block;
          }
          #zipcode-input{
-          margin-left: 62px;
+          margin-left: 50px;
          }
        }
       }
@@ -1536,4 +1548,138 @@ animation-name: fadeOut;
 -moz-animation-name: fadeOutLeft;
 -o-animation-name: fadeOutLeft;
 animation-name: fadeOutLeft;
+}
+
+
+
+
+
+
+
+
+//************ 992PX ******************
+
+@media (max-width: 992px) {
+
+  // INDEX PAGE
+
+  .main-header{
+    height: 500px;
+  }
+    .logo-header{
+      display: none;
+    }
+    .header{
+      padding-top: 100px;
+    }
+
+  // SIGN UP PAGES
+
+  .signup-section{
+    padding-top: 150px;
+  }
+  .login{
+    padding-top: 150px;
+  }
+  .header-logo{
+     display: none;
+  }
+  .app{
+    .app-header{
+      .title{
+        text-align: left;
+        h2{
+          font-size: 25px;
+          margin: 18px 0 0 10px;
+        }
+      }
+    }
+  }
+}
+
+//************ 725PX ******************
+
+@media (max-width: 725px){
+
+  .app{
+    .app-header{
+      img{
+        margin: 6px 0 0 0px;
+      }
+      .title{
+        h2{
+          font-size: 20px;
+          margin: 20px 0 0 0px;
+        }
+      }
+      .nav{
+        height: 240px;
+        li{
+          display: block;
+          padding: 8px 0px 8px 0px;
+          margin-top: 0;
+          border-bottom: 1px solid darkgray;
+        }
+      }
+    }
+    .app-content{
+      .food-select{
+        margin-top: 35px;
+      }
+      .activity-select{
+        margin-top: 35px;
+        .circle{
+          margin-bottom: 15px;
+        }
+      }
+    }
+  }
+
+}
+
+
+
+//************ 500PX ******************
+
+@media (max-width: 500px) {
+
+  .header{
+    padding-top: 50px;
+    h1{
+      font-size: 60px;
+    }
+  }
+  .app{
+    .app-header{
+      .profile{
+        .icon{
+          margin: 3px 5px 0 0;
+        }
+      }
+      .title{
+        h2{
+          font-size: 18px;
+          margin: 23px 0 0 0px;
+          letter-spacing: 7px;
+        }
+      }
+    }
+    .app-content{
+      .start{
+        margin-top: 255px;
+      }
+      .radius{
+        a{
+          padding: 8px 100px 8px 100px;
+        }
+        ul{
+          width: 291px;
+          li{
+            padding: 8px 100px 8px 100px;
+          }
+        }
+      }
+    }
+  }
+
 }

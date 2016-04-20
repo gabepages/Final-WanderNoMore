@@ -19,20 +19,22 @@ var Index = React.createClass({displayName: "Index",
               React.createElement("a", {href: "#login"}, "Login")
             )
           ), 
-          React.createElement("div", {className: "logo"}, 
-            React.createElement("img", {src: "images/blackdots.svg", alt: ""})
-          ), 
-          React.createElement("h1", null, "Wander No More"), 
-          React.createElement("a", {href: "#signup"}, 
-            React.createElement("h3", null, "Sign Up")
-          ), 
-          React.createElement("a", {href: "#login"}, 
-            React.createElement("h3", null, "Login")
+          React.createElement("div", {className: "header"}, 
+            React.createElement("div", {className: "logo"}, 
+              React.createElement("img", {src: "images/blackdots.svg", alt: ""})
+            ), 
+            React.createElement("h1", null, "Wander No More"), 
+            React.createElement("a", {href: "#signup"}, 
+              React.createElement("h3", null, "Sign Up")
+            ), 
+            React.createElement("a", {href: "#login"}, 
+              React.createElement("h3", null, "Login")
+            )
           )
         ), 
 
         React.createElement("div", {className: "row app-info"}, 
-          React.createElement("div", {className: "col-md-4"}, 
+          React.createElement("div", {className: "col-md-4 col-xs-12"}, 
             React.createElement("div", {className: "section-image", id: "heart"}, 
               React.createElement("i", {className: "fa fa-heart fa-5x"})
             ), 
@@ -41,7 +43,7 @@ var Index = React.createClass({displayName: "Index",
               React.createElement("p", null, "Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.")
             )
           ), 
-          React.createElement("div", {className: "col-md-4 middle"}, 
+          React.createElement("div", {className: "col-md-4 middle col-xs-12"}, 
             React.createElement("div", {className: "section-image", id: "group"}, 
               React.createElement("i", {className: "fa fa-users fa-5x"})
             ), 
@@ -50,7 +52,7 @@ var Index = React.createClass({displayName: "Index",
               React.createElement("p", null, "Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.")
             )
           ), 
-          React.createElement("div", {className: "col-md-4"}, 
+          React.createElement("div", {className: "col-md-4 col-xs-12"}, 
             React.createElement("div", {className: "section-image", id: "single"}, 
               React.createElement("i", {className: "fa fa-user fa-5x"})
             ), 
@@ -164,13 +166,13 @@ var App = React.createClass({displayName: "App",
     return(
       React.createElement("div", {className: "app"}, 
         React.createElement("div", {className: "app-header animated fadeIn"}, 
-          React.createElement("div", {className: "col-md-3"}, 
+          React.createElement("div", {className: "col-md-3 col-xs-4 header-logo"}, 
             React.createElement("img", {src: "images/whitedots.svg", alt: "", onClick: this.sendHome})
           ), 
-          React.createElement("div", {className: "col-md-6 title"}, 
+          React.createElement("div", {className: "col-md-6 col-xs-9 title"}, 
             React.createElement("h2", null, "Wander No More")
           ), 
-          React.createElement("div", {className: "profile col-md-3", onClick: this.toggleNav}, 
+          React.createElement("div", {className: "profile col-md-3 col-xs-3", onClick: this.toggleNav}, 
             React.createElement("div", {className: "icon"}, 
               React.createElement("img", {src: this.state.profilePic, alt: ""}), 
               React.createElement("i", {className: "fa fa-caret-down"})
@@ -256,7 +258,7 @@ var AppActivitySelect = React.createClass({displayName: "AppActivitySelect",
   render: function(){
     return(
       React.createElement("div", {className: "row activity-select animated fadeIn"}, 
-        React.createElement("div", {className: "col-md-4 food", onClick: this.food}, 
+        React.createElement("div", {className: "col-md-4 food circle", onClick: this.food}, 
           React.createElement("div", {className: "section-image", id: "food"}, 
             React.createElement("i", {className: "fa fa-cutlery fa-5x"})
           ), 
@@ -264,7 +266,7 @@ var AppActivitySelect = React.createClass({displayName: "AppActivitySelect",
             React.createElement("h2", null, "Food")
           )
         ), 
-        React.createElement("div", {className: "col-md-4 outdoors", onClick: this.outdoors}, 
+        React.createElement("div", {className: "col-md-4 outdoors circle", onClick: this.outdoors}, 
           React.createElement("div", {className: "section-image", id: "outdoors"}, 
             React.createElement("i", {className: "fa fa-tree fa-5x"})
           ), 
@@ -272,7 +274,7 @@ var AppActivitySelect = React.createClass({displayName: "AppActivitySelect",
             React.createElement("h2", null, "Outdoors")
           )
         ), 
-        React.createElement("div", {className: "col-md-4 bars", onClick: this.bars}, 
+        React.createElement("div", {className: "col-md-4 bars circle", onClick: this.bars}, 
           React.createElement("div", {className: "section-image", id: "bars"}, 
             React.createElement("i", {className: "fa fa-glass fa-5x"})
           ), 
@@ -619,6 +621,7 @@ var MapView = React.createClass({displayName: "MapView",
                  position:{"lat": lat, 'lng': lng},
                  map: map,
                  animation: google.maps.Animation.DROP,
+                 icon: "images/GabeDropPin.svg"
                });
 
                var infowindow = new google.maps.InfoWindow({
@@ -694,7 +697,7 @@ var Login = React.createClass({displayName: "Login",
   },
   render: function(){
     var content =(
-                React.createElement("div", {className: "login-content col-md-4 col-md-offset-4 animated fadeIn"}, 
+                React.createElement("div", {className: "login-content col-md-4 col-md-offset-4 col-sm-8 col-sm-offset-2 col-xs-12 animated fadeIn"}, 
                   React.createElement("h3", null, "Welcome. Please Login."), 
                   React.createElement("form", {onSubmit: this.login}, 
                     React.createElement("input", {type: "email", className: "form-control", id: "login-e", placeholder: "Email"}), 
@@ -1283,12 +1286,12 @@ var Signup = React.createClass({displayName: "Signup",
     return(
       React.createElement("div", {className: "signup"}, 
         React.createElement("div", {className: "row  logo-header"}, 
-          React.createElement("div", {className: "col-md-12 small-header"}, 
+          React.createElement("div", {className: "col-xs-12 small-header"}, 
             React.createElement("img", {src: "images/blackdots.svg", alt: ""})
           )
         ), 
-        React.createElement("div", {className: "row"}, 
-          React.createElement("div", {className: "signup-content col-md-4 col-md-offset-4 animated fadeIn"}, 
+        React.createElement("div", {className: "row signup-section"}, 
+          React.createElement("div", {className: "signup-content col-md-4 col-md-offset-4 col-sm-8 col-sm-offset-2 col-xs-12  animated fadeIn"}, 
             React.createElement("h3", null, "Welcome. Please sign up."), 
             React.createElement("form", {onSubmit: this.signUp}, 
               React.createElement("input", {type: "email", className: "form-control", id: "signup-e", placeholder: "Email"}), 
@@ -1297,7 +1300,8 @@ var Signup = React.createClass({displayName: "Signup",
             ), 
             React.createElement("p", null, "Already have an account? ", React.createElement("a", {href: "#login"}, "Login"))
           )
-        )
+        ), 
+        React.createElement("div", {style: {"clear": "both"}})
       )
     )
   }
@@ -1365,13 +1369,16 @@ var CreateProfile = React.createClass({displayName: "CreateProfile",
       );
     }else{
       content =(
-        React.createElement("div", {className: "login-content col-md-4 col-md-offset-4 animated fadeIn"}, 
+        React.createElement("div", {className: "login-content col-md-4 col-md-offset-4 col-sm-8 col-sm-offset-2 col-xs-12 animated fadeIn"}, 
           React.createElement("h3", null, "Prepare to be extemporaneous."), 
           React.createElement("form", {onSubmit: this.createProfile}, 
             React.createElement("input", {type: "text", className: "form-control", id: "cp-fname", placeholder: "First Name"}), 
             React.createElement("input", {type: "text", className: "form-control", id: "cp-lname", placeholder: "Last Name"}), 
             React.createElement("input", {type: "text", className: "form-control", id: "cp-zipcode", placeholder: "Zip Code"}), 
-            React.createElement("input", {type: "file", id: "cp-image"}), 
+            React.createElement("label", {htmlFor: "cp-image"}, 
+              React.createElement("h4", null, "Profile Picture:")
+            ), 
+            React.createElement("input", {type: "file", id: "cp-image", required: true}), 
             React.createElement("button", {type: "submit", className: "btn btn-default"}, "Shall we begin?")
           )
         )
@@ -1386,7 +1393,7 @@ var CreateProfile = React.createClass({displayName: "CreateProfile",
             React.createElement("img", {src: "images/blackdots.svg", alt: ""})
           )
         ), 
-        React.createElement("div", {className: "row"}, 
+        React.createElement("div", {className: "row signup-section"}, 
           content
         )
       )

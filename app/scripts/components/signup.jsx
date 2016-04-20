@@ -36,12 +36,12 @@ var Signup = React.createClass({
     return(
       <div className='signup'>
         <div className="row  logo-header">
-          <div className="col-md-12 small-header">
+          <div className="col-xs-12 small-header">
             <img src="images/blackdots.svg" alt="" />
           </div>
         </div>
-        <div className="row">
-          <div className="signup-content col-md-4 col-md-offset-4 animated fadeIn">
+        <div className="row signup-section">
+          <div className="signup-content col-md-4 col-md-offset-4 col-sm-8 col-sm-offset-2 col-xs-12  animated fadeIn">
             <h3>Welcome. Please sign up.</h3>
             <form onSubmit={this.signUp}>
               <input type="email" className="form-control" id="signup-e" placeholder="Email" />
@@ -51,6 +51,7 @@ var Signup = React.createClass({
             <p>Already have an account? <a href="#login">Login</a></p>
           </div>
         </div>
+        <div style={{"clear": "both"}}></div>
       </div>
     )
   }
@@ -118,13 +119,16 @@ var CreateProfile = React.createClass({
       );
     }else{
       content =(
-        <div className="login-content col-md-4 col-md-offset-4 animated fadeIn">
+        <div className="login-content col-md-4 col-md-offset-4 col-sm-8 col-sm-offset-2 col-xs-12 animated fadeIn">
           <h3>Prepare to be extemporaneous.</h3>
           <form onSubmit={this.createProfile}>
             <input type="text" className="form-control" id="cp-fname" placeholder="First Name" />
             <input type="text" className="form-control" id="cp-lname" placeholder="Last Name" />
             <input type="text" className="form-control" id="cp-zipcode" placeholder="Zip Code" />
-            <input type='file' id='cp-image'/>
+            <label htmlFor="cp-image">
+              <h4>Profile Picture:</h4>
+            </label>
+            <input type='file' id='cp-image' required/>
             <button type="submit" className="btn btn-default">Shall we begin?</button>
           </form>
         </div>
@@ -139,7 +143,7 @@ var CreateProfile = React.createClass({
             <img src="images/blackdots.svg" alt="" />
           </div>
         </div>
-        <div className="row">
+        <div className="row signup-section">
           {content}
         </div>
       </div>

@@ -226,6 +226,7 @@ var MapView = React.createClass({
                  position:{"lat": lat, 'lng': lng},
                  map: map,
                  animation: google.maps.Animation.DROP,
+                 icon: "images/GabeDropPin.svg"
                });
 
                var infowindow = new google.maps.InfoWindow({
