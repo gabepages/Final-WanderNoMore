@@ -747,7 +747,7 @@ var Result = React.createClass({displayName: "Result",
     return{
       'saved':false,
       'profilePic': user.photo.url,
-      'placeHours': {}
+      'placeHours': undefined
     }
   },
   componentWillMount: function(){
@@ -781,8 +781,8 @@ var Result = React.createClass({displayName: "Result",
 
           function callback(place, status) {
             if (status == google.maps.places.PlacesServiceStatus.OK) {
-                  var place = JSON.stringify(place);
-                  localStorage.setItem("place", place);
+
+                  self.setState({'placeHours': place});
             }
           }
       }
@@ -796,32 +796,7 @@ var Result = React.createClass({displayName: "Result",
       var Parse = self.props.parse;
       var yelpData = localStorage.getItem('data');
       yelpData = JSON.parse(yelpData);
-      var googleData = localStorage.getItem('place');
-      googleData = JSON.parse(googleData);
-      if(typeof(googleData.opening_hours) == "object"){
-        if(typeof(googleData.opening_hours.open_now) =="boolean" && Array.isArray(googleData.opening_hours.weekday_text)){
-          googleData ={
-            "openNow": googleData.opening_hours.open_now,
-            "weekdayHours": googleData.opening_hours.weekday_text
-          }
-        }else if (typeof(googleData.opening_hours.open_now) == "boolean") {
-          googleData ={
-            "openNow": googleData.opening_hours.open_now,
-            "weekdayHours": ['','','','','','','']
-          }
-        }else if(typeof(googleData.opening_hours.weekday_text) == "array"){
-          googleData ={
-            "openNow": "Unknow :(",
-            "weekdayHours":googleData.opening_hours.weekday_text
-          }
-        }
-      }else{
-        googleData ={
-          "openNow": "Unknow :(",
-          "weekdayHours":['','','','','','','']
-        }
-      }
-
+      var googleData = self.state.placeHours;
       var user = Parse.User.current();
       var WanderedTo = Parse.Object.extend('WanderedTo');
       var wandered = new WanderedTo();
@@ -830,7 +805,6 @@ var Result = React.createClass({displayName: "Result",
         "googleData": googleData,
         "user": user
       });
-
       wandered.save(null, {
           success: function(object) {
             Backbone.history.navigate('app', {trigger: true});
@@ -839,9 +813,7 @@ var Result = React.createClass({displayName: "Result",
             alert('Failed to save location to Wandered-To: ' + error.message);
           }
         });
-
     },3000);
-
   },
   toggleNav: function(e){
     e.preventDefault();
@@ -877,102 +849,105 @@ var Result = React.createClass({displayName: "Result",
     }else{
       image = "images/sorrynoimage.jpg";
     }
-    var place = localStorage.getItem('place');
-    var placeOpenBool;
-    var placeHours;
-    var color;
-    if (place != "undefined" || place != "null"){
-      place = JSON.parse(place);
-      console.log(place);
-      if(place.opening_hours != undefined){
-        if(place.opening_hours.weekday_text.length > 0){
-          placeHours= place.opening_hours.weekday_text;
-        }else{
-          placeHours =['','','','','','',''];
-        }
-        if(typeof(place.opening_hours.open_now) === 'boolean'){
-          placeOpenBool = place.opening_hours.open_now;
-          //if there is place but no hours
-          if(placeOpenBool){
-            placeOpenBool = "TRUE";
-            color = 'open-green';
-          }else {
-            placeOpenBool = "FALSE";
-            color = 'open-red';
+    if(this.state.placeHours){
+      var place = this.state.placeHours;
+      console.log("place inside of if:",place);
+      var placeOpenBool;
+      var placeHours;
+      var color;
+
+      if (place != undefined){
+        if(place.opening_hours != undefined){
+          if(place.opening_hours.weekday_text.length > 0){
+            placeHours= place.opening_hours.weekday_text;
+          }else{
+            placeHours =['','','','','','',''];
+          }
+          if(typeof(place.opening_hours.open_now) === 'boolean'){
+            placeOpenBool = place.opening_hours.open_now;
+            //if there is place but no hours
+            if(placeOpenBool){
+              placeOpenBool = "TRUE";
+              color = 'open-green';
+            }else {
+              placeOpenBool = "FALSE";
+              color = 'open-red';
+            }
+          }else{
+            placeOpenBool ="Unknown :(";
           }
         }else{
           placeOpenBool ="Unknown :(";
+          placeHours =['','','','','','',''];
         }
       }else{
         placeOpenBool ="Unknown :(";
         placeHours =['','','','','','',''];
       }
-    }else{
-      placeOpenBool ="Unknown :(";
-      placeHours =['','','','','','',''];
-    }
 
-    if(this.state.saved == true){
-      var name = localStorage.getItem("Parse/finalproject/currentUser");
-      name = JSON.parse(name);
-      name = name.firstName;
-      content = (
-        React.createElement("div", {className: "app-content"}, 
-          React.createElement("div", {className: "say-saved"}, 
-            React.createElement("h1", null, "Have fun ", name, "!")
-          )
-        )
-      );
-    }else{
-      content = (
-        React.createElement("div", {className: "app-content"}, 
-          React.createElement("div", {className: "row result animated fadeIn"}, 
-            React.createElement("div", {className: "col-md-5 col-md-offset-2 result-info"}, 
-              React.createElement("h1", null, data.name), 
-              React.createElement("a", {href: ""}, React.createElement("h3", null, data.location.address[0], ", ", data.location.city, ", ", data.location.state_code, " ", data.location.postal_code)), 
-              React.createElement("a", {href: ""}, React.createElement("h3", null, data.display_phone)), 
-              React.createElement("div", {className: "rating"}, 
-                React.createElement("h4", null, data.rating), 
-                React.createElement(Rater, {interactive: false, rating: data.rating}), 
-                React.createElement("a", {href: data.url}, React.createElement("img", {src: "images/yelp.png", alt: ""}))
-              ), 
-              React.createElement("h3", {id: color}, "Open Now: ", placeOpenBool), 
-              React.createElement("ul", {className: "hours"}, 
-                React.createElement("li", null, placeHours[0]), 
-                React.createElement("li", null, placeHours[1]), 
-                React.createElement("li", null, placeHours[2]), 
-                React.createElement("li", null, placeHours[3]), 
-                React.createElement("li", null, placeHours[4]), 
-                React.createElement("li", null, placeHours[5]), 
-                React.createElement("li", null, placeHours[6])
-              )
-            ), 
-            React.createElement("div", {className: "col-md-3 result-image"}, 
-              React.createElement("img", {src: image, alt: ""})
-
+      if(this.state.saved == true){
+        var name = localStorage.getItem("Parse/finalproject/currentUser");
+        name = JSON.parse(name);
+        name = name.firstName;
+        content = (
+          React.createElement("div", {className: "app-content"}, 
+            React.createElement("div", {className: "say-saved"}, 
+              React.createElement("h1", null, "Have fun ", name, "!")
             )
-          ), 
-          React.createElement("div", {className: "row result-buttons animated fadeIn"}, 
-            React.createElement("div", {className: "col-md-3 col-md-offset-3 button", id: "red", onClick: this.sendHome}, 
-              React.createElement("div", {className: "section-image"}, 
-                React.createElement("i", {className: "fa fa-times fa-5x"})
+          )
+        );
+      }else{
+        content = (
+          React.createElement("div", {className: "app-content"}, 
+            React.createElement("div", {className: "row result animated fadeIn"}, 
+              React.createElement("div", {className: "col-md-5 col-md-offset-2 result-info"}, 
+                React.createElement("h1", null, data.name), 
+                React.createElement("a", {href: ""}, React.createElement("h3", null, data.location.address[0], ", ", data.location.city, ", ", data.location.state_code, " ", data.location.postal_code)), 
+                React.createElement("a", {href: ""}, React.createElement("h3", null, data.display_phone)), 
+                React.createElement("div", {className: "rating"}, 
+                  React.createElement("h4", null, data.rating), 
+                  React.createElement(Rater, {interactive: false, rating: data.rating}), 
+                  React.createElement("a", {href: data.url}, React.createElement("img", {src: "images/yelp.png", alt: ""}))
+                ), 
+                React.createElement("h3", {id: color}, "Open Now: ", placeOpenBool), 
+                React.createElement("ul", {className: "hours"}, 
+                  React.createElement("li", null, placeHours[0]), 
+                  React.createElement("li", null, placeHours[1]), 
+                  React.createElement("li", null, placeHours[2]), 
+                  React.createElement("li", null, placeHours[3]), 
+                  React.createElement("li", null, placeHours[4]), 
+                  React.createElement("li", null, placeHours[5]), 
+                  React.createElement("li", null, placeHours[6])
+                )
               ), 
-              React.createElement("div", {className: "info-content"}, 
-                React.createElement("h2", null, "Try Again")
+              React.createElement("div", {className: "col-md-3 result-image"}, 
+                React.createElement("img", {src: image, alt: ""})
+
               )
             ), 
-            React.createElement("div", {className: "col-md-3 button", id: "green", onClick: this.saveToWanderedTo}, 
-              React.createElement("div", {className: "section-image"}, 
-                React.createElement("i", {className: "fa fa-check fa-5x"})
+            React.createElement("div", {className: "row result-buttons animated fadeIn"}, 
+              React.createElement("div", {className: "col-md-3 col-md-offset-3 button", id: "red", onClick: this.sendHome}, 
+                React.createElement("div", {className: "section-image"}, 
+                  React.createElement("i", {className: "fa fa-times fa-5x"})
+                ), 
+                React.createElement("div", {className: "info-content"}, 
+                  React.createElement("h2", null, "Try Again")
+                )
               ), 
-              React.createElement("div", {className: "info-content"}, 
-                React.createElement("h2", null, "Wander No More")
+              React.createElement("div", {className: "col-md-3 button", id: "green", onClick: this.saveToWanderedTo}, 
+                React.createElement("div", {className: "section-image"}, 
+                  React.createElement("i", {className: "fa fa-check fa-5x"})
+                ), 
+                React.createElement("div", {className: "info-content"}, 
+                  React.createElement("h2", null, "Wander No More")
+                )
               )
             )
           )
-        )
-      );
+        );
+      }
     }
+
     return (
       React.createElement("div", {className: "app"}, 
         React.createElement("div", {className: "app-header"}, 

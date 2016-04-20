@@ -12,7 +12,7 @@ var Result = React.createClass({
     return{
       'saved':false,
       'profilePic': user.photo.url,
-      'placeHours': {}
+      'placeHours': undefined
     }
   },
   componentWillMount: function(){
@@ -46,8 +46,8 @@ var Result = React.createClass({
 
           function callback(place, status) {
             if (status == google.maps.places.PlacesServiceStatus.OK) {
-                  var place = JSON.stringify(place);
-                  localStorage.setItem("place", place);
+
+                  self.setState({'placeHours': place});
             }
           }
       }
@@ -61,32 +61,7 @@ var Result = React.createClass({
       var Parse = self.props.parse;
       var yelpData = localStorage.getItem('data');
       yelpData = JSON.parse(yelpData);
-      var googleData = localStorage.getItem('place');
-      googleData = JSON.parse(googleData);
-      if(typeof(googleData.opening_hours) == "object"){
-        if(typeof(googleData.opening_hours.open_now) =="boolean" && Array.isArray(googleData.opening_hours.weekday_text)){
-          googleData ={
-            "openNow": googleData.opening_hours.open_now,
-            "weekdayHours": googleData.opening_hours.weekday_text
-          }
-        }else if (typeof(googleData.opening_hours.open_now) == "boolean") {
-          googleData ={
-            "openNow": googleData.opening_hours.open_now,
-            "weekdayHours": ['','','','','','','']
-          }
-        }else if(typeof(googleData.opening_hours.weekday_text) == "array"){
-          googleData ={
-            "openNow": "Unknow :(",
-            "weekdayHours":googleData.opening_hours.weekday_text
-          }
-        }
-      }else{
-        googleData ={
-          "openNow": "Unknow :(",
-          "weekdayHours":['','','','','','','']
-        }
-      }
-
+      var googleData = self.state.placeHours;
       var user = Parse.User.current();
       var WanderedTo = Parse.Object.extend('WanderedTo');
       var wandered = new WanderedTo();
@@ -95,7 +70,6 @@ var Result = React.createClass({
         "googleData": googleData,
         "user": user
       });
-
       wandered.save(null, {
           success: function(object) {
             Backbone.history.navigate('app', {trigger: true});
@@ -104,9 +78,7 @@ var Result = React.createClass({
             alert('Failed to save location to Wandered-To: ' + error.message);
           }
         });
-
     },3000);
-
   },
   toggleNav: function(e){
     e.preventDefault();
@@ -142,102 +114,105 @@ var Result = React.createClass({
     }else{
       image = "images/sorrynoimage.jpg";
     }
-    var place = localStorage.getItem('place');
-    var placeOpenBool;
-    var placeHours;
-    var color;
-    if (place != "undefined" || place != "null"){
-      place = JSON.parse(place);
-      console.log(place);
-      if(place.opening_hours != undefined){
-        if(place.opening_hours.weekday_text.length > 0){
-          placeHours= place.opening_hours.weekday_text;
-        }else{
-          placeHours =['','','','','','',''];
-        }
-        if(typeof(place.opening_hours.open_now) === 'boolean'){
-          placeOpenBool = place.opening_hours.open_now;
-          //if there is place but no hours
-          if(placeOpenBool){
-            placeOpenBool = "TRUE";
-            color = 'open-green';
-          }else {
-            placeOpenBool = "FALSE";
-            color = 'open-red';
+    if(this.state.placeHours){
+      var place = this.state.placeHours;
+      console.log("place inside of if:",place);
+      var placeOpenBool;
+      var placeHours;
+      var color;
+
+      if (place != undefined){
+        if(place.opening_hours != undefined){
+          if(place.opening_hours.weekday_text.length > 0){
+            placeHours= place.opening_hours.weekday_text;
+          }else{
+            placeHours =['','','','','','',''];
+          }
+          if(typeof(place.opening_hours.open_now) === 'boolean'){
+            placeOpenBool = place.opening_hours.open_now;
+            //if there is place but no hours
+            if(placeOpenBool){
+              placeOpenBool = "TRUE";
+              color = 'open-green';
+            }else {
+              placeOpenBool = "FALSE";
+              color = 'open-red';
+            }
+          }else{
+            placeOpenBool ="Unknown :(";
           }
         }else{
           placeOpenBool ="Unknown :(";
+          placeHours =['','','','','','',''];
         }
       }else{
         placeOpenBool ="Unknown :(";
         placeHours =['','','','','','',''];
       }
-    }else{
-      placeOpenBool ="Unknown :(";
-      placeHours =['','','','','','',''];
+
+      if(this.state.saved == true){
+        var name = localStorage.getItem("Parse/finalproject/currentUser");
+        name = JSON.parse(name);
+        name = name.firstName;
+        content = (
+          <div className="app-content">
+            <div className="say-saved">
+              <h1>Have fun {name}!</h1>
+            </div>
+          </div>
+        );
+      }else{
+        content = (
+          <div className="app-content">
+            <div className="row result animated fadeIn">
+              <div className="col-md-5 col-md-offset-2 result-info">
+                <h1>{data.name}</h1>
+                <a href=""><h3>{data.location.address[0]}, {data.location.city}, {data.location.state_code} {data.location.postal_code}</h3></a>
+                <a href=""><h3>{data.display_phone}</h3></a>
+                <div className="rating">
+                  <h4>{data.rating}</h4>
+                  <Rater interactive={false} rating={data.rating} />
+                  <a href={data.url}><img src="images/yelp.png" alt="" /></a>
+                </div>
+                <h3 id={color}>Open Now: {placeOpenBool}</h3>
+                <ul className="hours">
+                  <li>{placeHours[0]}</li>
+                  <li>{placeHours[1]}</li>
+                  <li>{placeHours[2]}</li>
+                  <li>{placeHours[3]}</li>
+                  <li>{placeHours[4]}</li>
+                  <li>{placeHours[5]}</li>
+                  <li>{placeHours[6]}</li>
+                </ul>
+              </div>
+              <div className="col-md-3 result-image">
+                <img src={image} alt=""/>
+
+              </div>
+            </div>
+            <div className="row result-buttons animated fadeIn">
+              <div className="col-md-3 col-md-offset-3 button" id="red" onClick={this.sendHome}>
+                <div className="section-image">
+                  <i className="fa fa-times fa-5x"></i>
+                </div>
+                <div className="info-content">
+                  <h2>Try Again</h2>
+                </div>
+              </div>
+              <div className="col-md-3 button" id="green" onClick={this.saveToWanderedTo}>
+                <div className="section-image">
+                  <i className="fa fa-check fa-5x"></i>
+                </div>
+                <div className="info-content">
+                  <h2>Wander No More</h2>
+                </div>
+              </div>
+            </div>
+          </div>
+        );
+      }
     }
 
-    if(this.state.saved == true){
-      var name = localStorage.getItem("Parse/finalproject/currentUser");
-      name = JSON.parse(name);
-      name = name.firstName;
-      content = (
-        <div className="app-content">
-          <div className="say-saved">
-            <h1>Have fun {name}!</h1>
-          </div>
-        </div>
-      );
-    }else{
-      content = (
-        <div className="app-content">
-          <div className="row result animated fadeIn">
-            <div className="col-md-5 col-md-offset-2 result-info">
-              <h1>{data.name}</h1>
-              <a href=""><h3>{data.location.address[0]}, {data.location.city}, {data.location.state_code} {data.location.postal_code}</h3></a>
-              <a href=""><h3>{data.display_phone}</h3></a>
-              <div className="rating">
-                <h4>{data.rating}</h4>
-                <Rater interactive={false} rating={data.rating} />
-                <a href={data.url}><img src="images/yelp.png" alt="" /></a>
-              </div>
-              <h3 id={color}>Open Now: {placeOpenBool}</h3>
-              <ul className="hours">
-                <li>{placeHours[0]}</li>
-                <li>{placeHours[1]}</li>
-                <li>{placeHours[2]}</li>
-                <li>{placeHours[3]}</li>
-                <li>{placeHours[4]}</li>
-                <li>{placeHours[5]}</li>
-                <li>{placeHours[6]}</li>
-              </ul>
-            </div>
-            <div className="col-md-3 result-image">
-              <img src={image} alt=""/>
-
-            </div>
-          </div>
-          <div className="row result-buttons animated fadeIn">
-            <div className="col-md-3 col-md-offset-3 button" id="red" onClick={this.sendHome}>
-              <div className="section-image">
-                <i className="fa fa-times fa-5x"></i>
-              </div>
-              <div className="info-content">
-                <h2>Try Again</h2>
-              </div>
-            </div>
-            <div className="col-md-3 button" id="green" onClick={this.saveToWanderedTo}>
-              <div className="section-image">
-                <i className="fa fa-check fa-5x"></i>
-              </div>
-              <div className="info-content">
-                <h2>Wander No More</h2>
-              </div>
-            </div>
-          </div>
-        </div>
-      );
-    }
     return (
       <div className="app">
         <div className="app-header">
