@@ -1596,6 +1596,40 @@ animation-name: fadeOutLeft;
       }
     }
     .app-content{
+      .result{
+        margin-top: 30px;
+        .result-info{
+          text-align: center;
+          h1{
+            border-bottom: 2px solid lightgray;
+            padding-bottom: 10px;
+          }
+        }
+        .result-image{
+          text-align: center;
+          margin-top: 15px;
+          img{
+            border-radius: 150px;
+            height: 300px;
+            width: 300px;
+          }
+        }
+      }
+      .adult-select{
+        margin-top: 80px;
+        .bar{
+          margin-bottom: 30px;
+        }
+      }
+      .food-select{
+        margin-top: 35px;
+      }
+      .activity-select{
+        margin-top: 35px;
+        .circle{
+          margin-bottom: 15px;
+        }
+      }
       .wandered-to{
         h1{
           margin-bottom: 25px;
@@ -1614,6 +1648,13 @@ animation-name: fadeOutLeft;
 //************ 725PX ******************
 
 @media (max-width: 725px){
+  .app-info{
+    .middle{
+      .info-content{
+        border: none;
+      }
+    }
+  }
 
   .app{
     .app-header{
@@ -1636,16 +1677,8 @@ animation-name: fadeOutLeft;
         }
       }
     }
+
     .app-content{
-      .food-select{
-        margin-top: 35px;
-      }
-      .activity-select{
-        margin-top: 35px;
-        .circle{
-          margin-bottom: 15px;
-        }
-      }
       .wandered-to{
         #realMap{
           height: 400px;
@@ -1714,25 +1747,7 @@ animation-name: fadeOutLeft;
           }
         }
       }
-      .result{
-        margin-top: 30px;
-        .result-info{
-          text-align: center;
-          h1{
-            border-bottom: 2px solid lightgray;
-            padding-bottom: 10px;
-          }
-        }
-        .result-image{
-          text-align: center;
-          margin-top: 15px;
-          img{
-            border-radius: 150px;
-            height: 300px;
-            width: 300px;
-          }
-        }
-      }
+
       .settings{
         .user-info{
           form{

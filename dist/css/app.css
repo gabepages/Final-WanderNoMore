@@ -6921,12 +6921,39 @@ LOGIN
     .app .app-header .title h2 {
       font-size: 25px;
       margin: 18px 0 0 10px; }
+  .app .app-content .result {
+    margin-top: 30px; }
+    .app .app-content .result .result-info {
+      text-align: center; }
+      .app .app-content .result .result-info h1 {
+        border-bottom: 2px solid lightgray;
+        padding-bottom: 10px; }
+    .app .app-content .result .result-image {
+      text-align: center;
+      margin-top: 15px; }
+      .app .app-content .result .result-image img {
+        border-radius: 150px;
+        height: 300px;
+        width: 300px; }
+  .app .app-content .adult-select {
+    margin-top: 80px; }
+    .app .app-content .adult-select .bar {
+      margin-bottom: 30px; }
+  .app .app-content .food-select {
+    margin-top: 35px; }
+  .app .app-content .activity-select {
+    margin-top: 35px; }
+    .app .app-content .activity-select .circle {
+      margin-bottom: 15px; }
   .app .app-content .wandered-to h1 {
     margin-bottom: 25px; }
   .app .app-content .wandered-to .list-map ul {
     text-align: center;
     margin: 0 0 20px 0; } }
 @media (max-width: 725px) {
+  .app-info .middle .info-content {
+    border: none; }
+
   .app .app-header img {
     margin: 6px 0 0 0px; }
   .app .app-header .title h2 {
@@ -6939,12 +6966,6 @@ LOGIN
       padding: 8px 0px 8px 0px;
       margin-top: 0;
       border-bottom: 1px solid darkgray; }
-  .app .app-content .food-select {
-    margin-top: 35px; }
-  .app .app-content .activity-select {
-    margin-top: 35px; }
-    .app .app-content .activity-select .circle {
-      margin-bottom: 15px; }
   .app .app-content .wandered-to #realMap {
     height: 400px; }
   .app .app-content .wandered-to table thead tr .picture {
@@ -6971,20 +6992,6 @@ LOGIN
     width: 291px; }
     .app .app-content .radius ul li {
       padding: 8px 100px 8px 100px; }
-  .app .app-content .result {
-    margin-top: 30px; }
-    .app .app-content .result .result-info {
-      text-align: center; }
-      .app .app-content .result .result-info h1 {
-        border-bottom: 2px solid lightgray;
-        padding-bottom: 10px; }
-    .app .app-content .result .result-image {
-      text-align: center;
-      margin-top: 15px; }
-      .app .app-content .result .result-image img {
-        border-radius: 150px;
-        height: 300px;
-        width: 300px; }
   .app .app-content .settings .user-info form input {
     margin-left: 40px; }
   .app .app-content .settings .user-info form #zipcode-input {
