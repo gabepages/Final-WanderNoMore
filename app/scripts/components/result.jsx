@@ -191,7 +191,7 @@ var Result = React.createClass({
               </div>
             </div>
             <div className="row result-buttons animated fadeIn">
-              <div className="col-md-3 col-md-offset-3 button" id="red" onClick={this.sendHome}>
+              <div className="col-md-3 col-md-offset-3 col-xs-6 button" id="red" onClick={this.sendHome}>
                 <div className="section-image">
                   <i className="fa fa-times fa-5x"></i>
                 </div>
@@ -199,7 +199,7 @@ var Result = React.createClass({
                   <h2>Try Again</h2>
                 </div>
               </div>
-              <div className="col-md-3 button" id="green" onClick={this.saveToWanderedTo}>
+              <div className="col-md-3 col-xs-6 button" id="green" onClick={this.saveToWanderedTo}>
                 <div className="section-image">
                   <i className="fa fa-check fa-5x"></i>
                 </div>
@@ -216,13 +216,13 @@ var Result = React.createClass({
     return (
       <div className="app">
         <div className="app-header">
-          <div className="col-md-3">
+          <div className="col-md-3 header-logo">
             <img src="images/whitedots.svg" alt="" onClick={this.sendHome}/>
           </div>
-          <div className="col-md-6 title">
+          <div className="col-md-6 col-xs-9 title">
             <h2>Wander No More</h2>
           </div>
-          <div className="profile col-md-3" onClick={this.toggleNav}>
+          <div className="profile col-md-3 col-xs-3" onClick={this.toggleNav}>
             <div className='icon'>
               <img src={this.state.profilePic} alt="" />
               <i className="fa fa-caret-down"></i>

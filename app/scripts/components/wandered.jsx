@@ -137,7 +137,7 @@ var WanderedTo = React.createClass({
             <tr key={result.createdAt}>
               <td>{result.yelpData.name}</td>
               <td>{phone}</td>
-              <td><img src={image} alt="" /></td>
+              <td className='picture'><img src={image} alt="" /></td>
               <td><i onClick={bindItem} className={className} aria-hidden="true"></i></td>
             </tr>
           );
@@ -148,7 +148,7 @@ var WanderedTo = React.createClass({
             <tr>
               <td>Name</td>
               <td>Phone-Number</td>
-              <td>Picture</td>
+              <td className='picture'>Picture</td>
               <td>Add to Favorites</td>
             </tr>
           </thead>
@@ -161,13 +161,13 @@ var WanderedTo = React.createClass({
     return(
       <div className="app">
         <div className="app-header">
-          <div className="col-md-3">
+          <div className="col-md-3 header-logo">
             <img src="images/whitedots.svg" alt="" onClick={this.sendHome}/>
           </div>
-          <div className="col-md-6 title">
+          <div className="col-md-6 col-xs-9 title">
             <h2>Wander No More</h2>
           </div>
-          <div className="profile col-md-3" onClick={this.toggleNav}>
+          <div className="profile col-md-3 col-xs-3" onClick={this.toggleNav}>
             <div className='icon'>
               <img src={this.state.profilePic} alt="" />
               <i className="fa fa-caret-down"></i>
@@ -182,7 +182,7 @@ var WanderedTo = React.createClass({
           </ul>
         </div>
         <div className="app-content animated fadeIn">
-          <div className="col-md-10 col-md-offset-1 wandered-to">
+          <div className="col-md-10 col-md-offset-1 col-xs-12 wandered-to">
             <h1>Places You&rsquo;ve Wandered&middot;To:</h1>
             {content}
           </div>

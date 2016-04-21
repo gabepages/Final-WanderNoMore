@@ -522,7 +522,7 @@ var Favorites = React.createClass({displayName: "Favorites",
                   React.createElement("p", null, result.yelpData.location.address[0], ","), 
                   React.createElement("p", null, result.yelpData.location.city, ",", result.yelpData.location.state_code, 
                     result.yelpData.location.postal_code)), 
-                React.createElement("td", null, React.createElement("img", {src: image, alt: ""}))
+                  React.createElement("td", {className: "picture"}, React.createElement("img", {src: image, alt: ""}))
               )
             );
         });
@@ -533,7 +533,7 @@ var Favorites = React.createClass({displayName: "Favorites",
                 React.createElement("td", null, "Name"), 
                 React.createElement("td", null, "Phone-Number"), 
                 React.createElement("td", null, "Address"), 
-                React.createElement("td", null, "Picture")
+                React.createElement("td", {className: "picture"}, "Picture")
               )
             ), 
             React.createElement("tbody", null, 
@@ -547,13 +547,13 @@ var Favorites = React.createClass({displayName: "Favorites",
     return(
       React.createElement("div", {className: "app"}, 
         React.createElement("div", {className: "app-header"}, 
-          React.createElement("div", {className: "col-md-3"}, 
+          React.createElement("div", {className: "col-md-3 col-xs-4 header-logo"}, 
             React.createElement("img", {src: "images/whitedots.svg", alt: "", onClick: this.sendHome})
           ), 
-          React.createElement("div", {className: "col-md-6 title"}, 
+          React.createElement("div", {className: "col-md-6 title col-xs-9"}, 
             React.createElement("h2", null, "Wander No More")
           ), 
-          React.createElement("div", {className: "profile col-md-3", onClick: this.toggleNav}, 
+          React.createElement("div", {className: "profile col-md-3 col-xs-3", onClick: this.toggleNav}, 
             React.createElement("div", {className: "icon"}, 
               React.createElement("img", {src: this.state.profilePic, alt: ""}), 
               React.createElement("i", {className: "fa fa-caret-down"})
@@ -568,7 +568,7 @@ var Favorites = React.createClass({displayName: "Favorites",
           )
         ), 
         React.createElement("div", {className: "app-content animated fadeIn"}, 
-          React.createElement("div", {className: "col-md-10 col-md-offset-1 wandered-to"}, 
+          React.createElement("div", {className: "col-md-10 col-md-offset-1 col-xs-12 wandered-to"}, 
             React.createElement("div", {className: "row"}, 
               React.createElement("div", {className: "col-md-4 col-md-offset-4"}, 
                 React.createElement("h1", null, "Your Favorites")
@@ -929,7 +929,7 @@ var Result = React.createClass({displayName: "Result",
               )
             ), 
             React.createElement("div", {className: "row result-buttons animated fadeIn"}, 
-              React.createElement("div", {className: "col-md-3 col-md-offset-3 button", id: "red", onClick: this.sendHome}, 
+              React.createElement("div", {className: "col-md-3 col-md-offset-3 col-xs-6 button", id: "red", onClick: this.sendHome}, 
                 React.createElement("div", {className: "section-image"}, 
                   React.createElement("i", {className: "fa fa-times fa-5x"})
                 ), 
@@ -937,7 +937,7 @@ var Result = React.createClass({displayName: "Result",
                   React.createElement("h2", null, "Try Again")
                 )
               ), 
-              React.createElement("div", {className: "col-md-3 button", id: "green", onClick: this.saveToWanderedTo}, 
+              React.createElement("div", {className: "col-md-3 col-xs-6 button", id: "green", onClick: this.saveToWanderedTo}, 
                 React.createElement("div", {className: "section-image"}, 
                   React.createElement("i", {className: "fa fa-check fa-5x"})
                 ), 
@@ -954,13 +954,13 @@ var Result = React.createClass({displayName: "Result",
     return (
       React.createElement("div", {className: "app"}, 
         React.createElement("div", {className: "app-header"}, 
-          React.createElement("div", {className: "col-md-3"}, 
+          React.createElement("div", {className: "col-md-3 header-logo"}, 
             React.createElement("img", {src: "images/whitedots.svg", alt: "", onClick: this.sendHome})
           ), 
-          React.createElement("div", {className: "col-md-6 title"}, 
+          React.createElement("div", {className: "col-md-6 col-xs-9 title"}, 
             React.createElement("h2", null, "Wander No More")
           ), 
-          React.createElement("div", {className: "profile col-md-3", onClick: this.toggleNav}, 
+          React.createElement("div", {className: "profile col-md-3 col-xs-3", onClick: this.toggleNav}, 
             React.createElement("div", {className: "icon"}, 
               React.createElement("img", {src: this.state.profilePic, alt: ""}), 
               React.createElement("i", {className: "fa fa-caret-down"})
@@ -1176,13 +1176,13 @@ var Settings = React.createClass({displayName: "Settings",
     return(
       React.createElement("div", {className: "app"}, 
         React.createElement("div", {className: "app-header"}, 
-          React.createElement("div", {className: "col-md-3"}, 
+          React.createElement("div", {className: "col-md-3 header-logo"}, 
             React.createElement("img", {src: "images/whitedots.svg", alt: "", onClick: this.sendHome})
           ), 
-          React.createElement("div", {className: "col-md-6 title"}, 
+          React.createElement("div", {className: "col-md-6 col-xs-9 title"}, 
             React.createElement("h2", null, "Wander No More")
           ), 
-          React.createElement("div", {className: "profile col-md-3", onClick: this.toggleNav}, 
+          React.createElement("div", {className: "profile col-md-3 col-xs-3", onClick: this.toggleNav}, 
             React.createElement("div", {className: "icon"}, 
               React.createElement("img", {src: this.state.photo, alt: ""}), 
               React.createElement("i", {className: "fa fa-caret-down"})
@@ -1198,7 +1198,7 @@ var Settings = React.createClass({displayName: "Settings",
         ), 
         React.createElement("div", {className: "app-content animated fadeIn"}, 
           React.createElement("div", {className: "row"}, 
-            React.createElement("div", {className: "col-md-4 col-md-offset-4 settings"}, 
+            React.createElement("div", {className: "col-sm-6 col-sm-offset-3 col-md-4 col-md-offset-4 settings"}, 
               React.createElement("h1", null, "Settings"), 
               React.createElement("div", {className: "image"}, 
                 React.createElement("div", {className: "image-upload"}, 
@@ -1219,7 +1219,7 @@ var Settings = React.createClass({displayName: "Settings",
                   React.createElement("input", {type: "text", className: "form-control edit-inputs", placeholder: "First Name", id: "first-input", style: {'display':"none"}})
                 )
               ), 
-              React.createElement("div", {className: "user-info"}, 
+              React.createElement("div", {className: "user-info "}, 
                 React.createElement("h2", null, "Last Name:"), 
                 React.createElement("i", {className: this.state.iconTwo, "aria-hidden": "true", onClick: this.addEditLastName}), 
                 React.createElement("h2", {id: "last-name"}, this.state.lastName), 
@@ -1227,7 +1227,7 @@ var Settings = React.createClass({displayName: "Settings",
                   React.createElement("input", {type: "text", className: "form-control edit-inputs", placeholder: "Last Name", id: "last-input", style: {'display':"none"}})
                 )
               ), 
-              React.createElement("div", {className: "user-info"}, 
+              React.createElement("div", {className: "user-info "}, 
                 React.createElement("h2", null, "Zip Code:"), 
                 React.createElement("i", {className: this.state.iconThree, "aria-hidden": "true", onClick: this.addEditZipcode}), 
                 React.createElement("h2", {id: "zipcode"}, this.state.zipcode), 
@@ -1561,7 +1561,7 @@ var WanderedTo = React.createClass({displayName: "WanderedTo",
             React.createElement("tr", {key: result.createdAt}, 
               React.createElement("td", null, result.yelpData.name), 
               React.createElement("td", null, phone), 
-              React.createElement("td", null, React.createElement("img", {src: image, alt: ""})), 
+              React.createElement("td", {className: "picture"}, React.createElement("img", {src: image, alt: ""})), 
               React.createElement("td", null, React.createElement("i", {onClick: bindItem, className: className, "aria-hidden": "true"}))
             )
           );
@@ -1572,7 +1572,7 @@ var WanderedTo = React.createClass({displayName: "WanderedTo",
             React.createElement("tr", null, 
               React.createElement("td", null, "Name"), 
               React.createElement("td", null, "Phone-Number"), 
-              React.createElement("td", null, "Picture"), 
+              React.createElement("td", {className: "picture"}, "Picture"), 
               React.createElement("td", null, "Add to Favorites")
             )
           ), 
@@ -1585,13 +1585,13 @@ var WanderedTo = React.createClass({displayName: "WanderedTo",
     return(
       React.createElement("div", {className: "app"}, 
         React.createElement("div", {className: "app-header"}, 
-          React.createElement("div", {className: "col-md-3"}, 
+          React.createElement("div", {className: "col-md-3 header-logo"}, 
             React.createElement("img", {src: "images/whitedots.svg", alt: "", onClick: this.sendHome})
           ), 
-          React.createElement("div", {className: "col-md-6 title"}, 
+          React.createElement("div", {className: "col-md-6 col-xs-9 title"}, 
             React.createElement("h2", null, "Wander No More")
           ), 
-          React.createElement("div", {className: "profile col-md-3", onClick: this.toggleNav}, 
+          React.createElement("div", {className: "profile col-md-3 col-xs-3", onClick: this.toggleNav}, 
             React.createElement("div", {className: "icon"}, 
               React.createElement("img", {src: this.state.profilePic, alt: ""}), 
               React.createElement("i", {className: "fa fa-caret-down"})
@@ -1606,7 +1606,7 @@ var WanderedTo = React.createClass({displayName: "WanderedTo",
           )
         ), 
         React.createElement("div", {className: "app-content animated fadeIn"}, 
-          React.createElement("div", {className: "col-md-10 col-md-offset-1 wandered-to"}, 
+          React.createElement("div", {className: "col-md-10 col-md-offset-1 col-xs-12 wandered-to"}, 
             React.createElement("h1", null, "Places You’ve Wandered·To:"), 
             content
           )

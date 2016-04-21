@@ -176,13 +176,13 @@ var Settings = React.createClass({
     return(
       <div className="app">
         <div className="app-header">
-          <div className="col-md-3">
+          <div className="col-md-3 header-logo">
             <img src="images/whitedots.svg" alt="" onClick={this.sendHome}/>
           </div>
-          <div className="col-md-6 title">
+          <div className="col-md-6 col-xs-9 title">
             <h2>Wander No More</h2>
           </div>
-          <div className="profile col-md-3" onClick={this.toggleNav}>
+          <div className="profile col-md-3 col-xs-3" onClick={this.toggleNav}>
             <div className='icon'>
               <img src={this.state.photo} alt="" />
               <i className="fa fa-caret-down"></i>
@@ -198,7 +198,7 @@ var Settings = React.createClass({
         </div>
         <div className="app-content animated fadeIn">
           <div className="row">
-            <div className="col-md-4 col-md-offset-4 settings">
+            <div className="col-sm-6 col-sm-offset-3 col-md-4 col-md-offset-4 settings">
               <h1>Settings</h1>
               <div className="image">
                 <div className="image-upload">
@@ -219,7 +219,7 @@ var Settings = React.createClass({
                   <input type="text" className="form-control edit-inputs" placeholder="First Name" id='first-input' style={{'display':"none"}}/>
                 </form>
               </div>
-              <div className="user-info">
+              <div className="user-info ">
                 <h2>Last Name:</h2>
                 <i className={this.state.iconTwo} aria-hidden="true" onClick={this.addEditLastName}></i>
                 <h2 id='last-name'>{this.state.lastName}</h2>
@@ -227,7 +227,7 @@ var Settings = React.createClass({
                   <input type="text" className="form-control edit-inputs" placeholder="Last Name" id='last-input' style={{'display':"none"}}/>
                 </form>
               </div>
-              <div className="user-info">
+              <div className="user-info ">
                 <h2>Zip Code:</h2>
                 <i className={this.state.iconThree} aria-hidden="true" onClick={this.addEditZipcode}></i>
                 <h2 id='zipcode'>{this.state.zipcode}</h2>

@@ -113,7 +113,7 @@ img {
 
 .main-header::before{
   content: "";
-  position: absolute;
+  position: fixed;
   top: 0;
   bottom: 0;
   left: 0;
@@ -122,6 +122,7 @@ img {
 }
 
 .app-info{
+  position: relative;
   padding-top: 20px;
   padding-bottom: 20px;
   text-align: center;
@@ -543,7 +544,7 @@ LOGIN
             }
             td{
               vertical-align: middle;
-              padding: 15px 0px 15px 0px;
+              padding: 15px 10px 15px 10px;
               img{
                 height: 120px;
                 width: 115px;
@@ -644,13 +645,13 @@ LOGIN
        form{
          display: inline;
          input{
-            width: 48%;
+            max-width: 30%;
             vertical-align: super;
-            margin-left: 28px;
+            margin-left: 50px;
             display: inline-block;
          }
          #zipcode-input{
-          margin-left: 50px;
+          margin-left: 72px;
          }
        }
       }
@@ -1594,6 +1595,19 @@ animation-name: fadeOutLeft;
         }
       }
     }
+    .app-content{
+      .wandered-to{
+        h1{
+          margin-bottom: 25px;
+        }
+        .list-map{
+          ul{
+            text-align: center;
+            margin: 0 0 20px 0;
+          }
+        }
+      }
+    }
   }
 }
 
@@ -1630,6 +1644,27 @@ animation-name: fadeOutLeft;
         margin-top: 35px;
         .circle{
           margin-bottom: 15px;
+        }
+      }
+      .wandered-to{
+        #realMap{
+          height: 400px;
+        }
+        table{
+          thead{
+            tr{
+              .picture{
+                display: none;
+              }
+            }
+          }
+          tbody{
+            tr{
+              .picture{
+                display: none;
+              }
+            }
+          }
         }
       }
     }
@@ -1679,6 +1714,38 @@ animation-name: fadeOutLeft;
           }
         }
       }
+      .result{
+        margin-top: 30px;
+        .result-info{
+          text-align: center;
+          h1{
+            border-bottom: 2px solid lightgray;
+            padding-bottom: 10px;
+          }
+        }
+        .result-image{
+          text-align: center;
+          margin-top: 15px;
+          img{
+            border-radius: 150px;
+            height: 300px;
+            width: 300px;
+          }
+        }
+      }
+      .settings{
+        .user-info{
+          form{
+            input{
+              margin-left: 40px;
+            }
+            #zipcode-input{
+              margin-left: 62px;
+            }
+          }
+        }
+      }
+
     }
   }
 

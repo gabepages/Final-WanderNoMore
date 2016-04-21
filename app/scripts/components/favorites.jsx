@@ -127,7 +127,7 @@ var Favorites = React.createClass({
                   <p>{result.yelpData.location.address[0]},</p>
                   <p>{result.yelpData.location.city},{result.yelpData.location.state_code}
                     {result.yelpData.location.postal_code}</p></td>
-                <td><img src={image} alt="" /></td>
+                  <td className='picture'><img src={image} alt="" /></td>
               </tr>
             );
         });
@@ -138,7 +138,7 @@ var Favorites = React.createClass({
                 <td>Name</td>
                 <td>Phone-Number</td>
                 <td>Address</td>
-                <td>Picture</td>
+                <td className='picture'>Picture</td>
               </tr>
             </thead>
             <tbody>
@@ -152,13 +152,13 @@ var Favorites = React.createClass({
     return(
       <div className="app">
         <div className="app-header">
-          <div className="col-md-3">
+          <div className="col-md-3 col-xs-4 header-logo">
             <img src="images/whitedots.svg" alt="" onClick={this.sendHome}/>
           </div>
-          <div className="col-md-6 title">
+          <div className="col-md-6 title col-xs-9">
             <h2>Wander No More</h2>
           </div>
-          <div className="profile col-md-3" onClick={this.toggleNav}>
+          <div className="profile col-md-3 col-xs-3" onClick={this.toggleNav}>
             <div className='icon'>
               <img src={this.state.profilePic} alt="" />
               <i className="fa fa-caret-down"></i>
@@ -173,7 +173,7 @@ var Favorites = React.createClass({
           </ul>
         </div>
         <div className="app-content animated fadeIn">
-          <div className="col-md-10 col-md-offset-1 wandered-to">
+          <div className="col-md-10 col-md-offset-1 col-xs-12 wandered-to">
             <div className="row">
               <div className="col-md-4 col-md-offset-4">
                 <h1>Your Favorites</h1>
