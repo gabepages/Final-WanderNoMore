@@ -304,6 +304,21 @@ LOGIN
       right: 0;
       background: rgba(10,10,10, 0.7);
   }
+  #loader{
+     fill: #ffffff;
+     height: 64px;
+     width: 175px;
+     margin: 0px auto;
+     position: relative;
+     h3{
+       color: white;
+       font-size: 30px;
+       font-weight: 100;
+       margin-top: 65px;
+       text-align: center;
+       letter-spacing: 5px;
+     }
+  }
   .logo-header{
     margin-bottom: 170px;
     .small-header{

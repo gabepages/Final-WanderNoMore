@@ -8,10 +8,16 @@ var Loading = require('react-loading');
 
 
 var Signup = React.createClass({
+  getInitialState: function(){
+    return{
+      loading: false
+    }
+  },
   signUp: function(e){
     e.preventDefault();
     var email = $('#signup-e').val();
     var password = $('#signup-p').val();
+    this.setState({'loading': true});
     var Parse = this.props.parse;
     var user = new Parse.User();
     user.set({
@@ -33,6 +39,27 @@ var Signup = React.createClass({
     });
   },
   render: function(){
+    var content;
+    if(this.state.loading == true){
+      content = (
+          <div id="loader">
+            <Loading type='cylon' color='#ffffff' width='175px' />
+            <h3>Loading..</h3>
+          </div>
+      );
+    }else{
+      content = (
+        <div className="signup-content col-md-4 col-md-offset-4 col-sm-8 col-sm-offset-2 col-xs-12  animated fadeIn">
+          <h3>Welcome. Please sign up.</h3>
+          <form onSubmit={this.signUp}>
+            <input type="email" className="form-control" id="signup-e" placeholder="Email" />
+            <input type="password" className="form-control" id="signup-p" placeholder="Password" />
+            <button type="submit" className="btn btn-default">sign up</button>
+          </form>
+          <p>Already have an account? <a href="#login">Login</a></p>
+        </div>
+      );
+    }
     return(
       <div className='signup'>
         <div className="row  logo-header">
@@ -41,15 +68,7 @@ var Signup = React.createClass({
           </div>
         </div>
         <div className="row signup-section">
-          <div className="signup-content col-md-4 col-md-offset-4 col-sm-8 col-sm-offset-2 col-xs-12  animated fadeIn">
-            <h3>Welcome. Please sign up.</h3>
-            <form onSubmit={this.signUp}>
-              <input type="email" className="form-control" id="signup-e" placeholder="Email" />
-              <input type="password" className="form-control" id="signup-p" placeholder="Password" />
-              <button type="submit" className="btn btn-default">sign up</button>
-            </form>
-            <p>Already have an account? <a href="#login">Login</a></p>
-          </div>
+          {content}
         </div>
         <div style={{"clear": "both"}}></div>
       </div>

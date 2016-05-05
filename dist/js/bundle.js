@@ -1258,10 +1258,16 @@ var Loading = require('react-loading');
 
 
 var Signup = React.createClass({displayName: "Signup",
+  getInitialState: function(){
+    return{
+      loading: false
+    }
+  },
   signUp: function(e){
     e.preventDefault();
     var email = $('#signup-e').val();
     var password = $('#signup-p').val();
+    this.setState({'loading': true});
     var Parse = this.props.parse;
     var user = new Parse.User();
     user.set({
@@ -1283,6 +1289,27 @@ var Signup = React.createClass({displayName: "Signup",
     });
   },
   render: function(){
+    var content;
+    if(this.state.loading == true){
+      content = (
+          React.createElement("div", {id: "loader"}, 
+            React.createElement(Loading, {type: "cylon", color: "#ffffff", width: "175px"}), 
+            React.createElement("h3", null, "Loading..")
+          )
+      );
+    }else{
+      content = (
+        React.createElement("div", {className: "signup-content col-md-4 col-md-offset-4 col-sm-8 col-sm-offset-2 col-xs-12  animated fadeIn"}, 
+          React.createElement("h3", null, "Welcome. Please sign up."), 
+          React.createElement("form", {onSubmit: this.signUp}, 
+            React.createElement("input", {type: "email", className: "form-control", id: "signup-e", placeholder: "Email"}), 
+            React.createElement("input", {type: "password", className: "form-control", id: "signup-p", placeholder: "Password"}), 
+            React.createElement("button", {type: "submit", className: "btn btn-default"}, "sign up")
+          ), 
+          React.createElement("p", null, "Already have an account? ", React.createElement("a", {href: "#login"}, "Login"))
+        )
+      );
+    }
     return(
       React.createElement("div", {className: "signup"}, 
         React.createElement("div", {className: "row  logo-header"}, 
@@ -1291,15 +1318,7 @@ var Signup = React.createClass({displayName: "Signup",
           )
         ), 
         React.createElement("div", {className: "row signup-section"}, 
-          React.createElement("div", {className: "signup-content col-md-4 col-md-offset-4 col-sm-8 col-sm-offset-2 col-xs-12  animated fadeIn"}, 
-            React.createElement("h3", null, "Welcome. Please sign up."), 
-            React.createElement("form", {onSubmit: this.signUp}, 
-              React.createElement("input", {type: "email", className: "form-control", id: "signup-e", placeholder: "Email"}), 
-              React.createElement("input", {type: "password", className: "form-control", id: "signup-p", placeholder: "Password"}), 
-              React.createElement("button", {type: "submit", className: "btn btn-default"}, "sign up")
-            ), 
-            React.createElement("p", null, "Already have an account? ", React.createElement("a", {href: "#login"}, "Login"))
-          )
+          content
         ), 
         React.createElement("div", {style: {"clear": "both"}})
       )
