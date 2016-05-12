@@ -38,7 +38,7 @@ var Index = React.createClass({
             </div>
             <div className="info-content">
               <h2>Couples</h2>
-              <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.</p>
+              <p>Wander No More is great for couples that can never decide what to do and spend hours saying "I don't care, you pick". If this sounds like you and your significant other, go ahead and save some time and use Wander No More. You can thank us later.</p>
             </div>
           </div>
           <div className="col-md-4 middle col-xs-12">
@@ -47,7 +47,7 @@ var Index = React.createClass({
             </div>
             <div className="info-content">
               <h2>Friends</h2>
-              <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.</p>
+              <p>Do you and your friends spend to much time trying to decided what bar to hop to next or what club you are going to tonight? If so, <a id='click-here' href="#signup">click here</a> and sign up for Wander No More so you and your friends can spend more time having fun and less time deciding on where to have fun.</p>
             </div>
           </div>
           <div className="col-md-4 col-xs-12">
@@ -56,7 +56,7 @@ var Index = React.createClass({
             </div>
             <div className="info-content">
               <h2>Or Just You</h2>
-              <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.</p>
+              <p>Is your dog sitting in-front of you, begging you to take him to the park? But let me guess, you're sick of that same old park you've been taking him to for the past 2 years. Well Wander No More has you covered. Just <a id='click-here' href="#signup">click here</a> and sign up to find great new parks near you.</p>
             </div>
           </div>
         </div>

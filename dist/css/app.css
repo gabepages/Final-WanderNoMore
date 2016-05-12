@@ -5933,6 +5933,12 @@ img {
     text-transform: capitalize;
     font-weight: 200;
     font-family: Karla; }
+  .app-info .info-content #click-here {
+    color: black;
+    text-decoration: none;
+    font-weight: bold; }
+    .app-info .info-content #click-here:hover {
+      text-decoration: underline; }
   .app-info .info-content p {
     font-family: Karla;
     color: rgba(12, 20, 20, 0.8);
