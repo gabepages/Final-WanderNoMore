@@ -11,7 +11,6 @@ var App = React.createClass({
     currentUser = JSON.parse(currentUser);
     return{
       "screen": "home",
-      "radius": null,
       'zipcode': currentUser.zipcode,
       'radius':'',
       'profilePic': currentUser.photo.url
