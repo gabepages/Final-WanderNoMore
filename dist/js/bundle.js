@@ -770,6 +770,12 @@ var Result = React.createClass({displayName: "Result",
     service = new google.maps.places.PlacesService(document.getElementById('map'));
     service.textSearch(request, callback);
 
+    var callbackNumberTwo = function (place, status) {
+      if (status == google.maps.places.PlacesServiceStatus.OK) {
+
+            self.setState({'placeHours': place});
+      }
+    }
     function callback (results, status){
 
       if (status == google.maps.places.PlacesServiceStatus.OK) {
@@ -780,14 +786,7 @@ var Result = React.createClass({displayName: "Result",
           };
 
           service = new google.maps.places.PlacesService(document.getElementById('map'));
-          service.getDetails(request, callback);
-
-          function callback(place, status) {
-            if (status == google.maps.places.PlacesServiceStatus.OK) {
-
-                  self.setState({'placeHours': place});
-            }
-          }
+          service.getDetails(request, callbackNumberTwo);
       }
     }
 
@@ -1043,36 +1042,32 @@ var Settings = React.createClass({displayName: "Settings",
 
     if($('#first-input').css('display') != 'none'){
       $('#first-input').slideToggle(500);
-      function callback(){
+      setTimeout(function(){
         $('#first-name').slideToggle(500);
-      };
-      setTimeout(callback,600);
+      },600);
       this.setState({"iconOne": "fa fa-pencil"});
     }
     else{
       $('#first-name').slideToggle(500)
-      function callback(){
+      setTimeout(function(){
         $('#first-input').slideToggle(500);
-      };
-      setTimeout(callback,600);
+      },600);
       this.setState({"iconOne": "fa fa-times"});
     }
   },
   addEditLastName: function(){
     if($('#last-input').css('display') != 'none'){
       $('#last-input').slideToggle(500);
-      function callback(){
+      setTimeout(function (){
         $('#last-name').slideToggle(500);
-      };
-      setTimeout(callback,600);
+      },600);
       this.setState({"iconTwo": "fa fa-pencil"});
     }
     else{
       $('#last-name').slideToggle(500)
-      function callback(){
+      setTimeout(function (){
         $('#last-input').slideToggle(500);
-      };
-      setTimeout(callback,600);
+      },600);
       this.setState({"iconTwo": "fa fa-times"});
     }
   },
@@ -1081,18 +1076,16 @@ var Settings = React.createClass({displayName: "Settings",
 
     if($('#zipcode-input').css('display') != 'none'){
       $('#zipcode-input').slideToggle(500);
-      function callback(){
+      setTimeout(function callback(){
         $('#zipcode').slideToggle(500);
-      };
-      setTimeout(callback,600);
+      },600);
       this.setState({"iconThree": "fa fa-pencil"});
     }
     else{
       $('#zipcode').slideToggle(500)
-      function callback(){
+      setTimeout(function (){
         $('#zipcode-input').slideToggle(500);
-      };
-      setTimeout(callback,600);
+      },600);
       this.setState({"iconThree": "fa fa-times"});
     }
   },
