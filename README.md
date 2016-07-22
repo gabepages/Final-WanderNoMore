@@ -10,17 +10,17 @@
 git clone https://github.com/gabepages/Final-WanderNoMore.git
 ```
 
-'''sh
+```sh
 cd Final-WanderNoMore
-'''
+```
 
-'''sh
+```sh
 npm install
-'''
+```
 
-'''sh
+```sh
 npm run server
-'''
+```
 
 
 ##Getting started
